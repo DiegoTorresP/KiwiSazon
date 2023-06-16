@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const userSchema =mongoose.Schema({
     username:{
         type:String
@@ -27,12 +29,11 @@ const userSchema =mongoose.Schema({
         type: String,
         require: true
     },    
-    roles: {
+    rol: {
         type: String,
         required: true,
-        default: ['user']
-      },
-
+        default: 'user'
+    },
     recetas:[
         {
             receta: {
@@ -49,11 +50,14 @@ const userSchema =mongoose.Schema({
             },
             
         }
-    ],
-    followReceta:[
-        {
-            type:mongoose.ObjectId,
-            ref:"orders"
-        }
-    ]      
+    ]
+    // followReceta:[
+    //     {
+    //         type:mongoose.ObjectId,
+    //         ref:"orders"
+    //     }
+    // ]      
 })
+
+const User= mongoose.model("users",userSchema)
+module.exports=User;

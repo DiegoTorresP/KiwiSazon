@@ -1,0 +1,57 @@
+<%- include('../partials/head') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+    <%- include('../partials/nav') %>
+
+    <div class="container" style="margin-top: 2rem;">
+        <div class="form-section d-flex justify-content-center align-items-center" >
+          <form action="/registro" method="post">
+            <!-- Email input -->
+            <div class="form-outline mb-4">
+                <input type="text" name="username" id="form1Example1" class="form-control" />
+                <label class="form-label" for="form1Example1">Username</label>
+              </div>
+            
+              <!-- Password input -->
+              <div class="form-outline mb-4">
+                <input type="password" name="password" id="form1Example2" class="form-control" />
+                <label class="form-label" for="form1Example2">Password</label>
+              </div>
+            
+            <!-- Submit button -->
+              <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+          </form>
+    </div>
+</body>
+</html>
+
+
+
+ <script>
+  function showPassword() {
+    var x = document.getElementById("password");
+    var y = document.getElementById("password2");
+    if (x.type && y.type === "password") {
+      x.type = "text";
+      y.type = "text";
+    } else {
+      x.type = "password";
+      y.type = "password";
+    }
+  }
+
+
+  document.getElementById('files').onchange = function () {
+     console.log("Hello There")
+  var src = URL.createObjectURL(this.files[0])
+  document.getElementById('dp-pick').src = src
+}
+  </script>
+  
