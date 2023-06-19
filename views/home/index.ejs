@@ -1,14 +1,30 @@
+<style>
+  .contenido {
+    background-color: #fefaeb;
+    height: 100%;
+    width: 100%;
+  }
+  .footer {
+    margin-bottom: -60px; /* Altura del footer */
+  }
+  
+</style>
+
 <%- include('../partials/head') %>
 <!DOCTYPE html>
 <html>
   <head>
-    <title>HOME</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>KiwiSazón</title>
+    <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
-  <body>
-    <%- include('../partials/nav') %>
-    
-    <h1>KIWISAZON</h1>
-    <p>KIWISAZON WEB</p>
+  <%- include('../partials/nav') %>
+  <body class="contenido">
+    <div>
+      
+      <h1>¡BIENVENIDO!</h1>
+      <p>KIWISAZON WEB</p>
+      
+    </div>
   </body>
+  <div class="footer"><%- include('../partials/footer') %></div>
 </html>
