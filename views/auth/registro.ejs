@@ -13,15 +13,39 @@
     <%- include('../partials/nav') %>
     <div class="container registro" style="margin-top: 2rem;">
         <div class="form-section d-flex justify-content-center align-items-center" >
-          <form action="/registro" method="post">
-            <!-- Email input -->
-            <div class="form-outline mb-4 control">
+          <form action="/registro" method="post" enctype="multipart/form-data">
+
+            <div class="mb-5">
+              <div class="image-port">
+                <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" height="90px" width="90px" class="profile-photo m-auto" id="dp-pick">
+              </div>
+                <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+            </div>
+
+            <div class="form-floating mb-4 control">
+                <input type="text" name="nombre" id="form1Example1" class="form-control" />
+                <label class="form-label" for="form1Example1">Nombre</label>
+              </div>
+            <div class="form-floating mb-4 control">
+                <input type="text" name="apellido" id="form1Example1" class="form-control" />
+                <label class="form-label" for="form1Example1">Apellido</label>
+              </div>
+            <div class="form-floating mb-4 control">
+                <input type="email" name="email" id="form1Example1" class="form-control" />
+                <label class="form-label" for="form1Example1">Email</label>
+              </div>
+
+            <div class="form-floating mb-4 control">
+                <input type="tel" name="telefono" id="form1Example1" class="form-control" />
+                <label class="form-label" for="form1Example1">Telefono</label>
+              </div>
+            <div class="form-floating mb-4 control">
                 <input type="text" name="username" id="form1Example1" class="form-control" />
                 <label class="form-label" for="form1Example1">Usuario</label>
               </div>
             
               <!-- Password input -->
-              <div class="form-outline mb-4 control">
+              <div class="form-floating mb-4 control">
                 <input type="password" name="password" id="form1Example2" class="form-control" />
                 <label class="form-label" for="form1Example2">Contraseña</label>
               </div>

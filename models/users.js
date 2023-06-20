@@ -10,10 +10,7 @@ const userSchema =mongoose.Schema({
     nombre:{
         type: String
     },
-    apePat:{
-        type: String
-    },
-    apeMat:{
+    apellido:{
         type: String
     },
     image:{
