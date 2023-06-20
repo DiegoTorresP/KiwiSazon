@@ -1,3 +1,4 @@
+
 <%- include('../partials/head') %>
 <!DOCTYPE html>
 <html lang="en">
@@ -7,30 +8,33 @@
     <title>Registro</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
+<div class="contenido">
 <body>
     <%- include('../partials/nav') %>
-
-    <div class="container" style="margin-top: 2rem;">
+    <div class="container registro" style="margin-top: 2rem;">
         <div class="form-section d-flex justify-content-center align-items-center" >
           <form action="/registro" method="post">
             <!-- Email input -->
-            <div class="form-outline mb-4">
+            <div class="form-outline mb-4 control">
                 <input type="text" name="username" id="form1Example1" class="form-control" />
-                <label class="form-label" for="form1Example1">Username</label>
+                <label class="form-label" for="form1Example1">Usuario</label>
               </div>
             
               <!-- Password input -->
-              <div class="form-outline mb-4">
+              <div class="form-outline mb-4 control">
                 <input type="password" name="password" id="form1Example2" class="form-control" />
-                <label class="form-label" for="form1Example2">Password</label>
+                <label class="form-label" for="form1Example2">Contraseña</label>
               </div>
             
             <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block">Sign in</button>
+              <button type="submit" class="btn btn-block boton">Ingresar</button>
           </form>
     </div>
 </body>
 </html>
+</div>
+
+<div class="footer"><%- include('../partials/footer') %></div>
 
 
 
@@ -54,4 +58,29 @@
   document.getElementById('dp-pick').src = src
 }
   </script>
-  
+
+<style>
+  .contenido {
+    background-color: #fefaeb;
+    height: 100%;
+    width: 100%;
+  }
+  .footer {
+    margin-top: 210px;
+  }
+  .registro{
+    margin-top: 40px;
+    border-radius: 15px;
+    background-color: #FCDC75;
+    height: 100%;
+    width: 300px;
+  }
+  .boton{
+    background-color: #40702E;
+    margin-bottom: 15px;
+    color: #ffffff;
+  }
+  .control{
+    margin-top: 15px;
+  }
+  </style>
