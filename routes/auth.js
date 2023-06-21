@@ -66,4 +66,6 @@ router.post('/login', UController.login);
 
 router.get('/recetas', authenticateToken ,UController.recetas)
 
+router.get('/logout', UController.cerrarSesion);
+
 module.exports = router;

@@ -96,3 +96,8 @@ exports.login = (async (req, res) => {
     res.status(500).json({ error: 'Error al iniciar sesión' });
   }
 });
+
+exports.cerrarSesion = ((req, res) => {
+  res.clearCookie('token'); // Borrar la cookie del token
+  res.redirect('/'); // Redirigir al inicio de sesión después del cierre de sesión
+});
