@@ -1,68 +1,174 @@
 
 <%- include('../partials/head') %>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
-<div class="contenido">
-<body>
-    <%- include('../partials/nav') %>
-    <div class="container registro" style="margin-top: 2rem;">
-        <div class="form-section d-flex justify-content-center align-items-center" >
-          <form action="/registro" method="post" enctype="multipart/form-data">
+<style>
+  .gradient-custom-4 {
+/* fallback for old browsers */
+background: #84fab0;
 
-            <div class="mb-5">
-              <div class="image-port">
-                <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" height="90px" width="90px" class="profile-photo m-auto" id="dp-pick">
-              </div>
-                <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+/* Chrome 10-25, Safari 5.1-6 */
+background: -webkit-linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1));
+
+/* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244, 1))
+}
+</style>
+<%- include('../partials/nav') %>
+<body >
+  <section class="h-100 h-custom" style="background-color: #fefaeb;">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-lg-8 col-xl-6">
+          <div class="card rounded-3">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/img3.webp"
+              class="w-100" style="border-top-left-radius: .3rem; border-top-right-radius: .3rem;"
+              alt="Sample photo">
+            <div class="card-body p-4 p-md-5">
+              <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="text-align: center;">Registro</h3>
+  
+              <form class="px-md-2" action="/registro" method="post" enctype="multipart/form-data">
+  
+                <div class="mb-5 row">
+                  <div class="col-sm-3">
+                    <div class="image-port">
+                      <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                    </div>
+                  </div>
+                  <div class="col-sm-9 mt-3">
+                    <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+                  </div>
+                  
+                    
+                </div>
+                <div class="form-floating mb-4">
+                  <input type="text" name="username" id="username" class="form-control "  placeholder="" required/>
+                  <label for="floatingInputGroup1">Username</label>
+                  <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
+                </div>
+
+                <div class="row mb-4" >
+                  <div class="form-floating col-sm-6">
+                    <input type="text" name="nombre"  id="nombre" class="form-control" placeholder="" required/>
+                    <label class="form-label" for="form3Example3cg">Nombre</label>
+                    <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Nombre es requerido</div>
+                  </div>
+  
+                  <div class="form-floating col-sm-6">
+                    <input type="text" name="apellido" id="apellido" class="form-control " placeholder="" required />
+                    <label class="form-label" for="form3Example4cg">Apellido</label>
+                    <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Apellido es requerido</div>
+                  </div>
+                </div>
+
+                <div class="form-floating mb-4">
+                  <input type="email" name="email" id="email" class="form-control " placeholder="" required />
+                  <label class="form-label" for="form3Example1cg">Correo Electronico</label>
+                  <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electronico es requerido</div>
+                </div>
+
+                <div class="form-floating mb-4">
+                  <input type="tel" name="telefono" id="telefono" class="form-control " placeholder="" required />
+                  <label class="form-label" for="form1Example1">Telefono</label>
+                  <div class="invalid-feedback" id="errorTelefono" style="display: none;">El campo Telefono es requerido</div>
+                </div>
+                
+                <div class="form-floating mb-4 ">
+                  <input type="password" name="password" id="password" class="form-control" placeholder="" required />
+                  <label class="form-label" for="form1Example2">Contraseña</label>
+                  <div class="invalid-feedback" id="errorContra" style="display: none;">El campo Contraseña es requerido</div>
+                </div>
+
+                <div class="col text-center justify-content-center">
+                  <div class="d-flex justify-content-center">
+                      <div class="g-recaptcha" data-sitekey="6LciE7YmAAAAACxNBXx4PfQ0NJ73V6VwLPyU4p-9" data-callback="verifyCaptcha"></div>
+                      
+                  </div>
+                  <div class="text-danger" id="errorRecap" style="display: none;">El recaptcha es requerido</div>
+                </div>
+
+                <div class=" mt-4 d-grid gap-2">
+                  <button type="button"class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" onclick="return submitUserForm();">Register</button>
+                </div>
+
+              </form>
+  
             </div>
-
-            <div class="form-floating mb-4 control">
-                <input type="text" name="nombre" id="form1Example1" class="form-control" />
-                <label class="form-label" for="form1Example1">Nombre</label>
-              </div>
-            <div class="form-floating mb-4 control">
-                <input type="text" name="apellido" id="form1Example1" class="form-control" />
-                <label class="form-label" for="form1Example1">Apellido</label>
-              </div>
-            <div class="form-floating mb-4 control">
-                <input type="email" name="email" id="form1Example1" class="form-control" />
-                <label class="form-label" for="form1Example1">Email</label>
-              </div>
-
-            <div class="form-floating mb-4 control">
-                <input type="tel" name="telefono" id="form1Example1" class="form-control" />
-                <label class="form-label" for="form1Example1">Telefono</label>
-              </div>
-            <div class="form-floating mb-4 control">
-                <input type="text" name="username" id="form1Example1" class="form-control" />
-                <label class="form-label" for="form1Example1">Usuario</label>
-              </div>
-            
-              <!-- Password input -->
-              <div class="form-floating mb-4 control">
-                <input type="password" name="password" id="form1Example2" class="form-control" />
-                <label class="form-label" for="form1Example2">Contraseña</label>
-              </div>
-            
-            <!-- Submit button -->
-              <button type="submit" class="btn btn-block boton">Ingresar</button>
-          </form>
+          </div>
+        </div>
+      </div>
     </div>
+  </section> 
+
 </body>
-</html>
-</div>
+<%- include('../partials/footer') %>
 
-<div class="footer"><%- include('../partials/footer') %></div>
-
-
-
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
  <script>
+  var recaptcha_response = '';
+  var errores = 0;
+  var username = document.getElementById('username');
+  var nombre = document.getElementById('nombre');
+  var apellido = document.getElementById('apellido');
+  var email =  document.getElementById('email');
+  var telefono = document.getElementById('telefono');
+  var pass = document.getElementById('password');
+  const errorUsername = document.getElementById('errorUser');
+  const errorNombre = document.getElementById('errorNombre');
+  const errorApellido = document.getElementById('errorApellido');
+  const errorEmail = document.getElementById('errorEmail');
+  const errorTelefono = document.getElementById('errorTelefono');
+  const errorPass = document.getElementById('errorContra');
+  const errorRecap = document.getElementById('errorRecap');
+  function submitUserForm() {
+    errores=0;
+    if(username.value.trim() === ''){
+      username.classList.add('is-invalid');
+      errorUsername.style.display="block";
+      errores++;
+    }
+    if(nombre.value.trim() === ''){
+      nombre.classList.add('is-invalid');
+      errorNombre.style.display="block";
+      errores++;
+    }
+    if(apellido.value.trim() === ''){
+      apellido.classList.add('is-invalid');
+      errorApellido.style.display="block";
+      errores++;
+    }
+    if(email.value.trim() === ''){
+      email.classList.add('is-invalid');
+      errorEmail.style.display="block";
+      errores++;
+    }
+    if(telefono.value.trim() === ''){
+      telefono.classList.add('is-invalid');
+      errorTelefono.style.display="block";
+      errores++;
+    }
+    if(pass.value.trim() === ''){
+      pass.classList.add('is-invalid');
+      errorPass.style.display="block";
+      errores++;
+    }
+    if (recaptcha_response.length == 0 || recaptcha_response == null) {
+          //alert("Error", "Es necesario validar el recaptcha", "error");
+          errorRecap.style.display="block";
+          errores++;
+   }
+    if(errores>0){
+      return false;
+    }else{
+      return true;
+    }
+      
+  }
+
+  function verifyCaptcha(token) {
+      recaptcha_response = token;
+  }
   function showPassword() {
     var x = document.getElementById("password");
     var y = document.getElementById("password2");
@@ -83,28 +189,3 @@
 }
   </script>
 
-<style>
-  .contenido {
-    background-color: #fefaeb;
-    height: 100%;
-    width: 100%;
-  }
-  .footer {
-    margin-top: 210px;
-  }
-  .registro{
-    margin-top: 40px;
-    border-radius: 15px;
-    background-color: #FCDC75;
-    height: 100%;
-    width: 300px;
-  }
-  .boton{
-    background-color: #40702E;
-    margin-bottom: 15px;
-    color: #ffffff;
-  }
-  .control{
-    margin-top: 15px;
-  }
-  </style>
