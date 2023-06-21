@@ -1,0 +1,36 @@
+<%- include('../partials/head') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<div class="contenido">
+<body>
+    <%- include('../partials/nav') %>
+    <div class="container registro" style="margin-top: 2rem;">
+        <div class="form-section d-flex justify-content-center align-items-center" >
+          <form action="/login" method="post">
+
+            <div class="form-floating mb-4 control">
+                <input type="text" name="username" id="form1Example1" class="form-control" />
+                <label class="form-label" for="form1Example1">Usuario</label>
+              </div>
+            
+              <!-- Password input -->
+              <div class="form-floating mb-4 control">
+                <input type="password" name="password" id="form1Example2" class="form-control" />
+                <label class="form-label" for="form1Example2">Contraseña</label>
+              </div>
+            
+            <!-- Submit button -->
+              <button type="submit" class="btn btn-block boton">Ingresar</button>
+          </form>
+    </div>
+</body>
+</html>
+</div>
+
+<%- include('../partials/footer') %>
