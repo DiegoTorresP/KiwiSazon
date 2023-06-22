@@ -65,6 +65,30 @@ exports.registroUser = (async (req, res) => {
       console.log(e)
       userObj.image = null;
     }
+    var UserD = 0;
+    var EmailD = 0;
+    try{
+      UserD = await User.count({ "username": userObj.username });
+      EmailD = await User.count({ "email": userObj.email });
+    }catch{
+      UserD=-1;
+      EmailD=-1;
+    }
+/*
+    if(UserD>0 || EmailD>0 || UserD==-1 || EmailD==-1){
+      if(UserD>0){
+        req.flash("error", "El usuario ya esta en uso");
+      }
+      if(EmailD>0){
+        req.flash("error", "El correo electronico ya esta en uso");
+      }
+      if(UserD == -1 || EmailD==-1){
+        req.flash("error", "Error con la base de datos");
+      }
+    }else{
+      await userObj.save();
+      res.redirect('/')
+    }*/
     await userObj.save();
     res.redirect('/')
   } catch (error) {
@@ -77,7 +101,6 @@ exports.login = (async (req, res) => {
   try {
     const { username, password } = req.body;
     const user = await User.findOne({ username });
-
     if (!user) {
       console.log("1")
       return res.status(401).json({ error: 'Credenciales inválidas' });
