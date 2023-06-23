@@ -4,7 +4,7 @@
   }
 
   .imagen {
-    width: 100px; /* Tamaño de la imagen (ancho) */
+    width: 50px; /* Tamaño de la imagen (ancho) */
     height: auto; /* Tamaño de la imagen (alto) (automático para mantener la proporción) */
   }
   .active{
@@ -14,11 +14,11 @@
   
 </style>
 
-<div>
+<!-- <div>
 <nav class="navbar navbar-expand-lg navegador ">
   <div class="container-fluid ">
     <a class="navbar-brand" href="/">
-      <img class="imagen" src="../Images/logo2.png">
+      <img class="imagen" src="/img/logo2.png">
     </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -35,4 +35,109 @@
     </div>
   </div>
 </nav>
-</div>
+</div> -->
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <!-- Container wrapper -->
+  <div class="container-fluid">
+    <!-- Toggle button -->
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-mdb-toggle="collapse"
+      data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Collapsible wrapper -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <!-- Navbar brand -->
+      <a class="navbar-brand mt-2 mt-lg-0" href="/">
+        <img
+          src="/img/logo2.png"
+          height="40"
+          alt="MDB Logo"
+          loading="lazy"
+        />
+      </a>
+      <!-- Left links -->
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="/recetas">Recetas</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Chef</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#"></a>
+        </li>
+      </ul>
+      <!-- Left links -->
+    </div>
+    <!-- Collapsible wrapper -->
+
+    <!-- Right elements -->
+    <div class="d-flex align-items-center">
+      <!-- Icon -->
+      <a class="text-reset me-3" href="#">
+        <i class="fas fa-heart"></i>
+      </a>
+
+      <!-- Avatar -->
+      <div class="dropdown">
+        <a
+          class="dropdown-toggle d-flex align-items-center hidden-arrow"
+          href="#"
+          id="navbarDropdownMenuAvatar"
+          role="button"
+          data-mdb-toggle="dropdown"
+          aria-expanded="false"
+        >
+          <img
+            src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+            class="rounded-circle"
+            height="25"
+            alt="Black and White Portrait of a Man"
+            loading="lazy"
+          />
+        </a>
+        <ul
+          class="dropdown-menu dropdown-menu-end"
+          aria-labelledby="navbarDropdownMenuAvatar"
+        >
+          <!-- <li>
+            <a class="dropdown-item" href="#">My profile</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#">Settings</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="#">Logout</a>
+          </li> -->
+          <% if(loginUser){ %>
+          <li>
+            <a class="dropdown-item" href="#"><%=loginUser.email%></a>
+          </li>
+
+          <li>
+            <a class="dropdown-item" href="/logout">Cerrar Sesion</a>
+          </li>
+          <% } %>
+          <li>
+            <a class="dropdown-item" href="/registro">Registrarse</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="/login">Iniciar Sesion</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <!-- Right elements -->
+  </div>
+  <!-- Container wrapper -->
+</nav>
+<!-- Navbar -->

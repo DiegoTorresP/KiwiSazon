@@ -1,0 +1,88 @@
+<%- include('../partials/head') %>
+    <title>Login</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<%- include('../partials/nav') %>
+<body>
+    <section class="text-center text-lg-start">
+      <style>
+        .cascading-right {
+          margin-right: -50px;
+        }
+    
+        @media (max-width: 991.98px) {
+          .cascading-right {
+            margin-right: 0;
+          }
+        }
+      </style>
+    <div class="container py-4">
+      <div class="row g-0 align-items-center">
+        <div class="col-lg-6 mb-3 mb-lg-0">
+          <div class="card cascading-right" style="
+              background: hsla(0, 0%, 100%, 0.55);
+              backdrop-filter: blur(30px);
+              ">
+            <div class="card-body p-4 shadow-5 text-center">
+              <h2 class="fw-bold mb-5">Inicia Sesión</h2>
+              <form action="/login" method="post" >
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <!-- Email input -->
+                <div class="form-floating mb-4">
+                  <input type="text" id="form3Example3" name="username" id="username" class="form-control" placeholder="" required/>
+                  <label class="form-label" for="form3Example3">Username</label>
+                  <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
+                </div>
+    
+                <!-- Password input -->
+                <div class="form-floating mb-4">
+                  <input type="password" id="form3Example4" name="password" id="password" class="form-control"placeholder="" required/>
+                  <label class="form-label" for="form3Example4">Constraseña</label>
+                  <div class="invalid-feedback" id="errorContra" style="display: none;">El campo Contraseña es requerido</div>
+                </div>
+    
+                <!-- Submit button -->
+                <button type="submit" class="btn btn-primary btn-block mb-4" onclick="return submitUserForm();">
+                  Ingresar
+                </button>
+    
+                <!-- Register buttons -->
+                <div class="text-center">
+                  <p>O ingresa con: </p>
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-facebook-f"></i>
+                  </button>
+    
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-google"></i>
+                  </button>
+    
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-twitter"></i>
+                  </button>
+    
+                  <button type="button" class="btn btn-link btn-floating mx-1">
+                    <i class="fab fa-github"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+    
+        <div class="col-lg-6 mb-5 mb-lg-0">
+          <img src="https://www.chroniquedisney.fr/imgPerso/secondsroles/2007-gusteau-01.jpg" 
+          class="w-100 rounded-4 shadow-4"
+            alt="" />
+        </div>
+      </div>
+    </div>
+    <!-- Jumbotron -->
+    </section>
+</body>
+<%- include('../partials/footer') %>
+<script src="/js/login.js"></script>
+
+
+
+
