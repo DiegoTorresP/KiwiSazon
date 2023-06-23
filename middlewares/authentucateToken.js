@@ -1,4 +1,5 @@
 const verifyToken = require("./verificaToken");
+const User = require("../models/users")
 
 const authenticateToken = async (req, res, next) => {
     const token = req.cookies.token;
