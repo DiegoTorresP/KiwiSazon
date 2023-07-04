@@ -4,7 +4,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-
+var admin = require('./routes/admin')
 var auth = require('./routes/auth');
 var usersRouter = require('./routes/users');
 const db = require("./config/DBConnection");
@@ -33,6 +33,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(auth);
+app.use(admin);
 app.use(usersRouter);
 
 app.use(

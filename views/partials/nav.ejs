@@ -30,16 +30,24 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
       <% if(loginUser){ %>
-        <a class="navbar-brand mt-2 mt-lg-0" href="/home">
-          <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
-        </a>
+        <% if(loginUser.rol == "user"){ %>
+          <a class="navbar-brand mt-2 mt-lg-0" href="/home">
+            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+          </a>
+        <% } else { %>
+          <a class="navbar-brand mt-2 mt-lg-0" href="/adminHome">
+            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+          </a>
+        <% } %>
+
         <% }else{ %>
           <a class="navbar-brand mt-2 mt-lg-0" href="/">
             <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
           </a>
           <% } %>
-            <!-- Left links -->
-            <% if(loginUser){ %>
+          <!-- Left links -->
+          <% if(loginUser){ %>
+            <% if(loginUser.rol == "user"){ %>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                   <a class="nav-link" href="/recetas">Recetas</a>
@@ -48,6 +56,13 @@
                   <a class="nav-link" href="/chef">Chef</a>
                 </li>
               </ul>
+            <% } else { %>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="/adminHome">Dashboard</a>
+                </li>
+              </ul>
+            <% } %>
             <% }else{ %>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">

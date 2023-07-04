@@ -1,0 +1,172 @@
+<%- include('../partials/head') %>  
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+</head>
+<body>
+    <%- include('../partials/nav') %>
+    
+    <main>
+        <h2 style="text-align: center;">Lista de usuarios</h2>
+    <div class="container-fluid">
+        <table class="table align-middle mb-0 bg-white" id="tabla">
+            <thead class="bg-light">
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>Nombre usuario</th>
+                <th>Estado</th>
+                <th>Rol</th>
+                <th>Aciones</th>
+            </tr>
+        </thead>
+        <% var photourl
+        try{
+            photourl=loginUser.photo||`data:image/${loginUser.image.contentType};base64,${loginUser.image.data.toString('base64')}` }
+            catch(e){
+                photourl=`https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png`}%>
+                
+                <tbody>
+                    <% users.forEach(function(user) { %>
+                        <tr>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <img
+                                    src="<%= photourl%>"
+                                    alt=""
+                                    style="width: 45px; height: 45px"
+                                    class="rounded-circle"
+                                    />
+                                    <div class="ms-3">
+                                        <p class="fw-bold mb-1"> <%= user.nombre %>  <%= user.apellido %></p>
+                                        <p class="text-muted mb-0"> <%= user.email %></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>
+                    <p class="fw-normal mb-1"> <%= user.username %></p>
+                </td>
+                <% if (user.isActive == true) { %>
+                <td>
+                    <span style="background-color: green;" class="badge badge-success rounded-pill d-inline">Activado</span>
+                </td>
+                <% }else{ %>
+                    <td>
+                        <span style="background-color: red;"  class="badge badge-danger rounded-pill d-inline">Desactivado</span>
+                    </td>
+                    <% } %>
+                    <% if (user.rol == "user") {%>
+                        <td>Usuario</td>
+                        <% }else{ %>
+                            <td>Administrador</td>
+                            <% } %>
+                            
+                            <td>
+                                <form method="POST" action="/admin/<%= user._id %>/deactivate">
+                          <button type="submit" class="btn btn-danger btn-sm btn-rounded" <% if (!user.isActive) { %>disabled<% } %> ><i class="fa-solid fa-user-xmark"></i></button>
+                    </form>
+                    <form style="margin-top: 2px;" method="POST" action="/admin/<%= user._id %>/rol">
+                        <button type="submit" class="btn btn-warning btn-sm btn-rounded" <% if (user.rol == "admin") { %>disabled<% } %> > <% if (user.rol == "admin") { %> <i class="fa-solid fa-user-gear"></i> <% }else{ %>  <i class="fa-solid fa-user-gear"></i> <% } %></button>
+                    </form>
+
+                    <button style="margin-top: 2px;" type="button" class="btn btn-info btn-sm btn-rounded" data-bs-toggle="modal" data-bs-target="#myModal<%= user._id %>">
+                        <i class='fas fa-user-tag'></i>
+                      </button>
+                </td>
+            </tr>
+            <% }); %>
+            
+        </tbody>
+    </table>
+
+    <% users.forEach(function(user) { %>
+        <div class="modal fade" id="myModal<%= user._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detalles de Usuario</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body">
+                <p>ID: <%= user._id %></p>
+                <p>Username: <%= user.username %> </p>
+                <p>Nombre Completo: <%= user.nombre %> <%= user.apellido %> </p>
+                <p>Email: <%= user.email %></p>
+                <p>Telefono: <%= user.telefono %></p>
+                <p>Tipo de usuario:
+
+                    <% if (user.rol == "user") {%>
+                        Usuario
+                        <% }else{ %>
+                            Administrador
+                            <% } %>
+                    
+                </p>
+
+                <p> Estado: 
+                    <% if (user.isActive == true) { %>
+                    
+                            <span style="background-color: green;" class="badge badge-success rounded-pill d-inline">Activo</span>
+                        
+                        <% }else{ %>
+                          
+                                <span style="background-color: red;"  class="badge badge-danger rounded-pill d-inline">Inactivo</span>
+                        
+                            <% } %>
+                </p>
+                <!-- Agrega más detalles según tus necesidades -->
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+    
+</div>
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script>
+  $(document).ready(function() {
+    $('#tabla').DataTable({
+        search: {
+            return: true,
+        },
+        language: {
+        "decimal": "",
+        "emptyTable": "No hay datos disponibles en la tabla",
+        "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+        "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+        "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+        "infoPostFix": "",
+        "thousands": ",",
+        "lengthMenu": "Mostrar _MENU_ entradas",
+        "loadingRecords": "Cargando...",
+        "processing": "Procesando...",
+        "search": "Buscar:",
+        "zeroRecords": "No se encontraron registros coincidentes",
+        "paginate": {
+          "first": "Primero",
+          "last": "Último",
+          "next": "Siguiente",
+          "previous": "Anterior"
+        },
+        "aria": {
+          "sortAscending": ": Activar para ordenar la columna en orden ascendente",
+          "sortDescending": ": Activar para ordenar la columna en orden descendente"
+        }
+      }
+  });
+    
+  });
+</script>
+</body>
+</html>
+
+
+

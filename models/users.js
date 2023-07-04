@@ -47,7 +47,12 @@ const userSchema =mongoose.Schema({
             },
             
         }
-    ]
+    ],
+    isActive: {
+        type: Boolean,
+        required: true,
+        default: true
+    }
     // followReceta:[
     //     {
     //         type:mongoose.ObjectId,

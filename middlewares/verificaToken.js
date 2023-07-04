@@ -9,7 +9,6 @@ const verifyToken = (token, res, req) => {
           console.log('El token ha expirado');
           // Eliminar el JWT de la cookie
           res.clearCookie('token');
-          req.flash("error", "El token ha expirado");
         } else {
           // Otro tipo de error ocurrió durante la verificación del token
           console.log('Error al verificar el token');

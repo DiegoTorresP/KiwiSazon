@@ -1,8 +1,7 @@
-
-// GET
-exports.home = ((req, res) => {
+// GET - ROL USER
+exports.home = (async(req, res) => {
     try {
-      res.render('home/index', { title: 'Fomulario' });
+      res.render('home/index', { title: 'Fomulario'});
     } catch (error) {
       res.status(404).render("error/error", { status: error });
     }
@@ -40,5 +39,20 @@ exports.home = ((req, res) => {
       res.render('Recipes/chef', { loginUser: req.userId });
     } catch (error) {
       res.status(404).render("error/error", { status: error });
+    }
+  });
+
+
+
+// GET - ROL ADMIN
+
+const User = require("../models/users")
+
+  exports.adminHome = ( async (req, res) => {
+    try {
+      const users = await User.find({});
+      res.render('admin/adminHome', { loginUser: req.userId, users: users });
+    } catch (error) {
+      res.status(404).render("error/error",  { status: error });
     }
   });

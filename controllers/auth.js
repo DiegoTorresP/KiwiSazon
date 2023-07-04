@@ -55,17 +55,29 @@ class UserController {
       // Obtener el usuario por nombre de usuario
       const user = await this.userDao.getUserByUsername(username);
       if (!user) {
-        return res.status(400).json({ error: 'Usuario no encontrado' });
+        console.log("Error el usuario no existe")
+        return res.redirect("/login")
       }
 
       // Verificar la contraseña
       if (user.password !== password) {
-        return res.status(401).json({ error: 'Contraseña incorrecta' });
+        console.log("Error contraceña incorrecta")
+        return res.redirect("/login")
+      }
+
+      if (user.isActive == false) {
+        console.log("Error cuenta desactivada")
+        return res.redirect("/login")
       }
 
       const token = generateToken(user._id);
       res.cookie('token', token); // Almacenar el token en una cookie
-      res.redirect('/home'); // Redirigir al panel de control después del inicio de sesión
+
+      if (user.rol == "user") {
+        res.redirect('/home'); // Redirigir al panel de control después del inicio de sesión
+      } else {
+        res.redirect('/adminHome'); // Redirigir al panel de Admistrador
+      }
 
     } catch (error) {
       console.log(error)

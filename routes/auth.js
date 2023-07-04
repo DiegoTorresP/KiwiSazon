@@ -49,4 +49,9 @@ router.get('/home', authenticateToken ,UController.homeLogin)
 
 router.get('/logout', userController.cerrar.bind(userController));
 
+
+
+
+
+
 module.exports = router;
