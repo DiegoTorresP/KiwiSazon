@@ -1,0 +1,102 @@
+<style>
+    body {
+  margin: 0;
+  padding: 0;
+  background-color: #E6FCF2; }
+
+.conten {
+  position: fixed;
+  top: 4em;
+  width: 100%;
+  text-align: center; }
+  .conten__img {
+    width: 100%;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center; }
+    .conten__img img {
+      width: 300px;
+      display: block;
+      -webkit-animation: animates 2s linear infinite alternate;
+      animation: animates 2s linear infinite alternate; }
+  .conten__number {
+    position: absolute;
+    font-size: 5.5rem;
+    font-family: "Gill Sans", sans-serif;
+    font-weight: 600;
+    top: 8rem;
+    color: #40702E;
+    -webkit-animation: animatestext 2s linear infinite alternate;
+    animation: animatestext 2s linear infinite alternate; }
+  .conten__error {
+    top: 12em;
+    color: #40702E;
+    width: 50%;
+    margin: 2em auto;
+    font-family: "Gill Sans", sans-serif; }
+  .conten__button {
+    background-color: #FFA217;
+    color: #E6FCF2;
+    font-weight: 600;
+    font-family: "Gill Sans", sans-serif;
+    padding: 0.8em 1em;
+    border-radius: 50px;
+    text-decoration: none; }
+
+@-webkit-keyframes animates {
+  0% {
+    -webkit-transform: translateX(5%);
+    transform: translateX(5%); }
+  100% {
+    -webkit-transform: translateX(-5%);
+    transform: translateX(-5%); } }
+
+@keyframes animates {
+  0% {
+    -webkit-transform: translateX(5%);
+    transform: translateX(5%); }
+  100% {
+    -webkit-transform: translateX(-5%);
+    transform: translateX(-5%); } }
+
+@-webkit-keyframes animatestext {
+  0% {
+    -webkit-transform: rotate(5deg);
+    transform: rotate(5deg); }
+  100% {
+    -webkit-transform: rotate(-5deg);
+    transform: rotate(-5deg); } }
+
+@keyframes animatestext {
+  0% {
+    -webkit-transform: rotate(5deg);
+    transform: rotate(5deg); }
+  100% {
+    -webkit-transform: rotate(-5deg);
+    transform: rotate(-5deg); } }
+</style>
+
+<div class="conten">
+    <div class="conten__img">
+        <img src="/img/Error.png" alt="Error">
+        <p class="conten__number">
+            404
+        </p>
+    </div>
+    <div class="conten__Description">
+        <h5 class="conten__error"><%= status %> Error</h5>
+
+            <h5 class="conten__error">Algo salió mal intenta más tarde...</h5>
+        <% if (loginUser) {%>
+          <a href="/" class="conten__button">Clic aquí para ir a la página de inicio</a>
+          <% }else{ %>
+            <a href="/home" class="conten__button">Clic aquí para ir a la página de inicio</a>
+            <% } %>
+    </div>
+</div>
