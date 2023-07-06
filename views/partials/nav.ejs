@@ -1,82 +1,77 @@
 <style>
   .navegador {
-    background-color: #E6FCF2; /* Color de fondo */
+    background-color: #E6FCF2;
+    /* Color de fondo */
   }
 
   .imagen {
-    width: 50px; /* Tamaño de la imagen (ancho) */
-    height: auto; /* Tamaño de la imagen (alto) (automático para mantener la proporción) */
+    width: 50px;
+    /* Tamaño de la imagen (ancho) */
+    height: auto;
+    /* Tamaño de la imagen (alto) (automático para mantener la proporción) */
   }
-  .active{
+
+  .active {
     font-size: 20px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   }
-  
 </style>
-
-<!-- <div>
-<nav class="navbar navbar-expand-lg navegador ">
-  <div class="container-fluid ">
-    <a class="navbar-brand" href="/">
-      <img class="imagen" src="/img/logo2.png">
-    </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="/">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="/registro">Iniciar sesión</a>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav>
-</div> -->
 <!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Toggle button -->
-    <button
-      class="navbar-toggler"
-      type="button"
-      data-mdb-toggle="collapse"
-      data-mdb-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent"
-      aria-expanded="false"
-      aria-label="Toggle navigation"
-    >
+    <button class="navbar-toggler" type="button" data-mdb-toggle="collapse" data-mdb-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <i class="fas fa-bars"></i>
     </button>
 
     <!-- Collapsible wrapper -->
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <!-- Navbar brand -->
-      <a class="navbar-brand mt-2 mt-lg-0" href="/">
-        <img
-          src="/img/logo2.png"
-          height="40"
-          alt="MDB Logo"
-          loading="lazy"
-        />
-      </a>
-      <!-- Left links -->
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/recetas">Recetas</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Chef</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#"></a>
-        </li>
-      </ul>
-      <!-- Left links -->
+      <% if(loginUser){ %>
+        <% if(loginUser.rol == "user"){ %>
+          <a class="navbar-brand mt-2 mt-lg-0" href="/home">
+            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+          </a>
+        <% } else { %>
+          <a class="navbar-brand mt-2 mt-lg-0" href="/adminHome">
+            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+          </a>
+        <% } %>
+
+        <% }else{ %>
+          <a class="navbar-brand mt-2 mt-lg-0" href="/">
+            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+          </a>
+          <% } %>
+          <!-- Left links -->
+          <% if(loginUser){ %>
+            <% if(loginUser.rol == "user"){ %>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="/recetas">Recetas</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/chef">Chef</a>
+                </li>
+              </ul>
+            <% } else { %>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="/adminHome">Dashboard</a>
+                </li>
+              </ul>
+            <% } %>
+            <% }else{ %>
+              <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                  <a class="nav-link" href="#"></a>
+                </li>
+              </ul>
+            <% } %>
+
+            <!-- Left links -->
     </div>
     <!-- Collapsible wrapper -->
 
@@ -89,26 +84,25 @@
 
       <!-- Avatar -->
       <div class="dropdown">
-        <a
-          class="dropdown-toggle d-flex align-items-center hidden-arrow"
-          href="#"
-          id="navbarDropdownMenuAvatar"
-          role="button"
-          data-mdb-toggle="dropdown"
-          aria-expanded="false"
-        >
+        <a class="dropdown-toggle d-flex align-items-center hidden-arrow" href="#" id="navbarDropdownMenuAvatar"
+          role="button" data-mdb-toggle="dropdown" aria-expanded="false">
+      <!-- Navbar brand -->
+      <% if(loginUser){ %>
+        <% var photourl
+        try{
+        photourl=loginUser.photo||`data:image/${loginUser.image.contentType};base64,${loginUser.image.data.toString('base64')}` }
+        catch(e){
+            photourl=`https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png`}%>
+
+          <img style="margin-left: 0.5rem;" src="<%= photourl%>" class="rounded-circle" height="35" alt="" width="35"
+            loading="lazy" alt="Not Found" />
+        <% }else{ %>
           <img
             src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-            class="rounded-circle"
-            height="25"
-            alt="Black and White Portrait of a Man"
-            loading="lazy"
-          />
+            class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+          <% } %>
         </a>
-        <ul
-          class="dropdown-menu dropdown-menu-end"
-          aria-labelledby="navbarDropdownMenuAvatar"
-        >
+        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
           <!-- <li>
             <a class="dropdown-item" href="#">My profile</a>
           </li>
@@ -119,20 +113,23 @@
             <a class="dropdown-item" href="#">Logout</a>
           </li> -->
           <% if(loginUser){ %>
-          <li>
-            <a class="dropdown-item" href="#"><%=loginUser.email%></a>
-          </li>
+            <li>
+              <a class="dropdown-item" href="#">
+                <%=loginUser.email%>
+              </a>
+            </li>
 
-          <li>
-            <a class="dropdown-item" href="/logout">Cerrar Sesion</a>
-          </li>
-          <% } %>
-          <li>
-            <a class="dropdown-item" href="/registro">Registrarse</a>
-          </li>
-          <li>
-            <a class="dropdown-item" href="/login">Iniciar Sesion</a>
-          </li>
+            <li>
+              <a class="dropdown-item" href="/logout">Cerrar Sesion</a>
+            </li>
+            <% }else{ %>
+              <li>
+                <a class="dropdown-item" href="/registro">Registrarse</a>
+              </li>
+              <li>
+                <a class="dropdown-item" href="/login">Iniciar Sesion</a>
+              </li>
+            <% } %>
         </ul>
       </div>
     </div>

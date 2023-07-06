@@ -93,7 +93,10 @@
         <h5 class="conten__error"><%= status %> Error</h5>
 
             <h5 class="conten__error">Algo salió mal intenta más tarde...</h5>
-        
-        <a href="/" class="conten__button">Clic aquí para ir a la página de inicio</a>
+        <% if (loginUser) {%>
+          <a href="/" class="conten__button">Clic aquí para ir a la página de inicio</a>
+          <% }else{ %>
+            <a href="/home" class="conten__button">Clic aquí para ir a la página de inicio</a>
+            <% } %>
     </div>
 </div>

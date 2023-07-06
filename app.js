@@ -4,15 +4,32 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-
+var admin = require('./routes/admin')
 var auth = require('./routes/auth');
+const userDao = require('./dao/login.dao')
 var usersRouter = require('./routes/users');
 const db = require("./config/DBConnection");
+const suscriptor = require("./public/js/notification");
 const { error } = require('console');
+const { Subject } = require('rxjs');
+const flash = require('express-flash');
+
+const cron = require('node-cron');
+const usere = new userDao();
+cron.schedule('* * * * * *', async () => {
+    console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
+    const noti = await usere.getUserNotiByUsername(global.username);
+    if(noti != global.notificacion){
+      global.banderanoti = true
+    }else{
+      global.banderanoti = false
+    }
+    console.log(noti);
+  });
 
 var app = express();
 db.connect();
-
+suscriptor.asObservable();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -33,6 +50,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use(auth);
+app.use(admin);
 app.use(usersRouter);
 
 app.use(
@@ -42,7 +60,8 @@ app.use(
     saveUninitialized: false,
   })
 );
-
+// Configura el middleware de flash messages
+app.use(flash());
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
