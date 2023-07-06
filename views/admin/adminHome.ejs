@@ -9,7 +9,15 @@
 </head>
 <body>
     <%- include('../partials/nav') %>
-    
+        <% if (banderanoti == true) { %>
+            <div class="alert alert-primary" role="alert">
+                <%= variableNoti %>
+            </div>
+            <% }else{ %>
+                <div class="alert alert-success" role="alert">
+                    Sin noti
+                </div>
+                <% } %>
     <main>
         <h2 style="text-align: center;">Lista de usuarios</h2>
     <div class="container-fluid">
@@ -17,10 +25,10 @@
             <thead class="bg-light">
                 <tr>
                     <th>Nombre Completo</th>
-                    <th>Nombre usuario</th>
+                    <th>Nombre Usuario</th>
                 <th>Estado</th>
                 <th>Rol</th>
-                <th>Aciones</th>
+                <th>Acciones</th>
             </tr>
         </thead>
         <% var photourl
@@ -66,7 +74,7 @@
                             
                             <td>
                                 <form method="POST" action="/admin/<%= user._id %>/deactivate">
-                          <button type="submit" class="btn btn-danger btn-sm btn-rounded" <% if (!user.isActive) { %>disabled<% } %> ><i class="fa-solid fa-user-xmark"></i></button>
+                          <button type="submit" <% if (!user.isActive) { %>class="btn btn-success btn-sm btn-rounded"<% }else{ %>  class="btn btn-danger btn-sm btn-rounded" <% } %>><i class="fa-solid fa-user-xmark"></i></button>
                     </form>
                     <form style="margin-top: 2px;" method="POST" action="/admin/<%= user._id %>/rol">
                         <button type="submit" class="btn btn-warning btn-sm btn-rounded" <% if (user.rol == "admin") { %>disabled<% } %> > <% if (user.rol == "admin") { %> <i class="fa-solid fa-user-gear"></i> <% }else{ %>  <i class="fa-solid fa-user-gear"></i> <% } %></button>

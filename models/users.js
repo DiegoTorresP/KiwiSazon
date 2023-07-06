@@ -52,6 +52,10 @@ const userSchema =mongoose.Schema({
         type: Boolean,
         required: true,
         default: true
+    },
+    notificacion:{
+        type: String,
+        require: false
     }
     // followReceta:[
     //     {

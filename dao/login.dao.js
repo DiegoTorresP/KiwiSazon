@@ -12,9 +12,22 @@ class UsuarioDAO {
 
     async getUserByUsername(username) {
         try {
-          return await User.findOne({ username });
+          const user = await User.findOne({ username });
+          global.username = user.username;
+          global.notificacion = user.notificacion;
+          global.banderanoti = false;
+          return user
         } catch (error) {
           throw new Error('Error al obtener el usuario');
+        }
+      }
+
+      async getUserNotiByUsername(username) {
+        try {
+          const user = await User.findOne({ username });
+          return user.notificacion
+        } catch (error) {
+          throw new Error('Error al obtener la notificacion');
         }
       }
 }
