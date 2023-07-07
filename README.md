@@ -16,11 +16,25 @@ Crear una aplicación web donde los amantes de la cocina puedan compartir y desc
 ![image](https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/8af3cd7b-6e5c-431a-912d-2c2346dd00de)
 # Mecanismos de Seguridad 🛟
 - Validación de datos (FrontEnd)
+  
+  <img width="960" alt="image" src="https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/ca57f880-6f15-4336-a787-3ae5d3e68b2b">
+
 - Protección de rutas
+  
+  <img width="960" alt="image" src="https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/e6c7b558-e76b-4373-b16a-1ebacf97a1c1">
+
 - Recaptcha
+  
+  <img width="960" alt="image" src="https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/c2722f0a-af4d-41fb-b39f-e6945a0d2ce0">
+
+- Manejo de sesiones con JWT
+  
+<img width="960" alt="image" src="https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/9fce87b4-e7ac-463d-b70a-0f47f0c3dddc">
+
 # Web Services 🌐
 - Arquitectura REST para integrar FrontEnd con BackEnd
 
-![image](https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/acea190c-3def-4f50-9d2a-0f6d4c1d22fe)
+<img width="960" alt="image" src="https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/2833e864-a724-4ef6-9ad2-d52c71a00413">
+
 
 
