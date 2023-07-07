@@ -36,5 +36,7 @@ Crear una aplicación web donde los amantes de la cocina puedan compartir y desc
 
 <img width="960" alt="image" src="https://github.com/DiegoTorresP/KiwiSazon/assets/87044529/2833e864-a724-4ef6-9ad2-d52c71a00413">
 
+# Evidencia de Despliegue 💻
+- https://drive.google.com/file/d/1hnmR504BOJk5-fuS114JLBN78Tq5MypV/view?usp=sharing
 
 
