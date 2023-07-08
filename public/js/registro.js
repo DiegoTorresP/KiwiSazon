@@ -15,7 +15,7 @@ const errorPass = document.getElementById('errorContra');
 const errorRecap = document.getElementById('errorRecap');
 function submitUserForm() {
   errores=0;
-  if(username.value.trim() === ''){
+ if(username.value.trim() === ''){
     username.classList.add('is-invalid');
     errorUsername.style.display="block";
     errores++;
@@ -46,12 +46,11 @@ function submitUserForm() {
     errores++;
   }
   if (recaptcha_response.length == 0 || recaptcha_response == null) {
-        //alert("Error", "Es necesario validar el recaptcha", "error");
         errorRecap.style.display="block";
         errores++;
  }
   if(errores>0){
-    return false;
+    return true;
   }
   
   if(errores == 0){

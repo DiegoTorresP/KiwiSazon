@@ -18,6 +18,7 @@ class UsuarioDAO {
           global.banderanoti = false;
           return user
         } catch (error) {
+          console.log(error)
           throw new Error('Error al obtener el usuario');
         }
       }

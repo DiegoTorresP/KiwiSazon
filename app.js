@@ -17,14 +17,14 @@ const flash = require('express-flash');
 const cron = require('node-cron');
 const usere = new userDao();
 cron.schedule('* * * * * *', async () => {
-    console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
+    //console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
     const noti = await usere.getUserNotiByUsername(global.username);
     if(noti != global.notificacion){
       global.banderanoti = true
     }else{
       global.banderanoti = false
     }
-    console.log(noti);
+    //console.log(noti);
   });
 
 var app = express();

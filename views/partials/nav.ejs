@@ -90,7 +90,7 @@
       <% if(loginUser){ %>
         <% var photourl
         try{
-        photourl=loginUser.photo||`data:image/${loginUser.image.contentType};base64,${loginUser.image.data.toString('base64')}` }
+        photourl=loginUser.photo||loginUser.image }
         catch(e){
             photourl=`https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png`}%>
 

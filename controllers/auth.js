@@ -3,11 +3,49 @@ const fs = require("fs");
 const User = require("../models/users")
 const jwt = require('jsonwebtoken');
 const UserDao = require('../dao/login.dao');
+var admin = require("firebase-admin");
+var serviceAccount = require("../kiwisazonp-firebase-adminsdk-b8gdk-642df4e9e7.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "gs://kiwisazonp.appspot.com"
+});
+
+
+const bucket = admin.storage().bucket();
 
 const generateToken = (userId) => {
   const token = jwt.sign({ userId }, 'secreto', { expiresIn: '1h' });
   return token;
 };
+
+//Funcion para guardar imagenes a firebase
+async function guardarImagenEnFirebase(imagen) {
+  const bucket = admin.storage().bucket();
+
+  // Lee el archivo de imagen
+  const archivo = fs.readFileSync(imagen.path);
+
+  // Crea una referencia al archivo en Firebase Storage
+  const rutaArchivo = `users/${Math.round(Math.random() * 9999) +imagen.originalname}`;
+  const archivoRef = bucket.file(rutaArchivo);
+
+  // Sube el archivo a Firebase Storage
+  await archivoRef.save(archivo, {
+    metadata: {
+      contentType: imagen.mimetype
+    }
+  });
+
+  // Obtiene la URL de descarga del archivo
+  const url = await archivoRef.getSignedUrl({
+    action: 'read',
+    expires: '03-01-2500' // Cambia la fecha de vencimiento según tus necesidades
+  });
+
+  // Devuelve la URL de descarga
+  return url;
+}
 
 class UserController {
   constructor() {
@@ -15,7 +53,6 @@ class UserController {
   }
   async registroUser(req, res) {
     try {
-
       const userObj = new User({
         username: req.body.username,
         password: req.body.password,
@@ -25,20 +62,18 @@ class UserController {
         telefono: req.body.telefono
       })
 
-      let file;
       try {
-        file = path.join("uploads/users/" + req.file.filename);
-        console.log(file)
-        userObj.image = {
-          data: fs.readFileSync(file),
-          contentType: "image/png",
-        };
-
+              
+        //Mandamos a llamar la funcion para guardar la imagen en firebase
+        // y le pasamos como parametros la imgen del request body
+        const url = await guardarImagenEnFirebase(req.file);
+        userObj.image = url[0]
+        
       } catch (e) {
         console.log(e)
         userObj.image = null;
       }
-
+      console.log(userObj)
       const newUser = await this.userDao.createUser(userObj);
 
       res.redirect('/login')
