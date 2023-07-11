@@ -88,14 +88,15 @@
           role="button" data-mdb-toggle="dropdown" aria-expanded="false">
       <!-- Navbar brand -->
       <% if(loginUser){ %>
-        <% var photourl
-        try{
-        photourl=loginUser.photo||loginUser.image }
-        catch(e){
-            photourl=`https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png`}%>
 
-          <img style="margin-left: 0.5rem;" src="<%= photourl%>" class="rounded-circle" height="35" alt="" width="35"
-            loading="lazy" alt="Not Found" />
+          <% if(loginUser.image==null) { %>
+            <img
+              src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+              class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+            <% }else{ %>
+              <img style="margin-left: 0.5rem;" src="<%= loginUser.image%>" class="rounded-circle" height="35" alt=""
+                width="35" loading="lazy" alt="Not Found" />
+              <% } %>
         <% }else{ %>
           <img
             src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
