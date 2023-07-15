@@ -1,0 +1,165 @@
+<%- include('../partials/head') %>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard Admin</title>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    </head>
+<style>
+    .section-title {
+    position: relative;
+    display: inline-block;
+    letter-spacing: 1px;
+    font-weight: bold;
+    color: #186A3B;
+}
+
+    .section-title::before {
+        position: absolute;
+        content: "";
+        top: 50%;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        margin-top: -1px;
+        background: #186A3B;
+    }
+
+    .section-title span {
+        position: relative;
+        background: #ffffff;
+        z-index: 1;
+    }
+
+.px-2 {
+    padding-right: 0.5rem !important;
+}
+
+</style>
+    <body>
+        <%- include('../partials/nav') %>
+            <% if (banderanoti==true) { %>
+                <div class="alert alert-primary" role="alert">
+                    <%= variableNoti %>
+                </div>
+                <% }else{ %>
+                    <div class="alert alert-success" role="alert">
+                        Sin noti
+                    </div>
+                    <% } %>
+                        <main>
+                            <div class="text-center">
+                                <h2 class="section-title px-5"><span class="px-2">Categorias</span></h2>
+                            </div>
+                            <div class="container-fluid">
+                                <!-- Button trigger modal -->
+                                <div class="position-absolute end-0 me-4">
+                                    <button type="button" class="btn btn-primary " data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    Crear Receta
+                                </button>
+                                </div>
+                                <!--Tabla o cards-->
+                            </div>
+                            <!-- Modal -->
+                            <div class="modal fade " id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                   
+                                    <form class="modal-content" action="/users/crearReceta" method="post" enctype="multipart/form-data">
+                                        <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Receta</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                         <div class="modal-body">
+                                            <input type="text" name="user" id="user" class="form-control "  value="<%= loginUser.username%>" disabled />
+                                            <input type="text" name="idUser" id="idUser" class="form-control "  value="<%= loginUser._id%>" disabled />
+                                            <div class="form-floating mb-4">
+                                                <input type="text" name="platilloNombre" id="platilloNombre" class="form-control "  placeholder=" " required/>
+                                                <label for="floatingInputGroup1">Nombre del Platillo</label>
+                                                <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
+                                            </div>
+                                                <div class="mb-5 row">
+                                                    <div class="col-sm-3">
+                                                        <div class="image-port">
+                                                        <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg" height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9 mt-3">
+                                                        <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+                                                    </div>    
+                                                </div>    
+                                               
+                                                <div class="row mb-4">
+                                                    <div class="form-floating col-sm-6">
+                                                        <select id="categoria" name="categoria" class="form-select">
+                                                            <option value="google">Google</option>
+                                                            <option value="apple">Apple</option>
+                                                            <option value="microsoft">Microsoft</option>
+                                                            <option value="meta">Meta</option>
+                                                            <option value="netflix">Netflix</option>
+                                                        </select>
+                                                        <label for="categoria">Selecciona una Categoria</label>
+                                                    </div>
+                                                    <div class="form-floating col-sm-6">
+                                                        <select id="dificultad" name="dificultad" class="form-select">
+                                                            <option value="Alta">Alta</option>
+                                                            <option value="Media">Media</option>
+                                                            <option value="Baja">Baja</option>
+                                                        </select>
+                                                        <label for="dificultad">Selecciona una Dificultad</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <div class="form-floating">
+                                                        <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"></textarea>
+                                                        <label for="ingredientes">Ingredientes</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <div class="form-floating">
+                                                        <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"></textarea>
+                                                        <label for="pasosSeguir">Pasos a Seguir</label>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4" >
+                                                    <div class="form-floating col-sm-6">
+                                                        <input type="text" name="tiempo"  id="tiempo" class="form-control" placeholder=" "  required/>
+                                                        <label class="form-label" for="tiempo">Tiempo </label>
+                                                        <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
+                                                    </div>
+                                    
+                                                    <div class="form-floating col-sm-6">
+                                                        <input type="number" name="porciones" id="porciones" class="form-control " placeholder=" "  required />
+                                                        <label class="form-label" for="porciones">Porciones</label>
+                                                        <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <div class="form-floating">
+                                                        <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"></textarea>
+                                                        <label for="tips">Tips</label>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                         <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta"
+                                                    data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                         </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                        </main>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+                        <script src="/js/recetas.js" ></script>
+
+    </body>
+
+    </html>

@@ -56,3 +56,12 @@ const User = require("../models/users")
       res.status(404).render("error/error",  { status: error });
     }
   });
+
+  exports.userRecetas = ( async (req, res) => {
+    try {
+      
+      res.render('user/misrecetas', { loginUser: req.userId, variableNoti : global.notificacion, banderanoti:global.banderanoti });
+    } catch (error) {
+      res.status(404).render("error/error",  { status: error });
+    }
+  });

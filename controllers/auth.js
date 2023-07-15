@@ -4,15 +4,7 @@ const User = require("../models/users")
 const jwt = require('jsonwebtoken');
 const UserDao = require('../dao/login.dao');
 var admin = require("firebase-admin");
-var serviceAccount = require("../kiwisazonp-firebase-adminsdk-b8gdk-642df4e9e7.json");
 
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: "gs://kiwisazonp.appspot.com"
-});
-
-
-const bucket = admin.storage().bucket();
 
 const generateToken = (userId) => {
   const token = jwt.sign({ userId }, 'secreto', { expiresIn: '1h' });
@@ -21,8 +13,7 @@ const generateToken = (userId) => {
 
 //Funcion para guardar imagenes a firebase
 async function guardarImagenEnFirebase(imagen) {
-  const bucket = admin.storage().bucket();
-
+  var bucket = admin.storage().bucket();
   // Lee el archivo de imagen
   const archivo = fs.readFileSync(imagen.path);
 
@@ -89,6 +80,7 @@ class UserController {
 
       // Obtener el usuario por nombre de usuario
       const user = await this.userDao.getUserByUsername(username);
+      console.log(user)
       if (!user) {
         console.log("Error el usuario no existe")
         return res.redirect("/login")

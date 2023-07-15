@@ -4,18 +4,23 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-var admin = require('./routes/admin')
+var adminR = require('./routes/admin')
 var auth = require('./routes/auth');
-const userDao = require('./dao/login.dao')
-var usersRouter = require('./routes/users');
+var userR = require('./routes/users');
+const userDao = require('./dao/login.dao');
+const recetaDao = require('./dao/recetas.dao');
+
 const db = require("./config/DBConnection");
 const suscriptor = require("./public/js/notification");
 const { error } = require('console');
 const { Subject } = require('rxjs');
 const flash = require('express-flash');
-
 const cron = require('node-cron');
 const usere = new userDao();
+const receta = new recetaDao();
+var admin = require("firebase-admin");
+var serviceAccount = require("./config/kiwisazonp-firebase-adminsdk-b8gdk-642df4e9e7.json");
+
 cron.schedule('* * * * * *', async () => {
     //console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
     const noti = await usere.getUserNotiByUsername(global.username);
@@ -29,6 +34,15 @@ cron.schedule('* * * * * *', async () => {
 
 var app = express();
 db.connect();
+
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    storageBucket: "gs://kiwisazonp.appspot.com"
+  });
+}
+
+
 suscriptor.asObservable();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,8 +64,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use(auth);
-app.use(admin);
-app.use(usersRouter);
+app.use(adminR);
+app.use(userR);
+
 
 app.use(
   session({
@@ -60,6 +75,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+
 // Configura el middleware de flash messages
 app.use(flash());
 // catch 404 and forward to error handler
@@ -79,4 +96,4 @@ app.use(function(err, req, res, next) {
   console.log(err)
 });
 
-module.exports = app;
+module.exports =  app;
