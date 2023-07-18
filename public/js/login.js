@@ -1,28 +1,37 @@
-var errores = 0;
-
 const errorUsername = document.getElementById('errorUser');
 const errorPass = document.getElementById('errorContra');
+document.getElementById("miFormulario").addEventListener("submit", function(event) {
+  event.preventDefault(); // Cancelar el envío del formulario
+  
+  var isValid = true;
 
-function submitUserForm() {
-    errores=0;
-    var username = document.getElementById('username');
-    var pass = document.getElementById('password');
-    if(username.value.trim() === '' ){
-        username.classList.add('is-invalid');
-        errorUsername.style.display="block";
-        errores++;
-    }
-    
-      if(pass.value.trim() === '' || pass.length<8){
-      pass.classList.add('is-invalid');
-      errorPass.style.display="block";
-      errores++;
-    }
+  // Obtener los valores de los campos
+  var username = document.getElementById("username");
+  var password = document.getElementById("password");
 
-    if(errores>0){
-      return false;
+  // Validar que los campos no estén vacíos
+  if (username.value.trim() === "") {
+    username.classList.add('is-invalid');
+    errorUsername.style.display = 'block';
+    isValid = false;
+  } else {
+    username.classList.remove('is-invalid');
+    errorUsername.style.display = 'none';
+  }
+
+
+  if (password.value.trim() === "") {
+    password.classList.add('is-invalid');
+    errorPass.style.display = 'block';
+    isValid = false;
+  } else {
+    password.classList.remove('is-invalid');
+    errorPass.style.display = 'none';
+  }
+
+  // Si pasa las validaciones, puedes enviar el formulario
+  if (isValid) {
+    this.submit();
     }
-    
-    return true;
-      
-}
+  
+});

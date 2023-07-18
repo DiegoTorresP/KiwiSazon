@@ -76,8 +76,7 @@
                                                     aria-label="Close"></button>
                                         </div>
                                          <div class="modal-body">
-                                            <input type="text" name="user" id="user" class="form-control "  value="<%= loginUser.username%>" disabled />
-                                            <input type="text" name="idUser" id="idUser" class="form-control "  value="<%= loginUser._id%>" disabled />
+                                            <input type="text" name="idUser" id="idUser" class="form-control " style="display: none;"  value="<%= loginUser._id%>" disabled />
                                             <div class="form-floating mb-4">
                                                 <input type="text" name="platilloNombre" id="platilloNombre" class="form-control "  placeholder=" " required/>
                                                 <label for="floatingInputGroup1">Nombre del Platillo</label>

@@ -11,6 +11,7 @@ const userDao = require('./dao/login.dao');
 const recetaDao = require('./dao/recetas.dao');
 
 const db = require("./config/DBConnection");
+const firebaseDB = require("./config/FirebaseConnection");
 const suscriptor = require("./public/js/notification");
 const { error } = require('console');
 const { Subject } = require('rxjs');
@@ -18,8 +19,6 @@ const flash = require('express-flash');
 const cron = require('node-cron');
 const usere = new userDao();
 const receta = new recetaDao();
-var admin = require("firebase-admin");
-var serviceAccount = require("./config/kiwisazonp-firebase-adminsdk-b8gdk-642df4e9e7.json");
 
 cron.schedule('* * * * * *', async () => {
     //console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
@@ -34,13 +33,7 @@ cron.schedule('* * * * * *', async () => {
 
 var app = express();
 db.connect();
-
-if (!admin.apps.length) {
-  admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-    storageBucket: "gs://kiwisazonp.appspot.com"
-  });
-}
+firebaseDB.connect();
 
 
 suscriptor.asObservable();

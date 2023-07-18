@@ -16,6 +16,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 }
 </style>
 <%- include('../partials/nav') %>
+<%- include('../error/login') %>
 <body >
   <section class="h-100 h-custom" style="background-color: #fefaeb;">
     <div class="container py-5 h-100">
@@ -28,7 +29,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
             <div class="card-body p-4 p-md-5">
               <h3 class="mb-4 pb-2 pb-md-0 mb-md-5 px-md-2" style="text-align: center;">Registro</h3>
   
-              <form class="px-md-2" action="/registro" method="post" enctype="multipart/form-data">
+              <form class="px-md-2" action="/registro" method="post" enctype="multipart/form-data" id="miFormulario">
   
                 <div class="mb-5 row">
                   <div class="col-sm-3">
@@ -39,43 +40,42 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                   <div class="col-sm-9 mt-3">
                     <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
                   </div>
-                  
-                    
+                  <div class="text-danger" id="errorImagen" style="display: none;">Ingresa una imagen</div>
                 </div>
                 <div class="form-floating mb-4">
-                  <input type="text" name="username" id="username" class="form-control "  placeholder="" required/>
+                  <input type="text" name="username" id="username" class="form-control "  placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.username %><%}%>"/>
                   <label for="floatingInputGroup1">Username</label>
                   <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
                 </div>
 
                 <div class="row mb-4" >
                   <div class="form-floating col-sm-6">
-                    <input type="text" name="nombre"  id="nombre" class="form-control" placeholder="" required/>
+                    <input type="text" name="nombre"  id="nombre" class="form-control" placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.nombre %><%}%>"/>
                     <label class="form-label" for="form3Example3cg">Nombre</label>
                     <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Nombre es requerido</div>
                   </div>
   
                   <div class="form-floating col-sm-6">
-                    <input type="text" name="apellido" id="apellido" class="form-control " placeholder="" required />
+                    <input type="text" name="apellido" id="apellido" class="form-control " placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.apellido %><%}%>" />
                     <label class="form-label" for="form3Example4cg">Apellido</label>
                     <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Apellido es requerido</div>
                   </div>
                 </div>
 
                 <div class="form-floating mb-4">
-                  <input type="email" name="email" id="email" class="form-control " placeholder="" required />
+                  <input type="email" name="email" id="email" class="form-control " placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.email %><%}%>" />
                   <label class="form-label" for="form3Example1cg">Correo Electronico</label>
                   <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electronico es requerido</div>
                 </div>
 
                 <div class="form-floating mb-4">
-                  <input type="tel" name="telefono" id="telefono" class="form-control " placeholder="" required />
+                  <input type="tel" name="telefono" id="telefono" class="form-control " placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.telefono %><%}%>" />
                   <label class="form-label" for="form1Example1">Telefono</label>
                   <div class="invalid-feedback" id="errorTelefono" style="display: none;">El campo Telefono es requerido</div>
                 </div>
                 
                 <div class="form-floating mb-4 ">
-                  <input type="password" name="password" id="password" class="form-control" placeholder="" required />
+                  <input type="password" name="password" id="password" class="form-control" placeholder=""  />
                   <label class="form-label" for="form1Example2">Contraseña</label>
                   <div class="invalid-feedback" id="errorContra" style="display: none;">El campo Contraseña es requerido</div>
                 </div>
@@ -89,7 +89,7 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                 </div>
 
                 <div class=" mt-4 d-grid gap-2">
-                  <button type="submit"class="btn btn-success btn-block btn-lg gradient-custom-4 text-body" onclick="return submitUserForm();">Register</button>
+                  <button type="submit"class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
                 </div>
 
               </form>
