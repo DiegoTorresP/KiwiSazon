@@ -35,9 +35,13 @@ const recetaSchema =mongoose.Schema({
         type: String
     },
     isAprovado: {
-        type: Boolean,
+        type: Number,
         required: true,
-        default: false
+        default: 0
+
+        // 0 - en revision
+        // 1 - aprobado
+        // 2 - rechazada
     },
     calificacion:[
         {
@@ -45,6 +49,10 @@ const recetaSchema =mongoose.Schema({
             ref:"calificacion"
         },
     ],
+    date: { type: Date,
+            require: true,
+            default: Date.now()
+        }
 });
 
 const Receta= mongoose.model("recetas",recetaSchema)

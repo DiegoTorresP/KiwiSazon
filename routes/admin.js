@@ -16,5 +16,10 @@ router.post('/admin/:userId/deactivate', isAdmin,userController.deactivateUser);
 
 router.post('/admin/:userId/rol', isAdmin,userController.cambiarRol);
 
+router.get('/adminRecetas', authenticateToken, isAdmin, view.recetas);
+
+router.post('/admin/:id/aprobar', authenticateToken, isAdmin, userController.aprobarReceta);
+
+router.post('/admin/:id/denegar', authenticateToken, isAdmin, userController.rechazarReceta);
 
 module.exports = router;

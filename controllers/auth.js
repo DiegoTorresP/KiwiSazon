@@ -80,7 +80,6 @@ class UserController {
 
       // Obtener el usuario por nombre de usuario
       const user = await this.userDao.getUserByUsername(username);
-      console.log(user)
       if (!user) {
         console.log("Error el usuario no existe")
         return res.redirect("/login")

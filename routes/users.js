@@ -10,7 +10,7 @@ const path = require("path");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, "uploads/recetas/");
+    cb(null, "uploads/receta/");
   },
   filename: (req, file, cb) => {
     cb(null, new Date().toISOString().replace(/:/g, '-')+ file.originalname);

@@ -1,5 +1,6 @@
 const User = require('../models/users');
-const { Observable, Subject } = require('rxjs');
+const Receta = require('../models/recetas');
+const { Observable, Subject, async } = require('rxjs');
 const userStatusSubject = new Subject();
 
 class UsuarioDAO {
@@ -44,6 +45,7 @@ class UsuarioDAO {
         }
         
     }
+
     async convertirAdmin(userId){
         try {
             const updateAdmin = await User.findByIdAndUpdate(userId, { rol: "admin"});
@@ -60,6 +62,36 @@ class UsuarioDAO {
         } catch (error) {
             throw new Error('No se pudo actualizar la notificación');
         }
+    };
+
+    async consultaRecetas(id){
+        try {
+            const receta = Receta.findById(id);
+            return receta
+        } catch (error) {
+            throw new Error("Sin recetas que encontrar")
+        }
+    };
+    
+    async aprobarReceta(id) {
+        try {
+          const updatedRecetas = await Receta.findByIdAndUpdate(id, { isAprovado: 1 });
+          return updatedRecetas;
+          
+        } catch (error) {
+            throw new Error('No se pudo aprobar esta receta');
+        }
+        
+    };
+
+    async rechazarReceta(id) {
+        try {
+          const updateRecetas = await Receta.findByIdAndUpdate(id, { isAprovado: 2 });
+          return updateRecetas;
+          
+        } catch (error) {
+            throw new Error('No se pudo aprobar esta receta');
+        }  
     };
 }
 

@@ -95,12 +95,13 @@
                                                                                 <button type="submit"
                                                                                     class="btn btn-warning btn-sm btn-rounded"
                                                                                     <% if (user.rol=="admin" ) {
-                                                                                    %>disabled<% } %> > <% if
-                                                                                            (user.rol=="admin" ) { %> <i
-                                                                                                class="fa-solid fa-user-gear"></i>
-                                                                                            <% }else{ %> <i
-                                                                                                    class="fa-solid fa-user-gear"></i>
-                                                                                                <% } %></button>
+                                                                                    %>disabled<% } %> > 
+                                                                                    <% if (user.rol=="admin" ) { %> 
+                                                                                        <i class="fa-solid fa-user-gear"></i>
+                                                                                            <% }else{ %> 
+                                                                                                <i class="fa-solid fa-user-gear"></i>
+                                                                                                <% } %>
+                                                                                            </button>
                                                                             </form>
 
                                                                             <button style="margin-top: 2px;"

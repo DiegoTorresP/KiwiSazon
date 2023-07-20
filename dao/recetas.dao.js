@@ -11,7 +11,7 @@ class RecetaDAO{
           throw new Error('Error al crear receta');
         }
       }
-
+      
 
 }
 
