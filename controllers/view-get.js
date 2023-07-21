@@ -1,7 +1,9 @@
 // GET - ROL USER
 exports.home = (async (req, res) => {
   try {
-    res.render('home/index', { title: 'Fomulario', variableNoti: global.notificacion, banderanoti: global.banderanoti });
+    const recetasData = await Receta.find({});
+
+    res.render('home/index', { title: 'Fomulario', recetas: recetasData, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -34,6 +36,29 @@ exports.recetas = ((req, res) => {
     res.status(404).render("error/error", { status: error });
   }
 });
+
+// exports.recetasindex = ((req, res) => {
+//   try {
+//     res.render('Recipes/recetas', {  platilloNombre: req.platilloNombre, imagen: global.imagen, dificultad: global.dificultad, tiempo: global.tiempo, dificultad: global.dificultad});
+//   } catch (error) {
+//     res.status(404).render("error/error", { status: error });
+//   }
+// });
+
+exports.recetaindex = async (req, res) => {
+  try {
+    // Obtenemos los campos específicos que queremos de las recetas de la base de datos
+    const recetasData = await Receta.find({});
+
+    // Renderizamos la vista Recipes/recetas.ejs y pasamos los datos de las recetas
+    res.render('Recipes/recetas', { recetas: recetasData });
+  } catch (error) {
+    console.log(error);
+    res.status(404).render("error/error", { status: error });
+  }
+};
+
+
 exports.chef = ((req, res) => {
   try {
     res.render('Recipes/chef', { loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
@@ -41,8 +66,6 @@ exports.chef = ((req, res) => {
     res.status(404).render("error/error", { status: error });
   }
 });
-
-
 
 // GET - ROL ADMIN
 

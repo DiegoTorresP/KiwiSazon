@@ -1,0 +1,31 @@
+<main>
+    <h2 style="text-align: center; margin-top: 20px; margin-block-end: 20px;">¡Descubre tu Sazón!</h2>
+    <div class="container-fluid">
+        <% for (let i = 0; i < recetas.length; i+=4) { %>
+            <div class="row">
+                <% for (let j = i; j < Math.min(i+4, recetas.length); j++) { %>
+                    <div class="col-md-3 mb-4">
+                        <div class="card" style="background-color: #E6FCF2;">
+                            <div class="card-body">
+                                <% if (recetas[j].imagen == null) { %>
+                                    <img src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" alt=""
+                                        class="img-fluid rounded-circle" style="height: 250px; width: 250px; margin-left: auto; margin-right: auto; margin-block-end: 15px;">
+                                <% } else { %>
+                                    <img src="<%= recetas[j].imagen %>" alt="" class="img-fluid rounded-circle"
+                                        style="height: 250px; width: 250px; margin-left: auto; margin-right: auto; margin-block-end: 15px;">
+                                <% } %>
+                                <h5 class="card-title"><%= recetas[j].platilloNombre %></h5>
+                                <p class="card-text">Dificultad: <%= recetas[j].dificultad %></p>
+                                <p class="card-text">Tiempo: <%= recetas[j].tiempo %></p>
+                                <p class="card-text">Calificacion: <%= recetas[j].calificacion %></p>
+                            </div>
+                            <button style="margin-top: 4px; margin-left: auto; margin-right: auto; margin-block-end: 15px;" type="button" class="btn-info btn-sm btn-rounded w-50" data-bs-target="#myModal<%= recetas[j]._id %>">
+                                <i class="fas ">Detalles</i>
+                            </button>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+        <% } %>
+    </div>
+</main>
