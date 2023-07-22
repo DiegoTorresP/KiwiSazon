@@ -2,15 +2,16 @@
 exports.home = (async (req, res) => {
   try {
     const recetasData = await Receta.find({});
-
+    
     res.render('home/index', { title: 'Fomulario', recetas: recetasData, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
 });
-exports.homeLogin = ((req, res) => {
+exports.homeLogin = (async(req, res) => {
   try {
-    res.render('home/index', { title: 'Fomulario', loginUser: req.userId });
+    const recetasData = await Receta.find({});
+    res.render('home/index', { title: 'Fomulario',recetas: recetasData, loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -29,7 +30,7 @@ exports.loginGet = ((req, res) => {
     res.status(404).render("error/error", { status: error });
   }
 });
-exports.recetas = ((req, res) => {
+exports.recetasHome = ((req, res) => {
   try {
     res.render('Recipes/allRecipes', { loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
@@ -71,6 +72,7 @@ exports.chef = ((req, res) => {
 
 const User = require("../models/users")
 const Receta = require("../models/recetas");
+const { async } = require("rxjs");
 
 exports.adminHome = (async (req, res) => {
   try {
