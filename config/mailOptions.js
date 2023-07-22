@@ -306,8 +306,7 @@ const sendEmail = (recipient) => {
                                                                               <p
                                                                                   style="margin: 0; font-size: 16px; text-align: center; mso-line-height-alt: 19.2px;">
                                                                                   <span
-                                                                                      style="font-size:30px;color:#2b303a;"><strong>Verify
-                                                                                          Your Email Account</strong></span>
+                                                                                      style="font-size:30px;color:#2b303a;"><strong>¡Gracias por registrarse en Kiwisazon!</strong></span>
                                                                               </p>
                                                                           </div>
                                                                       </div>
@@ -327,8 +326,7 @@ const sendEmail = (recipient) => {
                                                                               <p
                                                                                   style="margin: 0; font-size: 14px; text-align: center; mso-line-height-alt: 22.5px;">
                                                                                   <span style="color:#808389;font-size:15px;">
-                                                                                      Gracias por registrarte en BarrArt. Para verificar su correo electrónico y activar su cuenta.
-                                                                                      Si no ha solicitado este registro, ignore este correo electrónico.
+                                                                                      Gracias por registrarte en KiwiSazon. Muchas gracias por registrarte en este sitio web.
                                                                                   </span></p>
                                                                           </div>
                                                                       </div>
@@ -348,8 +346,7 @@ const sendEmail = (recipient) => {
                                                                               style="text-decoration:none;display:inline-block;color:#ffffff;background-color:#1aa19c;border-radius:60px;width:auto;border-top:0px solid transparent;font-weight:undefined;border-right:0px solid transparent;border-bottom:0px solid transparent;border-left:0px solid transparent;padding-top:15px;padding-bottom:15px;font-family:Montserrat, Trebuchet MS, Lucida Grande, Lucida Sans Unicode, Lucida Sans, Tahoma, sans-serif;font-size:16px;text-align:center;mso-border-alt:none;word-break:keep-all;cursor: pointer;">
                                                                               <span
                                                                                   style="padding-left:30px;padding-right:30px;font-size:16px;display:inline-block;letter-spacing:normal;"><span
-                                                                                      style="margin: 0; word-break: break-word; line-height: 32px;"><strong>Confirm
-                                                                                          Your Email</strong></span></span>
+                                                                                      style="margin: 0; word-break: break-word; line-height: 32px;"><strong>Confirma tu email</strong></span></span>
                                                                           </a>
                                                                           <!--[if mso]></center></v:textbox></v:roundrect><![endif]-->
                                                                       </div>
