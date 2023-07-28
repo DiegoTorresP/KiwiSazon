@@ -3,11 +3,43 @@ const fs = require("fs");
 const User = require("../models/users")
 const jwt = require('jsonwebtoken');
 const UserDao = require('../dao/login.dao');
+var admin = require("firebase-admin");
+const nodemailer = require('nodemailer');
+const bcrypt = require('bcrypt');
+
+const { sendEmail } = require('../config/mailOptions');
 
 const generateToken = (userId) => {
   const token = jwt.sign({ userId }, 'secreto', { expiresIn: '1h' });
   return token;
 };
+
+//Funcion para guardar imagenes a firebase
+async function guardarImagenEnFirebase(imagen) {
+  var bucket = admin.storage().bucket();
+  // Lee el archivo de imagen
+  const archivo = fs.readFileSync(imagen.path);
+
+  // Crea una referencia al archivo en Firebase Storage
+  const rutaArchivo = `users/${Math.round(Math.random() * 9999) +imagen.originalname}`;
+  const archivoRef = bucket.file(rutaArchivo);
+
+  // Sube el archivo a Firebase Storage
+  await archivoRef.save(archivo, {
+    metadata: {
+      contentType: imagen.mimetype
+    }
+  });
+
+  // Obtiene la URL de descarga del archivo
+  const url = await archivoRef.getSignedUrl({
+    action: 'read',
+    expires: '03-01-2500' // Cambia la fecha de vencimiento según tus necesidades
+  });
+
+  // Devuelve la URL de descarga
+  return url;
+}
 
 class UserController {
   constructor() {
@@ -16,31 +48,41 @@ class UserController {
   async registroUser(req, res) {
     try {
 
+          // Generar un salt (valor aleatorio utilizado para aumentar la seguridad)
+      const saltRounds = 10;
+      const salt = await bcrypt.genSalt(saltRounds);
+
+      // Encriptar la contraseña con el salt
+      const hashedPassword = await bcrypt.hash(req.body.password, salt);
+
       const userObj = new User({
         username: req.body.username,
-        password: req.body.password,
+        password: hashedPassword,
         nombre: req.body.nombre,
         apellido: req.body.apellido,
         email: req.body.email,
         telefono: req.body.telefono
       })
 
-      let file;
       try {
-        file = path.join("uploads/users/" + req.file.filename);
-        console.log(file)
-        userObj.image = {
-          data: fs.readFileSync(file),
-          contentType: "image/png",
-        };
-
+              
+        //Mandamos a llamar la funcion para guardar la imagen en firebase
+        // y le pasamos como parametros la imgen del request body
+        const url = await guardarImagenEnFirebase(req.file);
+        userObj.image = url[0]
+        
       } catch (e) {
         console.log(e)
         userObj.image = null;
       }
-
       const newUser = await this.userDao.createUser(userObj);
 
+      if (newUser !== null && newUser !== undefined) {
+        console.log("Correo enviado")
+        await sendEmail(userObj.email);
+      }else{
+        return res.status(404).render("error/error", { status: "ERROR 404" })
+      }
       res.redirect('/login')
     } catch (error) {
       console.log(error)
@@ -50,18 +92,20 @@ class UserController {
 
   async login(req, res) {
     try {
-      const { username, password } = req.body;
-
+      
       // Obtener el usuario por nombre de usuario
+      const { username, password } = req.body;
+      // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
       const user = await this.userDao.getUserByUsername(username);
+      const passwordMatch = await bcrypt.compare(password, user.password);
+      
       if (!user) {
         console.log("Error el usuario no existe")
         return res.redirect("/login")
       }
 
-      // Verificar la contraseña
-      if (user.password !== password) {
-        console.log("Error contraceña incorrecta")
+      if (!passwordMatch) {
+        console.log("Error contraceña incorrecta bycript")
         return res.redirect("/login")
       }
 

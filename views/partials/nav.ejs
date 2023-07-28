@@ -17,7 +17,7 @@
   }
 </style>
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light navegador">
   <!-- Container wrapper -->
   <div class="container-fluid">
     <!-- Toggle button -->
@@ -32,17 +32,17 @@
       <% if(loginUser){ %>
         <% if(loginUser.rol == "user"){ %>
           <a class="navbar-brand mt-2 mt-lg-0" href="/home">
-            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+            <img src="/img/logo2.png" height="30" alt="MDB Logo" loading="lazy" />
           </a>
         <% } else { %>
           <a class="navbar-brand mt-2 mt-lg-0" href="/adminHome">
-            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+            <img src="/img/logo2.png" height="30" alt="MDB Logo" loading="lazy" />
           </a>
         <% } %>
 
         <% }else{ %>
           <a class="navbar-brand mt-2 mt-lg-0" href="/">
-            <img src="/img/logo2.png" height="40" alt="MDB Logo" loading="lazy" />
+            <img src="/img/logo2.png" height="30" alt="MDB Logo" loading="lazy" />
           </a>
           <% } %>
           <!-- Left links -->
@@ -60,6 +60,9 @@
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                   <a class="nav-link" href="/adminHome">Dashboard</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/adminRecetas">Validar recetas</a>
                 </li>
               </ul>
             <% } %>
@@ -88,18 +91,19 @@
           role="button" data-mdb-toggle="dropdown" aria-expanded="false">
       <!-- Navbar brand -->
       <% if(loginUser){ %>
-        <% var photourl
-        try{
-        photourl=loginUser.photo||`data:image/${loginUser.image.contentType};base64,${loginUser.image.data.toString('base64')}` }
-        catch(e){
-            photourl=`https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png`}%>
 
-          <img style="margin-left: 0.5rem;" src="<%= photourl%>" class="rounded-circle" height="35" alt="" width="35"
-            loading="lazy" alt="Not Found" />
+          <% if(loginUser.image==null) { %>
+            <img
+              src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+              class="rounded-circle" height="35" alt="Black and White Portrait of a Man" loading="lazy" />
+            <% }else{ %>
+              <img style="margin-left: 0.5rem;" src="<%= loginUser.image%>" class="rounded-circle" height="45" alt=""
+                width="45" loading="lazy" alt="Not Found" />
+              <% } %>
         <% }else{ %>
           <img
             src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-            class="rounded-circle" height="25" alt="Black and White Portrait of a Man" loading="lazy" />
+            class="rounded-circle" height="35" alt="Black and White Portrait of a Man" loading="lazy" />
           <% } %>
         </a>
         <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdownMenuAvatar">
@@ -119,6 +123,9 @@
               </a>
             </li>
 
+            <li>
+              <a class="dropdown-item" href="/misRecetas">Mis Recetas</a>
+            </li>
             <li>
               <a class="dropdown-item" href="/logout">Cerrar Sesion</a>
             </li>

@@ -1,6 +1,6 @@
 const User = require("../models/users")
 const UserDao = require('../dao/admin.dao');
-const { Observable, Subject } = require('rxjs');
+const { Observable, Subject, async } = require('rxjs');
 const userStatusSubject = require('../public/js/notification');
 
 class UserController {
@@ -74,8 +74,41 @@ class UserController {
             res.status(404).render("error/error", { status: error });   
         }
     }
-
     
+    aprobarReceta = async(req, res) => {
+        const { id } = req.params;
+    
+        try {
+            const receta = await this.userDao.consultaRecetas(id);
+            if (!receta) {
+                return res.status(404).render("error/error", { status: "receta no encontrada" });
+            }
+            await this.userDao.aprobarReceta(id);
+
+        res.redirect('/adminRecetas')
+        } catch (error) {
+            console.log(error)
+            res.status(404).render("error/error", { status: error }); 
+        }
+    };
+
+    rechazarReceta = async(req, res) => {
+        console.log(req.body)
+        const { id } = req.params;
+        const comentario = req.body.rechazo;
+        try {
+            const receta = await this.userDao.consultaRecetas(id);
+            if (!receta) {
+                return res.status(404).render("error/error", { status: "receta no encontrada" });
+            }
+            await this.userDao.rechazarReceta(id,comentario);
+
+            res.redirect('/adminRecetas')
+        } catch (error) {
+            console.log(error)
+            res.status(404).render("error/error", { status: error }); 
+        }
+    };
 }
 
 module.exports = UserController;

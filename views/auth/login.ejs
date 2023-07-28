@@ -3,7 +3,8 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <%- include('../partials/nav') %>
-<body>
+<%- include('../error/login') %>
+<body style="background-color: #fefaeb;">
     <section class="text-center text-lg-start">
       <style>
         .cascading-right {
@@ -25,24 +26,24 @@
               ">
             <div class="card-body p-4 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Inicia Sesión</h2>
-              <form action="/login" method="post" >
+              <form action="/login" method="post" id="miFormulario">
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <!-- Email input -->
                 <div class="form-floating mb-4">
-                  <input type="text" id="form3Example3" name="username" id="username" class="form-control" placeholder="" required/>
+                  <input type="text"  name="username" id="username" class="form-control" placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.username %><%}%>" />
                   <label class="form-label" for="form3Example3">Username</label>
                   <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
                 </div>
     
                 <!-- Password input -->
                 <div class="form-floating mb-4">
-                  <input type="password" id="form3Example4" name="password" id="password" class="form-control"placeholder="" required/>
+                  <input type="password"  name="password" id="password" class="form-control"placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.password %><%}%>" />
                   <label class="form-label" for="form3Example4">Constraseña</label>
                   <div class="invalid-feedback" id="errorContra" style="display: none;">El campo Contraseña es requerido</div>
                 </div>
     
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4" onclick="return submitUserForm();">
+                <button type="submit" class="btn btn-primary btn-block mb-4" >
                   Ingresar
                 </button>
     
@@ -80,8 +81,9 @@
     <!-- Jumbotron -->
     </section>
 </body>
+
 <%- include('../partials/footer') %>
-<script src="/js/login.js"></script>
+<script src="/js/login.js" ></script>
 
 
 

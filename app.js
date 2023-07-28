@@ -4,31 +4,38 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const session = require('express-session');
-var admin = require('./routes/admin')
+var adminR = require('./routes/admin')
 var auth = require('./routes/auth');
-const userDao = require('./dao/login.dao')
-var usersRouter = require('./routes/users');
+var userR = require('./routes/users');
+const userDao = require('./dao/login.dao');
+const recetaDao = require('./dao/recetas.dao');
+
 const db = require("./config/DBConnection");
+const firebaseDB = require("./config/FirebaseConnection");
 const suscriptor = require("./public/js/notification");
 const { error } = require('console');
 const { Subject } = require('rxjs');
 const flash = require('express-flash');
-
 const cron = require('node-cron');
 const usere = new userDao();
+const receta = new recetaDao();
+
 cron.schedule('* * * * * *', async () => {
-    console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
+    //console.log('Ejecutando búsqueda y procesamiento de notificaciones...');
     const noti = await usere.getUserNotiByUsername(global.username);
     if(noti != global.notificacion){
       global.banderanoti = true
     }else{
       global.banderanoti = false
     }
-    console.log(noti);
+    //console.log(noti);
   });
 
 var app = express();
 db.connect();
+firebaseDB.connect();
+
+
 suscriptor.asObservable();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -50,8 +57,9 @@ app.use((req, res, next) => {
   next();
 });
 app.use(auth);
-app.use(admin);
-app.use(usersRouter);
+app.use(adminR);
+app.use(userR);
+
 
 app.use(
   session({
@@ -60,6 +68,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+
 // Configura el middleware de flash messages
 app.use(flash());
 // catch 404 and forward to error handler
@@ -79,4 +89,4 @@ app.use(function(err, req, res, next) {
   console.log(err)
 });
 
-module.exports = app;
+module.exports =  app;
