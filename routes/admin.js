@@ -20,6 +20,6 @@ router.get('/adminRecetas', authenticateToken, isAdmin, view.recetas);
 
 router.post('/admin/:id/aprobar', authenticateToken, isAdmin, userController.aprobarReceta);
 
-router.post('/admin/:id/denegar', authenticateToken, isAdmin, userController.rechazarReceta);
+router.post('/admin/:id/denegar', authenticateToken, isAdmin,userController.rechazarReceta);
 
 module.exports = router;

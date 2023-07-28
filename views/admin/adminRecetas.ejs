@@ -64,14 +64,14 @@
                                                     <td>
                                                         <span style="background-color: yellow;"
                                                             class="badge badge-warning rounded-pill d-inline">Receta en
-                                                            revision</span>
+                                                            Revisión</span>
                                                     </td>
                                                     <% } %>
                                                         <% if (item.isAprovado==1) { %>
                                                             <td>
                                                                 <span style="background-color: green;"
                                                                     class="badge badge-success rounded-pill d-inline">Receta
-                                                                    aprovada</span>
+                                                                    Aprobada</span>
                                                             </td>
                                                             <% } %>
 
@@ -93,6 +93,7 @@
                                                                                 <form method="POST"
                                                                                 action="/admin/<%= item._id %>/aprobar">
                                                                                 <button type="submit"
+                                                                                data-bs-placement="left" title="Aceptar"
                                                                                 <% if (item.isAprovado==1 ) {
                                                                                     %>disabled<% } %> 
                                                                                 <% if (item.isAprovado==0) { %> 
@@ -107,20 +108,23 @@
                                                                                     <% if (item.isAprovado==1) { %>
 
                                                                                     <% }else{ %>
-                                                                                        <form method="POST" style="margin-top: 2px;"
-                                                                                        action="/admin/<%= item._id %>/denegar">
+                                                                                        
                                                                                         <button type="submit" class="btn btn-danger btn-sm btn-rounded"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#ModalDenegar<%= item._id %>"
+                                                                                        data-bs-placement="left" title="Rechazar"
                                                                                         <% if (item.isAprovado==2 ) {
-                                                                                            %>disabled<% } %>>
-                                                                                            <i class="fa-solid fa-circle-xmark"></i></button>
-                                                                                        </form>   
+                                                                                            %>disabled<% } %>
+                                                                                            ><i class="fa-solid fa-circle-xmark"></i></button>
+                          
                                                                                     <% } %>
                                                                                         
                                                                                         <button style="margin-top: 2px;"
                                                                                         type="button"
                                                                                         class="btn btn-info btn-sm btn-rounded"
                                                                                 data-bs-toggle="modal"
-                                                                                data-bs-target="#myModal<%= item._id %>">
+                                                                                data-bs-target="#myModal<%= item._id %>"
+                                                                                data-bs-placement="left" title="Ver Detalles">
                                                                                 <i class="fa-solid fa-receipt"></i>
                                                                             </button>
                                                                         </td>
@@ -222,6 +226,36 @@
                                     <% }); %>
 
                             </div>
+                             <!-- Modal Denegar-->
+                             <% receta.forEach(function(item) { %>
+                             <div class="modal fade " id="ModalDenegar<%= item._id %>" tabindex="-1" aria-labelledby="exampleModalLabel"
+                             aria-hidden="true">
+                             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                
+                                 <form class="modal-content" action="/admin/<%= item._id %>/denegar" method="post" enctype="multipart/form-data">
+                                     <div class="modal-header">
+                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Comentarios de Rechazo</h1>
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                 aria-label="Close"></button>
+                                     </div>
+                                      <div class="modal-body">
+                                            <div class="row mb-4">
+                                                 <div class="form-floating">
+                                                     <textarea class="form-control" placeholder="Comentarios de rechazo" id="rechazo" name="rechazo" style="height: 100px"></textarea>
+                                                     <label for="tips">Comentarios de Rechazo</label>
+                                                 </div>
+                                             </div>
+                                     </div>
+                                      <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary" id="cerrarModal"
+                                                 data-bs-dismiss="modal">Cerrar</button>
+                                             <button type="submit" class="btn btn-primary">Guardar</button>
+                                      </div>
+                                 </form>
+                                 
+                             </div>
+                         </div>
+                         <% }); %>
                         </main>
                         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                         <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>

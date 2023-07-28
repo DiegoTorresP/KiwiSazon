@@ -84,9 +84,10 @@ class UsuarioDAO {
         
     };
 
-    async rechazarReceta(id) {
+    async rechazarReceta(id,comentario) {
         try {
-          const updateRecetas = await Receta.findByIdAndUpdate(id, { isAprovado: 2 });
+            console.log("comentario"+comentario)
+          const updateRecetas = await Receta.findByIdAndUpdate(id, { isAprovado: 2, comentariosRevision:comentario });
           return updateRecetas;
           
         } catch (error) {

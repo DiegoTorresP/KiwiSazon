@@ -52,7 +52,10 @@ const recetaSchema =mongoose.Schema({
     date: { type: Date,
             require: true,
             default: Date.now()
-        }
+        },
+    comentariosRevision:{
+        type: String
+    }
 });
 
 const Receta= mongoose.model("recetas",recetaSchema)

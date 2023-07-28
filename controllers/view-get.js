@@ -68,6 +68,16 @@ exports.chef = ((req, res) => {
   }
 });
 
+exports.misrecetas = (async (req, res) => {
+  try {
+    const misrecetas = await Receta.find({user:req.userId}).populate('user');
+    console.log(misrecetas)
+    res.render('user/misrecetas', { loginUser: req.userId, misrecetas: misrecetas, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti });
+  } catch (error) {
+    res.status(404).render("error/error", { status: error });
+  }
+});
+
 // GET - ROL ADMIN
 
 const User = require("../models/users")
@@ -83,14 +93,7 @@ exports.adminHome = (async (req, res) => {
   }
 });
 
-exports.userRecetas = (async (req, res) => {
-  try {
 
-    res.render('user/misrecetas', { loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
-  } catch (error) {
-    res.status(404).render("error/error", { status: error });
-  }
-});
 
 exports.recetas = (async (req, res) => {
   try {

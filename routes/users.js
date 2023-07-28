@@ -25,8 +25,8 @@ router.get('/users', function(req, res, next) {
 });
 
 /* GET users listing. */
-router.get('/misRecetas', authenticateToken , view.userRecetas);
+router.get('/misRecetas', authenticateToken , view.misrecetas);
 
 router.post('/users/crearReceta',authenticateToken , upload.single("image"), recetaController.crearReceta.bind(recetaController));
-
+router.post('/users/editarReceta',authenticateToken , upload.single("image"), recetaController.editarReceta.bind(recetaController));
 module.exports = router;
