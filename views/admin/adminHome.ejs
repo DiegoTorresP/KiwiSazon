@@ -80,20 +80,21 @@
                                                                     <td>Administrador</td>
                                                                     <% } %>
 
-                                                                        <td>
-                                                                            <form method="POST"
-                                                                                action="/admin/<%= user._id %>/deactivate">
+                                                                        <td style="width: 15%;">
+                                                                            <div class="d-flex flex-wrap" >
+                                                                                <form method="POST"
+                                                                                action="/admin/<%= user._id %>/deactivate" class="p-2">
                                                                                 <button type="submit" <% if
                                                                                     (!user.isActive) { %>class="btn
-                                                                                    btn-success btn-sm btn-rounded"<%
+                                                                                    btn-success btn-sm btn-rounded "  title="activar"<%
                                                                                         }else{ %> class="btn btn-danger
-                                                                                        btn-sm btn-rounded" <% } %>><i
+                                                                                        btn-sm btn-rounded"  title="Desactivar" <% } %>><i
                                                                                                 class="fa-solid fa-user-xmark"></i></button>
                                                                             </form>
-                                                                            <form style="margin-top: 2px;" method="POST"
-                                                                                action="/admin/<%= user._id %>/rol">
+                                                                            <form  method="POST"
+                                                                                action="/admin/<%= user._id %>/rol" class="p-2">
                                                                                 <button type="submit"
-                                                                                    class="btn btn-warning btn-sm btn-rounded"
+                                                                                    class="btn btn-warning btn-sm btn-rounded "  title="Cambiar Rol"
                                                                                     <% if (user.rol=="admin" ) {
                                                                                     %>disabled<% } %> > 
                                                                                     <% if (user.rol=="admin" ) { %> 
@@ -103,14 +104,20 @@
                                                                                                 <% } %>
                                                                                             </button>
                                                                             </form>
-
-                                                                            <button style="margin-top: 2px;"
-                                                                                type="button"
-                                                                                class="btn btn-info btn-sm btn-rounded"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#myModal<%= user._id %>">
-                                                                                <i class='fas fa-user-tag'></i>
-                                                                            </button>
+                                                                           <div class="p-2">
+                                                                            <button 
+                                                                            type="button"
+                                                                            class="btn btn-info btn-sm btn-rounded " 
+                                                                            data-bs-toggle="modal"
+                                                                            data-bs-target="#myModal<%= user._id %>"  title="Detalle">
+                                                                            <i class='fas fa-user-tag'></i>
+                                                                        </button>
+                                                                           </div>
+                                                                            
+                                 
+                                                                            
+                                                                            </div>
+                                                                            
                                                                         </td>
                                             </tr>
                                             <% }); %>

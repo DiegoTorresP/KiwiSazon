@@ -93,7 +93,14 @@ exports.adminHome = (async (req, res) => {
   }
 });
 
+exports.userRecetas = (async (req, res) => {
+  try {
 
+    res.render('user/misrecetas', { loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
+  } catch (error) {
+    res.status(404).render("error/error", { status: error });
+  }
+});
 
 exports.recetas = (async (req, res) => {
   try {
