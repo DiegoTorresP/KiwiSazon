@@ -1,8 +1,8 @@
 // GET - ROL USER
 exports.home = (async (req, res) => {
   try {
-    const recetasData = await Receta.find({});
-    
+    const recetasData = await Receta.find({isAprovado:1});
+  
     res.render('home/index', { title: 'Fomulario', recetas: recetasData, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
@@ -10,7 +10,8 @@ exports.home = (async (req, res) => {
 });
 exports.homeLogin = (async(req, res) => {
   try {
-    const recetasData = await Receta.find({});
+    const recetasData = await Receta.find({isAprovado:1});
+   
     res.render('home/index', { title: 'Fomulario',recetas: recetasData, loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
@@ -70,8 +71,9 @@ exports.chef = ((req, res) => {
 
 exports.misrecetas = (async (req, res) => {
   try {
-    const misRecetas = await Receta.find({user:req.userId});
-    res.render('user/misrecetas', { loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti,misRecetas:misRecetas });
+    const misrecetas = await Receta.find({user:req.userId}).populate('user');
+    console.log(misrecetas)
+    res.render('user/misrecetas', { loginUser: req.userId, misrecetas: misrecetas, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }

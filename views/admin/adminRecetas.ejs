@@ -87,46 +87,53 @@
                                                                             <%= getFechaFormateada(item.date) %>
                                                                         </td>
 
-                                                                        <td>
-                                                                            <% if (item.isAprovado==2) { %>
-                                                                                <% }else{ %>
-                                                                                <form method="POST"
-                                                                                action="/admin/<%= item._id %>/aprobar">
-                                                                                <button type="submit"
-                                                                                data-bs-placement="left" title="Aceptar"
-                                                                                <% if (item.isAprovado==1 ) {
-                                                                                    %>disabled<% } %> 
-                                                                                <% if (item.isAprovado==0) { %> 
-                                                                                    class="btn btn-warning btn-sm btn-rounded" 
-                                                                                    <%}%>
-                                                                                    <% if (item.isAprovado==1) {   %> 
-                                                                                        class="btn btn-success btn-sm btn-rounded"
-                                                                                        <% } %>>
-                                                                                        <i class="fa-solid fa-check"></i></button>
-                                                                                    </form>
-                                                                                    <% } %>
-                                                                                    <% if (item.isAprovado==1) { %>
-
+                                                                        <td style="width: 15%;">
+                                                                            <div class="d-flex flex-wrap" >
+                                                                                <% if (item.isAprovado==2) { %>
                                                                                     <% }else{ %>
-                                                                                        
-                                                                                        <button type="submit" class="btn btn-danger btn-sm btn-rounded"
+                                                                                    <form method="POST"
+                                                                                    action="/admin/<%= item._id %>/aprobar" class="p-2">
+                                                                                    <button type="submit" 
+                                                                                    data-bs-placement="left" title="Aceptar"
+                                                                                    <% if (item.isAprovado==1 ) {
+                                                                                        %>disabled<% } %> 
+                                                                                    <% if (item.isAprovado==0) { %> 
+                                                                                        class="btn btn-warning btn-sm btn-rounded" 
+                                                                                        <%}%>
+                                                                                        <% if (item.isAprovado==1) {   %> 
+                                                                                            class="btn btn-success btn-sm btn-rounded"
+                                                                                            <% } %>>
+                                                                                            <i class="fa-solid fa-check"></i></button>
+                                                                                        </form >
+                                                                                        <% } %>
+                                                                                        <% if (item.isAprovado==1) { %>
+    
+                                                                                        <% }else{ %>
+                                                                                            <div class="p-2">
+                                                                                                <button type="submit" class="btn btn-danger btn-sm btn-rounded"
+                                                                                                data-bs-toggle="modal" 
+                                                                                                data-bs-target="#ModalDenegar<%= item._id %>"
+                                                                                                data-bs-placement="left" title="Rechazar"
+                                                                                                <% if (item.isAprovado==2 ) {
+                                                                                                    %>disabled<% } %>
+                                                                                                    ><i class="fa-solid fa-circle-xmark"></i></button>
+                                                                                            </div>
+                                                                                            
+                              
+                                                                                        <% } %>
+                                                                                            <div class="p-2" >
+                                                                                                <button style="margin-top: 2px;"
+                                                                                                type="button"
+                                                                                                class="btn btn-info btn-sm btn-rounded"
                                                                                         data-bs-toggle="modal"
-                                                                                        data-bs-target="#ModalDenegar<%= item._id %>"
-                                                                                        data-bs-placement="left" title="Rechazar"
-                                                                                        <% if (item.isAprovado==2 ) {
-                                                                                            %>disabled<% } %>
-                                                                                            ><i class="fa-solid fa-circle-xmark"></i></button>
-                          
-                                                                                    <% } %>
-                                                                                        
-                                                                                        <button style="margin-top: 2px;"
-                                                                                        type="button"
-                                                                                        class="btn btn-info btn-sm btn-rounded"
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#myModal<%= item._id %>"
-                                                                                data-bs-placement="left" title="Ver Detalles">
-                                                                                <i class="fa-solid fa-receipt"></i>
-                                                                            </button>
+                                                                                        data-bs-target="#myModal<%= item._id %>"
+                                                                                        data-bs-placement="left" title="Ver Detalles">
+                                                                                        <i class="fa-solid fa-receipt"></i>
+                                                                                    </button>
+                                                                                            </div>
+                                                                                            
+                                                                            </div>
+                                                                           
                                                                         </td>
                                             </tr>
                                             <% }); %>
