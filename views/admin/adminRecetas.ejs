@@ -232,7 +232,7 @@
                              aria-hidden="true">
                              <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                                 
-                                 <form class="modal-content" action="/admin/<%= item._id %>/denegar" method="post" enctype="multipart/form-data">
+                                 <form class="modal-content" action="/admin/<%= item._id %>/denegar" method="post">
                                      <div class="modal-header">
                                              <h1 class="modal-title fs-5" id="exampleModalLabel">Comentarios de Rechazo</h1>
                                              <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -241,7 +241,7 @@
                                       <div class="modal-body">
                                             <div class="row mb-4">
                                                  <div class="form-floating">
-                                                     <textarea class="form-control" placeholder="Comentarios de rechazo" id="rechazo" name="rechazo" style="height: 100px"></textarea>
+                                                     <textarea class="form-control" placeholder="Comentarios de rechazo" name="comentariosRevision" style="height: 100px"></textarea>
                                                      <label for="tips">Comentarios de Rechazo</label>
                                                  </div>
                                              </div>

@@ -95,7 +95,8 @@ class UserController {
     rechazarReceta = async(req, res) => {
         console.log(req.body)
         const { id } = req.params;
-        const comentario = req.body.rechazo;
+        const comentario = req.body.comentariosRevision;
+        console.log(comentario)
         try {
             const receta = await this.userDao.consultaRecetas(id);
             if (!receta) {
