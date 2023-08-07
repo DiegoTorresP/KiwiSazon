@@ -13,7 +13,7 @@ class RecetaDAO{
           throw new Error('Error al crear receta');
         }
       }
-      async aprobarReceta(id) {
+    async aprobarReceta(id) {
         try {
           const updatedRecetas = await Receta.findByIdAndUpdate(id, { isAprovado: 1 });
           return updatedRecetas;
@@ -51,6 +51,23 @@ class RecetaDAO{
         }
       } 
 
+      async getRecetaByID(id) {
+        try {
+          const Receta = await Receta.findById(id)
+          return Receta;
+        } catch (error) {
+            throw new Error('No se pudo encontrar esta receta');
+        }
+      };
+      async agregarComentarioReceta(id) {
+        try {
+          const Receta = await Receta.findById(id);
+          return Receta;
+          
+        } catch (error) {
+            throw new Error('No se pudo encontrar esta receta');
+        }
+      };
 }
 
 module.exports = RecetaDAO;

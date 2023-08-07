@@ -55,8 +55,6 @@ router.post('/login', (req, res, next) => {
   userController.login(req, res);
 });
 
-router.get('/recetas', authenticateToken ,UController.recetasHome)
-
 router.get('/chef', authenticateToken ,UController.chef)
 
 router.get('/home', authenticateToken ,UController.homeLogin)

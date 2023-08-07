@@ -55,7 +55,13 @@ const recetaSchema =mongoose.Schema({
         },
     comentariosRevision:{
         type: String
-    }
+    },
+    comentarios:[
+        {
+            type:mongoose.ObjectId,
+            ref:"comentarios"
+        },
+    ]
 });
 
 const Receta= mongoose.model("recetas",recetaSchema)

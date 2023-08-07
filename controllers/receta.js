@@ -4,6 +4,8 @@ const Receta = require("../models/recetas");
 const RecetaDao = require('../dao/recetas.dao');
 var admin = require("firebase-admin");
 const Usuario = require("../models/users");
+const Comentario = require("../models/comentarios");
+const ComentarioDAO = require("../dao/comentario.dao");
 
 //Funcion para guardar imagenes a firebase
 async function guardarImagenEnFirebase(imagen) {
@@ -33,9 +35,12 @@ async function guardarImagenEnFirebase(imagen) {
 }
 
 class RecetaController {
+  
   constructor() {
     this.recetaDao = new RecetaDao();
+    this.comentarioDao = new ComentarioDAO();
   }
+
   async crearReceta(req, res) {
     try {
       const recetaObj = new Receta ({
@@ -111,6 +116,119 @@ class RecetaController {
       res.status(404).render("error/error", { status: error });
     }
   };
+
+  async recetasDetalle (req ,res){
+    const { id } = req.params;
+    try{
+      const receta = await Receta.findById(id).populate({
+        path: 'comentarios',
+        populate: {
+            path: 'user',
+            model: 'users'
+        }
+    });
+    receta.comentarios.sort((a, b) => b.date - a.date); 
+    if(req.userId){
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+      }else{
+        res.render("Recipes/detalleReceta", { variableNoti: global.notificacion,getFechaFormateada, banderanoti: global.banderanoti ,receta:receta});
+      }
+      
+    }catch (error){
+      console.log(error)
+      res.status(404).render("error/error", { status: error });
+    }
+  };
+
+  async comentarReceta (req ,res){
+
+    try{
+      const comentarioData = new Comentario({
+        user:req.userId,
+        receta: req.body.idReceta,
+        comentario:req.body.comentario
+      });
+      const receta = await Receta.findById(req.body.idReceta).populate({
+        path: 'comentarios',
+        populate: {
+            path: 'user',
+            model: 'users'
+        }
+    });
+      if (!receta) {
+        console.log('Receta no encontrada.');
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+      }
+      const comentario = await this.comentarioDao.createComentario(comentarioData);
+      
+        receta.comentarios.push(comentario);
+        receta.save();
+    
+        receta.comentarios.sort((a, b) => b.date - a.date); 
+      res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+      
+    }catch (error){
+      console.log(error)
+      res.status(404).render("error/error", { status: error });
+    }
+  };
+
+  async actualizarComentario (req ,res){
+
+    try{
+      const comentario = await Comentario.findById(req.body.idComentario);
+      if(comentario){
+        comentario.comentario = req.body.comentario;
+        const newComentario = await this.comentarioDao.editComentario(comentario);
+        if (!newComentario) {
+          const receta = await Receta.findById(comentario.receta._id).populate({
+            path: 'comentarios',
+            populate: {
+                path: 'user',
+                model: 'users'
+            }
+          });
+          console.log('Comentario no encontrado.');
+          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+        }
+        if(newComentario){
+          const receta = await Receta.findById(comentario.receta._id).populate({
+            path: 'comentarios',
+            populate: {
+                path: 'user',
+                model: 'users'
+            }
+          });
+          receta.comentarios.sort((a, b) => b.date - a.date); 
+          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+        }
+      }
+      
+      
+      
+     
+      
+    }catch (error){
+      console.log(error)
+      res.status(404).render("error/error", { status: error });
+    }
+  };
+
+}
+
+
+
+
+// Controlador o sección de script de la vista EJS
+function getFechaFormateada(fecha) {
+  const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
+
+  const fechaObj = new Date(fecha);
+  const dia = fechaObj.getDate();
+  const mes = meses[fechaObj.getMonth()];
+  const año = fechaObj.getFullYear();
+
+  return `${dia} de ${mes} del ${año}`;
 }
 
 module.exports = RecetaController;

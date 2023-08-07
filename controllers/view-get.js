@@ -31,14 +31,14 @@ exports.loginGet = ((req, res) => {
     res.status(404).render("error/error", { status: error });
   }
 });
-exports.recetasHome = ((req, res) => {
+exports.recetasHome = (async (req, res) => {
   try {
-    res.render('Recipes/allRecipes', { loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
+    const recetasData = await Receta.find({isAprovado:1});
+    res.render('Recipes/allRecipes', { recetas:recetasData,title: req.params.title,loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
 });
-
 // exports.recetasindex = ((req, res) => {
 //   try {
 //     res.render('Recipes/recetas', {  platilloNombre: req.platilloNombre, imagen: global.imagen, dificultad: global.dificultad, tiempo: global.tiempo, dificultad: global.dificultad});
