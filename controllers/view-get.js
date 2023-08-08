@@ -3,8 +3,9 @@ exports.home = (async (req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
     const notificaciones = await Notificaciones.find({user:req.userId , isRead :0})
+    const categorias = await Categoria.find({isActive:true});
 
-    res.render('home/index', { title: 'Fomulario', recetas: recetasData,getFechaFormateada, notificaciones:notificaciones });
+    res.render('home/index', { title: 'Fomulario', recetas: recetasData,getFechaFormateada,categorias:categorias, notificaciones:notificaciones });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -13,7 +14,10 @@ exports.homeLogin = (async(req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-    res.render('home/index', { title: 'Fomulario',recetas: recetasData,getFechaFormateada, loginUser: req.userId, notificaciones:notificaciones });
+    const categorias = await Categoria.find({isActive:true}).limit(3);
+   
+    res.render('home/index', { title: 'Fomulario',recetas: recetasData,categorias:categorias,getFechaFormateada, loginUser: req.userId, notificaciones:notificaciones });
+  
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -32,15 +36,19 @@ exports.loginGet = ((req, res) => {
     res.status(404).render("error/error", { status: error });
   }
 });
-exports.recetasHome = (async(req, res) => {
+
+exports.recetasHome = (async (req, res) => {
   try {
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-    res.render('Recipes/allRecipes', { loginUser: req.userId,getFechaFormateada,notificaciones:notificaciones});
+    const recetasData = await Receta.find({isAprovado:1});
+    
+    const categorias = await Categoria.find({isActive:true});
+    res.render('Recipes/allRecipes', { recetas:recetasData,title: req.params.title,categorias:categorias,loginUser: req.userId,getFechaFormateada,notificaciones:notificaciones});
+
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
 });
-
 // exports.recetasindex = ((req, res) => {
 //   try {
 //     res.render('Recipes/recetas', {  platilloNombre: req.platilloNombre, imagen: global.imagen, dificultad: global.dificultad, tiempo: global.tiempo, dificultad: global.dificultad});
@@ -76,11 +84,22 @@ exports.misrecetas = (async (req, res) => {
   try {
     const misrecetas = await Receta.find({user:req.userId}).populate('user');
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas, getFechaFormateada,notificaciones:notificaciones });
+    const categorias = await Categoria.find({isActive:true});
+    console.log(misrecetas)
+    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
 });
+
+exports.updatePass = (async (req, res) => {
+  try {
+    res.render('auth/actualizarContra', {loginUser: req.userId})
+  } catch (error) {
+    res.status(404).render("error/error", { status: error });
+  }
+});
+
 
 // GET - ROL ADMIN
 
@@ -88,6 +107,7 @@ const User = require("../models/users")
 const Receta = require("../models/recetas");
 const Notificaciones = require("../models/notificaciones")
 const { async } = require("rxjs");
+const Categoria = require("../models/categorias");
 
 exports.adminHome = (async (req, res) => {
   try {
@@ -119,6 +139,15 @@ exports.recetas = (async (req, res) => {
   }
 });
 
+exports.categorias = (async (req, res) => {
+  try {
+    const categorias = await Categoria.find({});
+    res.render('admin/adminCategorias', { loginUser: req.userId, categorias:categorias, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti })
+  } catch (error) {
+    console.log(error);
+    res.status(404).render("error/error", { status: error })
+  }
+});
 
 // Controlador o sección de script de la vista EJS
 function getFechaFormateada(fecha) {

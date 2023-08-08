@@ -65,7 +65,10 @@ const userSchema =mongoose.Schema({
     //         type:mongoose.ObjectId,
     //         ref:"orders"
     //     }
-    // ]      
+    // ]
+    tokenPass : {
+        type: Number
+    }     
 })
 
 const User= mongoose.model("users",userSchema)

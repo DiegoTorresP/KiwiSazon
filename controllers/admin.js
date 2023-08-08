@@ -1,7 +1,38 @@
 const User = require("../models/users")
+const Categoria = require("../models/categorias")
 const UserDao = require('../dao/admin.dao');
 const { Observable, Subject, async } = require('rxjs');
 const userStatusSubject = require('../public/js/notification');
+const path = require("path");
+const fs = require("fs");
+var admin = require("firebase-admin");
+
+//Funcion para guardar imagenes a firebase
+async function guardarImagenEnFirebase(imagen) {
+    var bucket = admin.storage().bucket();
+  // Lee el archivo de imagen
+  const archivo = fs.readFileSync(imagen.path);
+
+  // Crea una referencia al archivo en Firebase Storage
+  const rutaArchivo = `categorias/${Math.round(Math.random() * 9999) +imagen.originalname}`;
+  const archivoRef = bucket.file(rutaArchivo);
+
+  // Sube el archivo a Firebase Storage
+  await archivoRef.save(archivo, {
+    metadata: {
+      contentType: imagen.mimetype
+    }
+  });
+
+  // Obtiene la URL de descarga del archivo
+  const url = await archivoRef.getSignedUrl({
+    action: 'read',
+    expires: '03-01-2500' // Cambia la fecha de vencimiento según tus necesidades
+  });
+
+  // Devuelve la URL de descarga
+  return url;
+}
 
 class UserController {
     constructor() {
@@ -91,6 +122,92 @@ class UserController {
             res.status(404).render("error/error", { status: error }); 
         }
     };
+
+    crearCategoria = async (req,res)=>{
+        const newCategoria = new Categoria({
+            nombre:req.body.nombre.toUpperCase(),
+            descripcion: req.body.descripcion
+        });
+
+        try{
+            try {
+              
+                //Mandamos a llamar la funcion para guardar la imagen en firebase
+                // y le pasamos como parametros la imgen del request body
+                const url = await guardarImagenEnFirebase(req.file);
+                newCategoria.image = url[0]
+                
+            } catch (e) {
+                console.log(e)
+                newCategoria.image = null;
+            }
+            
+            await this.userDao.crearCategoria(newCategoria);
+            res.redirect('/adminCategorias')
+        }catch(errror){
+            res.status(404).render("error/error", { status: error });
+        }
+    };
+
+    deactivateCategoria = async (req, res) => {
+        const { cateId } = req.params;
+      
+        try {
+          const categoria = await this.userDao.catefindById(cateId);
+      
+          if (!categoria) {
+            return res.status(404).json({ error: 'Categoria no encontrado' });
+          }
+      
+          if (categoria.isActive) {
+            await this.userDao.desactivarCategoria(cateId);
+            //userStatusSubject.next({ userId, isActive: false }); // Notifica que el usuario se ha desactivado
+          } else {
+            await this.userDao.activarCategoria(cateId);
+            //userStatusSubject.next({ userId, isActive: true }); // Notifica que el usuario se ha activado
+          }
+      
+          res.redirect('/adminCategorias');
+        } catch (error) {
+          console.log(error);
+          res.status(404).render('error/error', { status: error });
+        }
+      };
+
+    editarCategoria = async(req,res)=>{
+        try {
+            const cateObjEdit = {
+              id : req.body.cateId,
+              nombre:req.body.nombre.toUpperCase(),
+              descripcion: req.body.descripcion
+            };
+            
+            if(req.file != null || req.file != undefined){
+                try {
+                    
+                    //Mandamos a llamar la funcion para guardar la imagen en firebase
+                    // y le pasamos como parametros la imgen del request body
+                    const url = await guardarImagenEnFirebase(req.file);
+                    cateObjEdit.image = url[0]
+                    
+                  } catch (e) {
+                    console.log(e)
+                    cateObjEdit.image = null;
+                  }
+            }else{
+                cateObjEdit.image=null;
+            }
+            
+            const editReceta = await this.userDao.editCategoria(cateObjEdit);
+            
+            //user.recetas.push(newReceta);
+            //user.save(); 
+            res.redirect('/adminCategorias');
+          } catch (error) {
+            console.log(error)
+            res.status(404).render("error/error", { status: error });
+          }
+    }
 }
 
 module.exports = UserController;

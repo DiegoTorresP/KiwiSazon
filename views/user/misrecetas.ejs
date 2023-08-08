@@ -530,10 +530,10 @@
                 <input type="text" name="recetaId" id="recetaId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly />
               </div>
               <% if (item.isAprovado==2) { %>
-                <div class="alert alert-warning" role="alert">
-                    <%= item.comentariosRevision%>
-                  </div>
-                <% } %>
+              <div class="alert alert-warning" role="alert">
+                <%= item.comentariosRevision%>
+              </div>
+              <% } %>
               <div class="form-floating mb-4">
                 <input type="text" name="platilloNombre" id="platilloNombre" class="form-control " placeholder=" " required value="<%= item.platilloNombre %>">
                 <label for="floatingInputGroup1">Nombre del Platillo</label>
@@ -636,12 +636,12 @@
                 <input type="text" name="recetaId" id="recetaId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly />
               </div>
               <% if (item.isAprovado==2) { %>
-                <div class="form-floating mb-4">
-                    <input type="text" name="comentariosRevision" id="comentariosRevision" class="form-control " readonly value="<%= item.comentariosRevision%>">
-                    <label for="floatingInputGroup1">Comentarios de la Administración</label>
-                    <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
-                  </div>
-                <% } %>
+              <div class="form-floating mb-4">
+                <input type="text" name="comentariosRevision" id="comentariosRevision" class="form-control " readonly value="<%= item.comentariosRevision%>">
+                <label for="floatingInputGroup1">Comentarios de la Administración</label>
+                <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
+              </div>
+              <% } %>
 
               <div class="form-floating mb-4">
                 <input type="text" name="platilloNombre" id="platilloNombre" class="form-control " placeholder=" " required value="<%= item.platilloNombre %>">
@@ -662,65 +662,102 @@
                   <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files" />
                 </div>
               </div>
-
               <div class="row mb-4">
                 <div class="form-floating col-sm-6">
                   <select id="categoria" name="categoria" class="form-select">
-                    <option value="google" <%= item.categoria === 'google' ? 'selected' : '' %>>Google</option>
-                    <option value="apple" <%= item.categoria === 'apple' ? 'selected' : '' %>>Apple</option>
-                    <option value="microsoft" <%= item.categoria === 'microsoft' ? 'selected' : '' %>>Microsoft</option>
-                    <option value="meta" <%= item.categoria === 'meta' ? 'selected' : '' %>>Meta</option>
-                    <option value="netflix" <%= item.categoria === 'netflix' ? 'selected' : '' %>>Netflix</option>
+                    <% categorias.forEach(function(cate) { %>
+                    <option value="<%= cate.nombre %>"><%= cate.nombre %></option>
+                    <% }); %>
                   </select>
-
                   <label for="categoria">Selecciona una Categoria</label>
                 </div>
                 <div class="form-floating col-sm-6">
                   <select id="dificultad" name="dificultad" class="form-select">
-                    <option value="Alta" <%= item.dificultad === 'Alta' ? 'selected' : '' %>>Alta</option>
-                    <option value="Media" <%= item.dificultad === 'Media' ? 'selected' : '' %>>Media</option>
-                    <option value="Baja" <%= item.dificultad === 'Baja' ? 'selected' : '' %>>Baja</option>
+                    <option value="Alta">Alta</option>
+                    <option value="Media">Media</option>
+                    <option value="Baja">Baja</option>
                   </select>
-
                   <label for="dificultad">Selecciona una Dificultad</label>
                 </div>
               </div>
               <div class="row mb-4">
                 <div class="form-floating">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"><%= item.ingredientes %></textarea>
+                  <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"></textarea>
                   <label for="ingredientes">Ingredientes</label>
                 </div>
               </div>
               <div class="row mb-4">
                 <div class="form-floating">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"><%= item.pasosSeguir %></textarea>
+                  <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"></textarea>
                   <label for="pasosSeguir">Pasos a Seguir</label>
                 </div>
               </div>
               <div class="row mb-4">
                 <div class="form-floating col-sm-6">
-                  <input type="text" name="tiempo" id="tiempo" class="form-control" value=" <%= item.tiempo %>" required />
+                  <input type="text" name="tiempo" id="tiempo" class="form-control" placeholder=" " required />
                   <label class="form-label" for="tiempo">Tiempo </label>
-                  <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
+                  <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido
+                  </div>
                 </div>
 
-                <div class="form-floating col-sm-6">
-                  <input type="number" name="porciones" id="porciones" class="form-control " value=<%= item.porciones %> required />
-                  <label class="form-label" for="porciones">Porciones</label>
-                  <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
+                <div class="row mb-4">
+                  <div class="form-floating col-sm-6">
+                    <select id="categoria" name="categoria" class="form-select">
+                      <option value="google" <%= item.categoria === 'google' ? 'selected' : '' %>>Google</option>
+                      <option value="apple" <%= item.categoria === 'apple' ? 'selected' : '' %>>Apple</option>
+                      <option value="microsoft" <%= item.categoria === 'microsoft' ? 'selected' : '' %>>Microsoft</option>
+                      <option value="meta" <%= item.categoria === 'meta' ? 'selected' : '' %>>Meta</option>
+                      <option value="netflix" <%= item.categoria === 'netflix' ? 'selected' : '' %>>Netflix</option>
+                    </select>
+
+                    <label for="categoria">Selecciona una Categoria</label>
+                  </div>
+                  <div class="form-floating col-sm-6">
+                    <select id="dificultad" name="dificultad" class="form-select">
+                      <option value="Alta" <%= item.dificultad === 'Alta' ? 'selected' : '' %>>Alta</option>
+                      <option value="Media" <%= item.dificultad === 'Media' ? 'selected' : '' %>>Media</option>
+                      <option value="Baja" <%= item.dificultad === 'Baja' ? 'selected' : '' %>>Baja</option>
+                    </select>
+
+                    <label for="dificultad">Selecciona una Dificultad</label>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"><%= item.ingredientes %></textarea>
+                    <label for="ingredientes">Ingredientes</label>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"><%= item.pasosSeguir %></textarea>
+                    <label for="pasosSeguir">Pasos a Seguir</label>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="form-floating col-sm-6">
+                    <input type="text" name="tiempo" id="tiempo" class="form-control" value=" <%= item.tiempo %>" required />
+                    <label class="form-label" for="tiempo">Tiempo </label>
+                    <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
+                  </div>
+
+                  <div class="form-floating col-sm-6">
+                    <input type="number" name="porciones" id="porciones" class="form-control " value=<%= item.porciones %> required />
+                    <label class="form-label" for="porciones">Porciones</label>
+                    <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
+                  </div>
+                </div>
+                <div class="row mb-4">
+                  <div class="form-floating">
+                    <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"><%= item.tips %></textarea>
+                    <label for="tips">Tips</label>
+                  </div>
                 </div>
               </div>
-              <div class="row mb-4">
-                <div class="form-floating">
-                  <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"><%= item.tips %></textarea>
-                  <label for="tips">Tips</label>
-                </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta" data-bs-dismiss="modal">Cerrar</button>
+                <button type="submit" class="btn btn-primary">Guardar</button>
               </div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta" data-bs-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
           </form>
 
         </div>
@@ -730,6 +767,136 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script src="/js/recetas.js"></script>
+
+</body>
+
+</html>
+<% if (item.isAprovado==1) { %>
+<span style="background-color: green;" class="badge badge-success rounded-pill d-inline">Receta
+  aprovada</span>
+
+<% } %>
+
+
+<% if (item.isAprovado==2) { %>
+<span style="background-color: red;" class="badge badge-danger rounded-pill d-inline">Receta
+  Rechazada</span>
+<% } %>
+</p>
+<!-- Agrega más detalles según tus necesidades -->
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+</div>
+</div>
+</div>
+</div>
+<% }); %>
+
+<!-- Modal Edit -->
+<% misrecetas.forEach(function(item) { %>
+<div class="modal fade " id="myModalEdit<%= item._id %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+    <form class="modal-content" action="/users/editarReceta" method="post" enctype="multipart/form-data">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Receta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+
+        <input type="text" name="idUser" id="idUser" class="form-control " style="display: none;" value="<%= loginUser._id%>" disabled />
+        <div class="form-floating mb-4">
+          <input type="text" name="recetaId" id="recetaId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly />
+        </div>
+        <div class="form-floating mb-4">
+          <input type="text" name="platilloNombre" id="platilloNombre" class="form-control " placeholder=" " required value="<%= item.platilloNombre %>">
+          <label for="floatingInputGroup1">Nombre del Platillo</label>
+          <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
+        </div>
+        <div class="mb-5 row">
+          <div class="col-sm-3">
+            <div class="image-port">
+              <% if(item.imagen==null) { %>
+              <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg" height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+              <% }else{ %>
+              <img src="<%= item.imagen %>" class="img-fluid rounded-pill" height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+              <% } %>
+            </div>
+          </div>
+          <div class="col-sm-9 mt-3">
+            <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files" />
+          </div>
+        </div>
+
+        <div class="row mb-4">
+          <div class="form-floating col-sm-6">
+            <select id="categoria" name="categoria" class="form-select">
+              <% categorias.forEach(function(cate) { %>
+              <option value="<%= cate.nombre %>" <%= item.categoria === cate.nombre ? 'selected' : '' %>><%= cate.nombre %></option>
+              <% }); %>
+            </select>
+
+            <label for="categoria">Selecciona una Categoria</label>
+          </div>
+          <div class="form-floating col-sm-6">
+            <select id="dificultad" name="dificultad" class="form-select">
+              <option value="Alta" <%= item.dificultad === 'Alta' ? 'selected' : '' %>>Alta</option>
+              <option value="Media" <%= item.dificultad === 'Media' ? 'selected' : '' %>>Media</option>
+              <option value="Baja" <%= item.dificultad === 'Baja' ? 'selected' : '' %>>Baja</option>
+            </select>
+
+            <label for="dificultad">Selecciona una Dificultad</label>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"><%= item.ingredientes %></textarea>
+            <label for="ingredientes">Ingredientes</label>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"><%= item.pasosSeguir %></textarea>
+            <label for="pasosSeguir">Pasos a Seguir</label>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="form-floating col-sm-6">
+            <input type="text" name="tiempo" id="tiempo" class="form-control" value=" <%= item.tiempo %>" required />
+            <label class="form-label" for="tiempo">Tiempo </label>
+            <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
+          </div>
+
+          <div class="form-floating col-sm-6">
+            <input type="number" name="porciones" id="porciones" class="form-control " value=<%= item.porciones %> required />
+            <label class="form-label" for="porciones">Porciones</label>
+            <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
+          </div>
+        </div>
+        <div class="row mb-4">
+          <div class="form-floating">
+            <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"><%= item.tips %></textarea>
+            <label for="tips">Tips</label>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+      </div>
+    </form>
+
+  </div>
+</div>
+<% }); %>
+<% }; %>
+
+
+</main>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+<script src="/js/recetas.js"></script>
 
 </body>
 

@@ -291,7 +291,7 @@ body.noti{
             <% if(loginUser.rol == "user"){ %>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                  <a class="nav-link" href="/recetas">Recetas</a>
+                  <a class="nav-link" href="/recetas/Todas las Recetas">Recetas</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" href="/chef">Chef</a>
@@ -305,12 +305,18 @@ body.noti{
                 <li class="nav-item">
                   <a class="nav-link" href="/adminRecetas">Validar recetas</a>
                 </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/adminCategorias">Categorias</a>
+                </li>
               </ul>
             <% } %>
             <% }else{ %>
               <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                   <a class="nav-link" href="#"></a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="/receta/Todas las Recetas">Recetas</a>
                 </li>
               </ul>
             <% } %>

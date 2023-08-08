@@ -1,0 +1,24 @@
+<%- include('../partials/head') %>
+
+<div class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card" style="width: 400px;">
+      <div class="card-body">
+        <h5 class="card-title">Restablecer Contraseña</h5>
+        <form action="/reset-password/" method="POST">
+          <div class="mb-3">
+            <label for="tokenPass" class="form-label">Escribe el código que se te proporcionó</label>
+            <input type="number" class="form-control" id="tokenPass" name="tokenPass" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Nueva Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <div class="mb-3">
+            <label for="confirmPassword" class="form-label">Confirmar Nueva Contraseña:</label>
+            <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+          </div>
+          <button type="submit" class="btn btn-primary">Restablecer Contraseña</button>
+        </form>
+      </div>
+    </div>
+  </div>

@@ -179,15 +179,58 @@
         border-radius: 10px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     }
+   
+    .category-card {
+      transition: transform 0.3s;
+    }
+    .category-card:hover {
+      transform: scale(1.05);
+    }
 </style>
 
 <main>
+    
 
-    <div class="col text-center">    
-        <h2 class="section-title px-5"><span class="px-lg-2">¡Descubre tu Sazón!</span></h2>
-    </div>
     <div class="container-fluid">
         <div class="row">
+              <div class="container mt-4">
+                <div class="col text-center">    
+                    <h2 class="section-title px-5"><span class="px-lg-2">Categorías Populares</span></h2>
+                </div>
+                <div class="row">
+                  <div class="col-md-4 mb-3">
+                    <div class="card category-card">
+                      <img src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" class="card-img-top" alt="Categoría 1">
+                      <div class="card-body">
+                        <h5 class="card-title">Categoría 1</h5>
+                        <p class="card-text">Explora recetas deliciosas en esta categoría.</p>
+                        <a href="#" class="btn btn-primary">Ver Recetas</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div class="card category-card">
+                      <img src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" class="card-img-top" alt="Categoría 2">
+                      <div class="card-body">
+                        <h5 class="card-title">Categoría 2</h5>
+                        <p class="card-text">Encuentra recetas únicas y deliciosas aquí.</p>
+                        <a href="#" class="btn btn-primary">Ver Recetas</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-4 mb-3">
+                    <div class="card category-card">
+                      <img src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" class="card-img-top" alt="Categoría 3">
+                      <div class="card-body">
+                        <h5 class="card-title">Categoría 3</h5>
+                        <p class="card-text">Inspírate con recetas tradicionales y modernas.</p>
+                        <a href="#" class="btn btn-primary">Ver Recetas</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
         <% recetas.forEach(item=> { %>
             <div class="col-sm-4 col-md-4 col-lg-3">
                 <div class="food-card">

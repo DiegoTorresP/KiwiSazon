@@ -8,6 +8,8 @@ const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
 
 const { sendEmail } = require('../config/mailOptions');
+const { sendEmailPass } = require('../config/mailResetPassword');
+const { use } = require("../config/transporter");
 
 const generateToken = (userId) => {
   const token = jwt.sign({ userId }, 'secreto', { expiresIn: '1h' });
@@ -80,9 +82,8 @@ class UserController {
       if (newUser !== null && newUser !== undefined) {
         console.log("Correo enviado")
         await sendEmail(userObj.email);
-      }else{
-        return res.status(404).render("error/error", { status: "ERROR 404" })
       }
+
       res.redirect('/login')
     } catch (error) {
       console.log(error)
@@ -96,13 +97,14 @@ class UserController {
       // Obtener el usuario por nombre de usuario
       const { username, password } = req.body;
       // Comparar la contraseña proporcionada con la contraseña almacenada en la base de datos
-      const user = await this.userDao.getUserByUsername(username);
-      const passwordMatch = await bcrypt.compare(password, user.password);
-      
+      const user = await this.userDao.getUserByUsername2(username);
+
       if (!user) {
         console.log("Error el usuario no existe")
         return res.redirect("/login")
       }
+
+      const passwordMatch = await bcrypt.compare(password, user.password);
 
       if (!passwordMatch) {
         console.log("Error contraceña incorrecta bycript")
@@ -125,14 +127,68 @@ class UserController {
 
     } catch (error) {
       console.log(error)
-      res.status(500).json({ error: 'Error al iniciar sesión' });
+      res.status(500).render("error/error", { status: 'Error al iniciar sesión' });
     }
   };
-
+  
   async cerrar(req, res) {
     res.clearCookie('token'); // Borrar la cookie del token
     res.redirect('/'); // Redirigir al inicio de sesión después del cierre de sesión
   };
+  
+  async accederUpdatePass(req, res){
+    const email = req.body.email;
+    try {
+      const code = Math.floor(100000 + Math.random() * 900000).toString();
+
+      const user = await this.userDao.obtenerEmail(email);
+      if (!user) {
+        console.log("Error usuario no encontrado")
+        return res.redirect("/login")
+      }
+
+      user.tokenPass = code
+      const data = await user.save()
+
+      if (user.tokenPass == code) {
+        await sendEmailPass(user.email, user.tokenPass);
+        console.log("Correo enviado")
+      }
+      const token = generateToken(user._id);
+      res.cookie('token', token);
+      res.redirect('/restableser-password')
+    } catch (error) {
+      console.log(error);
+      res.status(500).render("error/error", { status: 'Error al actualizar la contraseña' });
+    }
+  }
+
+  async updatePass(req, res){
+    const newPassword = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    const tokenPass = req.body.tokenPass;
+    try {
+      const user = req.userId; 
+      if (tokenPass != user.tokenPass) {
+        return res.status(400).render("error/error", { status: 'Código de restablecimiento incorrecto' });
+      }
+
+      if (newPassword !== confirmPassword) {
+        return res.status(400).render("error/error", { status: 'Las contraseñas no coinciden' });
+      }
+      
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+      user.tokenPass = undefined;
+      user.password = hashedPassword;
+      await user.save();
+      
+      res.clearCookie('token');
+      res.redirect('/login');
+    } catch (error) {
+      console.log(error);
+      res.status(500).render("error/error", { status: 'Error al actualizar la contraseña' });
+    }
+  }
 
 }
 
