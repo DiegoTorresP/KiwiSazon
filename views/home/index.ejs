@@ -86,38 +86,30 @@
         <div class="col text-center">    
             <h2 class="section-title px-5"><span class="px-lg-2">Categorías Populares</span></h2>
         </div>
-        <div class="row">
-          <div class="col-md-4 mb-3">
-            <div class="card category-card">
-              <img src="https://storage.googleapis.com/kiwisazonp.appspot.com/recetas/4725Chuleta.jpg?GoogleAccessId=firebase-adminsdk-b8gdk%40kiwisazonp.iam.gserviceaccount.com&Expires=16730344800&Signature=iUXlXyPGyf0%2BkIknPrrFzGmr43E6ak726OBR9E4H%2Bhm1v86hH%2B5%2Fx0FJt%2FaXHRYB06x2wVMPrEolRcsoV6a1%2FBWQP90GVO67eOfaA21RBm4Fyh5SkUm4S1V%2BkjIEbium7tPxPPn0zc1EkiJ2WBpaoO%2Fl04JQoM7dPAC3Xm4pOztseKMDQL1HN6NEcpwlYKPzGoLcruD0JZOS85i9%2FrZRomvXu9lcbRkjQhXb6XBbtVX05C2EjgHW3xguUiKdArMICvwM3VNdWjHu6fPfd5%2FPtMtAc51BabXuiYk8neOEUtRFEPLqgnoSOOj%2FiGyHWTs%2BBRPik93xiB%2FwM88FLWv1rA%3D%3D" class="card-img-top" alt="Categoría 1">
-              <div class="card-body">
-                <h5 class="card-title">Apple</h5>
-                <p class="card-text">Explora recetas deliciosas en esta categoría.</p>
-                <a href="<%= loginUser === undefined ? '/receta/apple' : '/recetas/apple' %>" class="btn btn-primary">Ver Recetas</a>
+        
+        <div class="row row-cols-1 row-cols-md-3">
+          <% categorias.forEach(cate => { %>
+            <div class="col mb-4">
+              <div class="card category-card">
+                <% if (cate.image == null) { %>
+                  <img src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" class="card-img-top category-image" alt="Categoría 1" />
+                <% } else { %>
+                  <img src="<%= cate.image %>" class="card-img-top category-image" alt="Categoría 1" />
+                <% } %>
+                <div class="card-body">
+                  <h5 class="card-title"><%= cate.nombre %></h5>
+                  <p class="card-text"><%= cate.descripcion %></p>
+                  <% if (loginUser === undefined) { %>
+                    <a href="/receta/<%= cate.nombre %>" class="btn btn-primary">Ver Recetas</a>
+                  <% } else { %>
+                    <a href="/recetas/<%= cate.nombre %>" class="btn btn-primary">Ver Recetas</a>
+                  <% } %>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="card category-card">
-              <img src="https://storage.googleapis.com/kiwisazonp.appspot.com/recetas/4725Chuleta.jpg?GoogleAccessId=firebase-adminsdk-b8gdk%40kiwisazonp.iam.gserviceaccount.com&Expires=16730344800&Signature=iUXlXyPGyf0%2BkIknPrrFzGmr43E6ak726OBR9E4H%2Bhm1v86hH%2B5%2Fx0FJt%2FaXHRYB06x2wVMPrEolRcsoV6a1%2FBWQP90GVO67eOfaA21RBm4Fyh5SkUm4S1V%2BkjIEbium7tPxPPn0zc1EkiJ2WBpaoO%2Fl04JQoM7dPAC3Xm4pOztseKMDQL1HN6NEcpwlYKPzGoLcruD0JZOS85i9%2FrZRomvXu9lcbRkjQhXb6XBbtVX05C2EjgHW3xguUiKdArMICvwM3VNdWjHu6fPfd5%2FPtMtAc51BabXuiYk8neOEUtRFEPLqgnoSOOj%2FiGyHWTs%2BBRPik93xiB%2FwM88FLWv1rA%3D%3D" class="card-img-top" alt="Categoría 2">
-              <div class="card-body">
-                <h5 class="card-title">Microsoft</h5>
-                <p class="card-text">Encuentra recetas únicas y deliciosas aquí.</p>
-                <a href="<%= loginUser === undefined ? '/receta/microsoft' : '/recetas/microsoft' %>" class="btn btn-primary">Ver Recetas</a>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 mb-3">
-            <div class="card category-card">
-              <img src="https://storage.googleapis.com/kiwisazonp.appspot.com/recetas/4725Chuleta.jpg?GoogleAccessId=firebase-adminsdk-b8gdk%40kiwisazonp.iam.gserviceaccount.com&Expires=16730344800&Signature=iUXlXyPGyf0%2BkIknPrrFzGmr43E6ak726OBR9E4H%2Bhm1v86hH%2B5%2Fx0FJt%2FaXHRYB06x2wVMPrEolRcsoV6a1%2FBWQP90GVO67eOfaA21RBm4Fyh5SkUm4S1V%2BkjIEbium7tPxPPn0zc1EkiJ2WBpaoO%2Fl04JQoM7dPAC3Xm4pOztseKMDQL1HN6NEcpwlYKPzGoLcruD0JZOS85i9%2FrZRomvXu9lcbRkjQhXb6XBbtVX05C2EjgHW3xguUiKdArMICvwM3VNdWjHu6fPfd5%2FPtMtAc51BabXuiYk8neOEUtRFEPLqgnoSOOj%2FiGyHWTs%2BBRPik93xiB%2FwM88FLWv1rA%3D%3D" class="card-img-top" alt="Categoría 3">
-              <div class="card-body">
-                <h5 class="card-title">Meta</h5>
-                <p class="card-text">Inspírate con recetas tradicionales y modernas.</p>
-                <a href="<%= loginUser === undefined ? '/receta/meta' : '/recetas/meta' %>" class="btn btn-primary">Ver Recetas</a>
-              </div>
-            </div>
-          </div>
+          <% }); %>
         </div>
+        
       </div>
       <!--  Carrusel  -->
       <!--  Recetas -->

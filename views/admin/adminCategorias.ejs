@@ -1,0 +1,318 @@
+<%- include('../partials/head') %>
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Dashboard Recetas</title>
+        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+    </head>
+
+    <body>
+        <%- include('../partials/nav') %>
+                        <main>
+                            <h2 style="text-align: center;">Categorias</h2>
+
+                            <div class="container-fluid">
+                                <div class="col-auto mb-2 offset-md-10">
+                                    <div class="position-sticky bottom-0 end-0 me-4">
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal">
+                                            <i class="fas fa-plus"></i> &nbsp;Crear Categoria 
+                                        </button>
+                                    </div>
+                                </div>
+                                <table class="table align-middle mb-0 bg-white" id="tabla">
+                                    <thead class="bg-light">
+                                        <tr>
+                                            <th>Nombre de la Categoria</th>
+                                            <th>Activa</th>
+                                            <th>Fecha</th>
+                                            <th>Acciones</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody style="text-align: center;">
+                                        <% categorias.forEach(function(item) { %>
+                                            <tr>
+                                                <td>
+                                                    <div class="d-flex align-items-center">
+                                                        <% if(item.image==null) { %>
+                                                            <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+                                                                alt="" style="width: 45px; height: 45px"
+                                                                class="rounded-circle" />
+                                                            <% }else{ %>
+                                                                <img src="<%= item.image %>" alt=""
+                                                                    style="width: 45px; height: 45px"
+                                                                    class="rounded-circle" />
+                                                                <% } %>
+                                                                    <div class="ms-3">
+                                                                        <p class="fw-bold mb-1">
+                                                                            <%= item.nombre %>
+                                                                        </p>
+                                                                    </div>
+                                                    </div>
+                                                </td>
+                                                <% if (item.isActive==true) { %>
+                                                    <td>
+                                                        <span style="background-color: green;"
+                                                            class="badge badge-success rounded-pill d-inline">Activado</span>
+                                                    </td>
+                                                    <% }else{ %>
+                                                        <td>
+                                                            <span style="background-color: red;"
+                                                                class="badge badge-danger rounded-pill d-inline">Desactivado</span>
+                                                        </td>
+                                                        <% } %>
+                                                                        <td>
+                                                                            <%= getFechaFormateada(item.date) %>
+                                                                        </td>
+
+                                                                        <td style="width: 15%;">
+                                                                            <div class="d-flex flex-wrap" >
+                                                                                <form method="POST"
+                                                                                action="/admin/categorias/<%= item._id %>/deactivate" class="p-2">
+                                                                                <button type="submit" <% if
+                                                                                    (item.isActive) { %>class="btn
+                                                                                    btn-success btn-sm btn-rounded " title="Desactivar" >
+                                                                                        <i class="fa-solid fa-toggle-on"></i>
+                                                                                    <%
+                                                                                        }else{ %> class="btn btn-danger
+                                                                                        btn-sm btn-rounded" title="Activar" > <i class="fa-solid fa-toggle-off"></i> <% } %>
+                                                                                    </button>
+                                                                            </form>
+                                                                            <div class="p-2" >
+                                                                                <button 
+                                                                                type="button"
+                                                                                class="btn btn-warning btn-sm btn-rounded"
+                                                                        data-bs-toggle="modal"
+                                                                        data-bs-target="#myModalEdit<%= item._id %>"
+                                                                        data-bs-placement="left" title="Actualizar">
+                                                                        <i class="fa-solid fa-pen-to-square"></i>
+                                                                    </button>
+                                                                            </div>
+                                                                                            <div class="p-2" >
+                                                                                                <button 
+                                                                                                type="button"
+                                                                                                class="btn btn-info btn-sm btn-rounded"
+                                                                                        data-bs-toggle="modal"
+                                                                                        data-bs-target="#myModal<%= item._id %>"
+                                                                                        data-bs-placement="left" title="Ver Detalles">
+                                                                                        <i class="fa-solid fa-receipt"></i>
+                                                                                    </button>
+                                                                                            </div>
+                                                                                            
+                                                                            </div>
+                                                                           
+                                                                        </td>
+                                            </tr>
+                                            <% }); %>
+
+                                    </tbody>
+                                </table>
+
+
+                                <!-- Modal crear-->
+                                 <div class="modal fade " id="exampleModal" tabindex="-1"
+                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+                                     <form class="modal-content" action="/admin/crearCategoria" method="post"
+                                         enctype="multipart/form-data">
+                                         <div class="modal-header">
+                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Categoria
+                                             </h1>
+                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                 aria-label="Close"></button>
+                                         </div>
+                                         <div class="modal-body">
+                                            <div class="mb-5 row">
+                                                <div class="col-sm-3">
+                                                    <div class="image-port">
+                                                        <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg"
+                                                            height="90px" width="90px"
+                                                            class="profile-photo m-auto rounded-circle"
+                                                            id="dp-pick">
+                                                    </div>
+                                                </div>
+                                                <div class="col-sm-9 mt-3">
+                                                    <input type="file" class="form-control"
+                                                        accept=".jpg, .png, .jpeg" name="image" id="files" />
+                                                </div>
+                                            </div>
+                                             <div class="form-floating mb-4">
+                                                 <input type="text" name="nombre" id="nombre"
+                                                     class="form-control " placeholder=" " required />
+                                                 <label for="floatingInputGroup1">Nombre de la Categoria</label>
+                                                 <div class="invalid-feedback" id="errorNombre" style="display: none;">
+                                                     El campo Nombre de la Categoria es
+                                                     requerido</div>
+                                             </div>
+                                             
+
+                                             <div class="row mb-4">
+                                                 <div class="form-floating">
+                                                     <textarea class="form-control"
+                                                         placeholder="Leave a comment here" id="descripcion"
+                                                         name="descripcion" style="height: 100px"></textarea>
+                                                     <label for="descripcion">Descripción</label>
+                                                     <div class="invalid-feedback" id="errorDesc" style="display: none;">
+                                                        El campo Descripción  es
+                                                        requerido</div>
+                                                 </div>
+                                             </div>
+                                             
+                                         </div>
+                                         <div class="modal-footer">
+                                             <button type="button" class="btn btn-secondary"
+                                                 id="cerrarModalNuevaReceta" data-bs-dismiss="modal">Cerrar</button>
+                                             <button type="submit" class="btn btn-primary">Guardar</button>
+                                         </div>
+                                     </form>
+
+                                 </div>
+                             </div>
+
+                             <!--Modal Detalles-->
+                                <% categorias.forEach(function(item) { %>
+                                    <div class="modal fade" id="myModal<%= item._id %>" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog modal-xl">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Detalles de receta
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <% if(item.image==null) { %>
+                                                        <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+                                                            class="img-fluid rounded-pill"
+                                                            alt="Townhouses and Skyscrapers" style="height: 100px; " />
+                                                        <% }else{ %>
+                                                            <img src="<%= item.image %>" class="img-fluid rounded-pill"
+                                                                alt="Townhouses and Skyscrapers"
+                                                                style="height: 100px; " />
+                                                            <% } %>
+                                                                <p>ID: <%= item._id %>
+                                                                </p>
+                                                                <p>Nombre de receta: <%= item.nombre %>
+                                                                </p>
+                                                                <p>Fecha de creación: <%= getFechaFormateada(item.date) %></p>
+                                                                <p>Descripción:  
+                                                                </p>
+                                                                <p><%= item.descripcion %></p>
+                                                            
+                                                                <!-- Agrega más detalles según tus necesidades -->
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary"
+                                                        data-bs-dismiss="modal">Cerrar</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+
+                            </div>
+                            <!--Modal Editar-->
+                            <% categorias.forEach(function(item) { %>
+                                <div class="modal fade " id="myModalEdit<%= item._id %>" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+                                   
+                                    <form class="modal-content" action="/admin/editarCategoria" method="post" enctype="multipart/form-data">
+                                        <div class="modal-header">
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Categoria</h1>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                        </div>
+                                         <div class="modal-body">
+                                            <div class="form-floating mb-4">
+                                               <input type="text" name="cateId" id="cateId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly/>
+                                            </div>
+                                            
+                                                <div class="mb-5 row">
+                                                    <div class="col-sm-3">
+                                                       <div class="image-port">
+                                                       <% if(item.image==null) { %>
+                                                           <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg" 
+                                                           height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                                           <% }else{ %>
+                                                               <img src="<%= item.image %>" class="img-fluid rounded-pill"
+                                                               height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                                               <% } %>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-sm-9 mt-3">
+                                                        <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+                                                    </div>    
+                                                </div>    
+                                                <div class="form-floating mb-4">
+                                                    <input type="text" name="nombre" id="nombre" class="form-control "  placeholder=" " required value="<%= item.nombre %>">
+                                                    <label for="floatingInputGroup1">Nombre de la Categoria</label>
+                                                    <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre de la categoria es requerido</div>
+                                                </div>
+                                                <div class="row mb-4">
+                                                    <div class="form-floating">
+                                                        <textarea class="form-control" placeholder="Leave a comment here" id="descripcion" name="descripcion" style="height: 100px"><%= item.descripcion %></textarea>
+                                                        <label for="descripcion">Descripción</label>
+                                                    </div>
+                                                </div>
+                                                
+                                        </div>
+                                         <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta"
+                                                    data-bs-dismiss="modal">Cerrar</button>
+                                                <button type="submit" class="btn btn-primary">Guardar</button>
+                                         </div>
+                                    </form>
+                                    
+                                </div>
+                            </div>
+                            <% }); %>
+                             
+                        </main>
+                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+                        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+                        <script>
+                            $(document).ready(function () {
+                                $('#tabla').DataTable({
+                                    search: {
+                                        return: true,
+                                    },
+                                    language: {
+                                        "decimal": "",
+                                        "emptyTable": "No hay datos disponibles en la tabla",
+                                        "info": "Mostrando _START_ a _END_ de _TOTAL_ entradas",
+                                        "infoEmpty": "Mostrando 0 a 0 de 0 entradas",
+                                        "infoFiltered": "(filtrado de _MAX_ entradas totales)",
+                                        "infoPostFix": "",
+                                        "thousands": ",",
+                                        "lengthMenu": "Mostrar _MENU_ entradas",
+                                        "loadingRecords": "Cargando...",
+                                        "processing": "Procesando...",
+                                        "search": "Buscar:",
+                                        "zeroRecords": "No se encontraron registros coincidentes",
+                                        "paginate": {
+                                            "first": "Primero",
+                                            "last": "Último",
+                                            "next": "Siguiente",
+                                            "previous": "Anterior"
+                                        },
+                                        "aria": {
+                                            "sortAscending": ": Activar para ordenar la columna en orden ascendente",
+                                            "sortDescending": ": Activar para ordenar la columna en orden descendente"
+                                        }
+                                    }
+                                });
+
+                            });
+
+
+                        </script>
+                        <script src="/js/categorias.js"></script>
+    </body>
+
+    </html>

@@ -47,30 +47,25 @@
                 <h3>Categorias</h3>
                 <div class="filters">
                     <form>
-                        <div class="form-check mt-2">
-                            <input class="form-check-input categoria" type="checkbox" name="categoria" value="apple" <%= title === 'apple' ? 'checked' : '' %>  id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                               Apple
-                            </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input class="form-check-input categoria" type="checkbox" name="categoria" value="meta" <%= title === 'meta' ? 'checked' : '' %>  id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                               Meta
-                            </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input class="form-check-input categoria" type="checkbox" name="categoria" value="microsoft" <%= title === 'microsoft' ? 'checked' : '' %>   id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                               Microsoft
-                            </label>
-                        </div>
-                        <div class="form-check mt-2">
-                            <input class="form-check-input categoria" type="checkbox" name="categoria" value="netflix"  <%= title === 'netflix' ? 'checked' : '' %>  id="flexCheckDefault">
-                            <label class="form-check-label" for="flexCheckDefault">
-                               Netflix
-                            </label>
-                        </div>
+                        <% categorias.forEach(cate => { %>
+
+                            <% if (cate.nombre == title) { %>
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input categoria" type="checkbox" name="categoria" value="<%= cate.nombre.replace(/\s+/g, '_') %>" checked  id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        <%= cate.nombre %>
+                                    </label>
+                                </div>
+                              <% } else { %>
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input categoria" type="checkbox" name="categoria" value="<%= cate.nombre.replace(/\s+/g, '_') %>" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        <%= cate.nombre %>
+                                    </label>
+                                </div>
+                              <% } %>
+                            
+                        <% }); %>
                     </form>
                 </div>
             </div>
@@ -78,7 +73,7 @@
                 <% if(recetas){ %>
                     <div class="row">
                         <% recetas.forEach(item=> { %>
-                            <div class="col-sm-4 col-md-4 col-lg-3  mt-4 tarjeta <%= item.categoria %>">
+                            <div class="col-sm-4 col-md-4 col-lg-3  mt-4 tarjeta <%= item.categoria.replace(/\s+/g, '_') %>">
                                 <div class="food-card ">
                                     <div class="food-card_img">
                                         <% if(item.imagen==null) { %>
@@ -174,8 +169,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const categoriasSeleccionadas = Array.from(checkboxes)
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.value);
-
+console.log(categoriasSeleccionadas)
     cards.forEach(card => {
+        console.log(card.classList[5])
       if (categoriasSeleccionadas.length === 0 || categoriasSeleccionadas.includes(card.classList[5])) {
         card.style.display = 'block';
         card.style.height = card.scrollHeight + 'px';

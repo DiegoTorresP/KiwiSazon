@@ -17,6 +17,11 @@ const comentarioSchema =mongoose.Schema({
         require: true,
         default: Date.now()
     },
+    isActive: {
+        type: Boolean,
+        required: true,
+        default: true
+    }, 
    
 });
 

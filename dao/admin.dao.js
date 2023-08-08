@@ -1,5 +1,6 @@
 const User = require('../models/users');
 const Receta = require('../models/recetas');
+const Categoria = require('../models/categorias');
 const { Observable, Subject, async } = require('rxjs');
 const userStatusSubject = new Subject();
 
@@ -94,6 +95,81 @@ class UsuarioDAO {
             throw new Error('No se pudo aprobar esta receta');
         }  
     };
+
+    async crearCategoria(categoriaData){
+        try{
+            const categoria = new Categoria(categoriaData)
+            return await categoria.save();
+        }catch (error){
+            throw new Error('Error al crear receta');
+        }
+    }
+
+    async catefindById(cateId) {
+        try {
+            const categoria = Categoria.findById(cateId);
+            return categoria
+        } catch (error) {
+            throw new Error('Error al obtener la categoria');
+        }
+    }
+
+    async desactivarCategoria(cateId) {
+        try {
+          const updatedCate = await Categoria.findByIdAndUpdate(cateId, { isActive: false });
+          //userStatusSubject.next({ userId, isActive: false }); // Notifica que el usuario se ha desactivado
+      
+          return updatedCate;
+        } catch (error) {
+          throw new Error('No se pudo desactivar la categoria');
+        }
+      }
+      
+    async activarCategoria(cateId) {
+        try {
+          const updatedCate = await Categoria.findByIdAndUpdate(cateId, { isActive: true });
+          return updatedCate;
+          
+        } catch (error) {
+            throw new Error('No se pudo activar la categoria');
+        }
+        
+    }
+
+    async editCategoria(categoriaData) {
+        try {
+          //const filtro = { _id: new mongoose.Types.ObjectId(id) };
+          if(categoriaData.image === null){
+            return await Categoria.updateOne(
+                { _id: categoriaData.id },
+                {
+                  $set: {
+                    nombre:categoriaData.nombre,
+                    descripcion:categoriaData.descripcion
+                  },
+                }
+                );
+          }else{
+            return await Categoria.updateOne(
+                { _id: categoriaData.id },
+                {
+                  $set: {
+                    nombre:categoriaData.nombre,
+                    descripcion:categoriaData.descripcion,
+                    image : categoriaData.image
+                  },
+                }
+                );
+          }
+          
+         
+          //console.log(updatedReceta); 
+          //return updatedReceta
+        } catch (error) {
+          console.log(error)
+          throw new Error('Error al editar receta');
+        }
+      } 
 }
 
 module.exports = UsuarioDAO;

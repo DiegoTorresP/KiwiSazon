@@ -2,8 +2,10 @@
 exports.home = (async (req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
+    
+    const categorias = await Categoria.find({isActive:true});
   
-    res.render('home/index', { title: 'Fomulario', recetas: recetasData, variableNoti: global.notificacion, banderanoti: global.banderanoti });
+    res.render('home/index', { title: 'Fomulario', recetas: recetasData,categorias:categorias,variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -11,8 +13,9 @@ exports.home = (async (req, res) => {
 exports.homeLogin = (async(req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
+    const categorias = await Categoria.find({isActive:true}).limit(3);
    
-    res.render('home/index', { title: 'Fomulario',recetas: recetasData, loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
+    res.render('home/index', { title: 'Fomulario',recetas: recetasData,categorias:categorias, loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -34,7 +37,9 @@ exports.loginGet = ((req, res) => {
 exports.recetasHome = (async (req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
-    res.render('Recipes/allRecipes', { recetas:recetasData,title: req.params.title,loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
+    
+    const categorias = await Categoria.find({isActive:true});
+    res.render('Recipes/allRecipes', { recetas:recetasData,title: req.params.title,categorias:categorias,loginUser: req.userId, variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -72,8 +77,9 @@ exports.chef = ((req, res) => {
 exports.misrecetas = (async (req, res) => {
   try {
     const misrecetas = await Receta.find({user:req.userId}).populate('user');
+    const categorias = await Categoria.find({isActive:true});
     console.log(misrecetas)
-    res.render('user/misrecetas', { loginUser: req.userId, misrecetas: misrecetas, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti });
+    res.render('user/misrecetas', { loginUser: req.userId, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
@@ -93,6 +99,7 @@ exports.updatePass = (async (req, res) => {
 const User = require("../models/users")
 const Receta = require("../models/recetas");
 const { async } = require("rxjs");
+const Categoria = require("../models/categorias");
 
 exports.adminHome = (async (req, res) => {
   try {
@@ -121,6 +128,15 @@ exports.recetas = (async (req, res) => {
   }
 });
 
+exports.categorias = (async (req, res) => {
+  try {
+    const categorias = await Categoria.find({});
+    res.render('admin/adminCategorias', { loginUser: req.userId, categorias:categorias, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti })
+  } catch (error) {
+    console.log(error);
+    res.status(404).render("error/error", { status: error })
+  }
+});
 
 // Controlador o sección de script de la vista EJS
 function getFechaFormateada(fecha) {

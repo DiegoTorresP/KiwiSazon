@@ -37,4 +37,6 @@ router.post('/users/editarReceta',authenticateToken , upload.single("image"), re
 router.post('/users/comentarReceta',authenticateToken,recetaController.comentarReceta.bind(recetaController));
 router.post('/users/actualizarComentario',authenticateToken,recetaController.actualizarComentario.bind(recetaController));
 
+router.post('/users/:id/desactivarComentario', authenticateToken, recetaController.deactivateComentario);
+
 module.exports = router;

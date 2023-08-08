@@ -236,12 +236,21 @@ a {
 }
 
 /* -------------------- ------------------------ */
+/* Estilos normales para las categorías */
 .category-card {
+    height: 100%;
   transition: transform 0.3s;
 }
 .category-card:hover {
   transform: scale(1.05);
 }
+
+  .category-image {
+    height: 200px; /* Ajusta esta altura según tus necesidades */
+    object-fit: cover;
+  }
+  
+  
 /* -------------------- ------------------------ */
 
 /* -------------------- ------------------------ */

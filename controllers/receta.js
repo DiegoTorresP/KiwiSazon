@@ -45,14 +45,14 @@ class RecetaController {
     try {
       const recetaObj = new Receta ({
         user:req.userId,
-        platilloNombre:req.body.platilloNombre,
+        platilloNombre:req.body.platilloNombre.toUpperCase(),
         ingredientes:req.body.ingredientes,
         pasosSeguir:req.body.pasosSeguir,
         dificultad: req.body.dificultad,
         tiempo:req.body.tiempo,
         porciones: req.body.porciones,
         tips: req.body.tips,
-        categoria:req.body.categoria
+        categoria:req.body.categoria.toUpperCase()
       });
       
       const user =await Usuario.findById(req.userId);
@@ -83,14 +83,14 @@ class RecetaController {
       const recetaObjEdit = {
         id : req.body.recetaId,
         user:req.userId,
-        platilloNombre:req.body.platilloNombre,
+        platilloNombre:req.body.platilloNombre.toUpperCase(),
         ingredientes:req.body.ingredientes,
         pasosSeguir:req.body.pasosSeguir,
         dificultad: req.body.dificultad,
         tiempo:req.body.tiempo,
         porciones: req.body.porciones,
         tips: req.body.tips,
-        categoria:req.body.categoria,
+        categoria:req.body.categoria.toUpperCase(),
         isAprovado:0
       };
       console.log(recetaObjEdit)
@@ -122,6 +122,7 @@ class RecetaController {
     try{
       const receta = await Receta.findById(id).populate({
         path: 'comentarios',
+        match: { isActive: true },
         populate: {
             path: 'user',
             model: 'users'
@@ -150,6 +151,7 @@ class RecetaController {
       });
       const receta = await Receta.findById(req.body.idReceta).populate({
         path: 'comentarios',
+        match: { isActive: true },
         populate: {
             path: 'user',
             model: 'users'
@@ -183,6 +185,7 @@ class RecetaController {
         if (!newComentario) {
           const receta = await Receta.findById(comentario.receta._id).populate({
             path: 'comentarios',
+            match: { isActive: true },
             populate: {
                 path: 'user',
                 model: 'users'
@@ -194,6 +197,7 @@ class RecetaController {
         if(newComentario){
           const receta = await Receta.findById(comentario.receta._id).populate({
             path: 'comentarios',
+            match: { isActive: true },
             populate: {
                 path: 'user',
                 model: 'users'
@@ -211,6 +215,35 @@ class RecetaController {
     }catch (error){
       console.log(error)
       res.status(404).render("error/error", { status: error });
+    }
+  };
+
+  deactivateComentario = async (req, res) => {
+    const { id } = req.params;
+  console.log(id)
+    try {
+      const comentarioData = await Comentario.findById(id);
+  
+      if (!comentarioData) {
+        return res.status(404).json({ error: 'Comentario no encontrado' });
+      }
+  
+      
+        const comentario=  await Comentario.findByIdAndUpdate(id, { isActive: false });
+        
+        const receta = await Receta.findById(comentario.receta._id).populate({
+          path: 'comentarios',
+          match: { isActive: true },
+          populate: {
+              path: 'user',
+              model: 'users'
+          }
+        });
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+      
+    } catch (error) {
+      console.log(error);
+      res.status(404).render('error/error', { status: error });
     }
   };
 

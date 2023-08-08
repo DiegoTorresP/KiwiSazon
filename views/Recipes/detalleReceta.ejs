@@ -126,7 +126,7 @@
                             </div>
                             <div class="col-md-6 offset-md-1">
                                 <h1 class="title"> <%= receta.platilloNombre %></h1>
-                                <h3 class="subtitle mt-3">Categoria: <%= receta.categoria %></h3>
+                                <h3 class="subtitle mt-3">Categoria: <a class="decoration-none" href="/receta/<%= receta.categoria %>"><%= receta.categoria %></a></h3>
                                 <div class="mb-3 mt-3">
                                     Dificultad: &nbsp;&nbsp;
                                     <% if (receta.dificultad=='Baja') { %>
@@ -247,10 +247,8 @@
                             <% if(loginUser){ %>
                            
                                     <% if(loginUser._id.toString() == item.user._id.toString()){ %>
-                                        
-                                        <form action="/users/actualizarComentario" method="post">
                                             <div class=" border-top border-primary ">
-
+                                                <form action="/users/actualizarComentario" method="post">
                                                 <input name="idComentario" type="hidden" value="<%= item._id %>" >
                                                 <div class="row mt-1">
                                                     <div class="col-11">
@@ -262,12 +260,18 @@
                                                     </div>
                                                     <div class="col-1">
                                                         <button type="submit" class="btn btn-primary  mt-1"><i class="fa-solid fa-paper-plane"></i></button>
-                                                        <a class="btn btn-danger  mt-1"><i class="fa-solid fa-trash-can"></i></a>
+                                                    </form>
+                                                        <form method="POST"
+                                                         action="/users/<%= item._id %>/desactivarComentario" class="p-2">
+                                                         <button type="submit" class="btn btn-danger  mt-1"><i class="fa-solid fa-trash-can"></i></button>
+                                                                                    
+                                                         </form>
+                                                       
                                                     </div>
                                                 </div>
                                                 
                                             </div>
-                                        </form>
+                                        
                                     <%} else {%>
                                         <div class=" border-top border-primary ">
                                             <p class="card-text mt-3"><%= item.comentario %></p>
