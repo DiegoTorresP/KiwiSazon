@@ -79,6 +79,15 @@ exports.misrecetas = (async (req, res) => {
   }
 });
 
+exports.updatePass = (async (req, res) => {
+  try {
+    res.render('auth/actualizarContra', {loginUser: req.userId})
+  } catch (error) {
+    res.status(404).render("error/error", { status: error });
+  }
+});
+
+
 // GET - ROL ADMIN
 
 const User = require("../models/users")

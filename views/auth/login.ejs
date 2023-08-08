@@ -46,7 +46,12 @@
                 <button type="submit" class="btn btn-primary btn-block mb-4" >
                   Ingresar
                 </button>
-    
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-block mb-4" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">
+                  Olvide mi contraseña?
+                </button>
+
                 <!-- Register buttons -->
                 <div class="text-center">
                   <p>O ingresa con: </p>
@@ -80,6 +85,35 @@
     </div>
     <!-- Jumbotron -->
     </section>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="staticBackdrop" data-mdb-backdrop="static" data-mdb-keyboard="false" tabindex="-1"
+                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Olvide mi contraseña?</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h6>Ingresa tu correo electronico</h6>
+                            <form action="/olvide-contracena" method="post" id="miFormulario">
+                              <div class="form-floating mb-4">
+                                <input type="email" name="email" id="email" class="form-control " required/>
+                                <label class="form-label" for="form3Example1cg">Correo Electronico</label>
+                                <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electronico es requerido</div>
+                              </div>
+                              <button type="submit" class="btn btn-secondary btn-rounded">Validar</button>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
 </body>
 
 <%- include('../partials/footer') %>

@@ -55,13 +55,16 @@ const userSchema =mongoose.Schema({
     notificacion:{
         type: String,
         require: false
-    }
+    },
     // followReceta:[
     //     {
     //         type:mongoose.ObjectId,
     //         ref:"orders"
     //     }
-    // ]      
+    // ]
+    tokenPass : {
+        type: Number
+    }     
 })
 
 const User= mongoose.model("users",userSchema)

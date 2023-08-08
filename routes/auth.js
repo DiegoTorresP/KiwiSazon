@@ -61,9 +61,11 @@ router.get('/home', authenticateToken ,UController.homeLogin)
 
 router.get('/logout', userController.cerrar.bind(userController));
 
+router.post('/olvide-contracena', userController.accederUpdatePass.bind(userController));
 
+router.get('/restableser-password', authenticateToken, UController.updatePass);
 
-
+router.post('/reset-password', authenticateToken, userController.updatePass.bind(userController));
 
 
 module.exports = router;
