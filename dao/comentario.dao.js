@@ -6,7 +6,7 @@ class ComentarioDAO{
     async createComentario(comentarioData) {
         try {
           const comentario = new Comentario(comentarioData);
-          return  await comentario.save();
+          return await comentario.save();
         } catch (error) {
           console.log(error)
           throw new Error('Error al crear comentario');
