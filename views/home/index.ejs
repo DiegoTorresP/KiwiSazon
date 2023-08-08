@@ -12,7 +12,7 @@
         <div class="container" style="backdrop-filter: blur(10px);">
           <h1 class="display-4">¡Descubre deliciosas recetas!</h1>
           <p class="lead">Encuentra inspiración para tus comidas favoritas.</p>
-          <a href="#" class="btn btn-primary btn-lg mb-2">Explorar Recetas</a>
+          <a href="<%= loginUser === undefined ? '/receta/Todas las Recetas' : '/recetas/Todas las Recetas' %>  " class="btn btn-primary btn-lg mb-2">Explorar Recetas</a>
         </div>
       </div>
 
@@ -93,7 +93,7 @@
               <div class="card-body">
                 <h5 class="card-title">Apple</h5>
                 <p class="card-text">Explora recetas deliciosas en esta categoría.</p>
-                <a href="/recetas/apple" class="btn btn-primary">Ver Recetas</a>
+                <a href="<%= loginUser === undefined ? '/receta/apple' : '/recetas/apple' %>" class="btn btn-primary">Ver Recetas</a>
               </div>
             </div>
           </div>
@@ -103,7 +103,7 @@
               <div class="card-body">
                 <h5 class="card-title">Microsoft</h5>
                 <p class="card-text">Encuentra recetas únicas y deliciosas aquí.</p>
-                <a href="/recetas/microsoft" class="btn btn-primary">Ver Recetas</a>
+                <a href="<%= loginUser === undefined ? '/receta/microsoft' : '/recetas/microsoft' %>" class="btn btn-primary">Ver Recetas</a>
               </div>
             </div>
           </div>
@@ -113,7 +113,7 @@
               <div class="card-body">
                 <h5 class="card-title">Meta</h5>
                 <p class="card-text">Inspírate con recetas tradicionales y modernas.</p>
-                <a href="/recetas/meta" class="btn btn-primary">Ver Recetas</a>
+                <a href="<%= loginUser === undefined ? '/receta/meta' : '/recetas/meta' %>" class="btn btn-primary">Ver Recetas</a>
               </div>
             </div>
           </div>
@@ -122,9 +122,9 @@
       <!--  Carrusel  -->
       <!--  Recetas -->
       <div class="col text-center">    
-        <h2 class="section-title px-5"><span class="px-lg-2">Recetas más Populares</span></h2>
+        <h2 class="section-title px-5"><span class="px-lg-2"><strong class="text-warning">&#9819</strong> Recetas más Populares <strong class="text-warning">&#9819</strong> </span></h2>
     </div>
-    <div class="row">
+    <div class="row  me-2 ms-2">
       <% recetas.forEach(item=> { %>
         
         <div class="col-sm-4 col-md-4 col-lg-3  mt-4">
@@ -167,7 +167,11 @@
                                 <span class="fa-solid fa-users"></span>
                                 <%= item.porciones %>
                             </div>
+                            
                           
+                        </div>
+                        <div >
+                          <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star text-warning"></i>  <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star-half-stroke text-warning"></i><i class="fa-regular fa-star text-warning"></i>
                         </div>
                         <hr>
                         <div class="mb-2">
@@ -206,6 +210,7 @@
      </div>
 
     </body>
-    <div class="footer"><%- include('../partials/footer') %></div>
-
+    <div class="w-100 fixed-buttom mb-0 ms-0 me-0 mt-3">
+      <%- include('../partials/footer') %>
+    </div>
   </html>
