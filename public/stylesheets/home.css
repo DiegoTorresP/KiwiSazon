@@ -86,6 +86,7 @@ a {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     -webkit-transition: 0.1s;
     transition: 0.1s;
+    flex: 0 0 calc(33.33% - 10px);
 }
 
 .food-card:hover {
@@ -200,9 +201,8 @@ a {
         display: -ms-flexbox;
         display: flex;
         position: relative;
-        height: 235px;
     }
-
+    
     .food-card--vertical .food-card_img img {
         width: 200px;
         height: 100%;
@@ -211,6 +211,19 @@ a {
     }
 }
 
+@media (max-width:1250px) {
+    .food-card .food-card_content .food-card_title-section {
+        height: 150px;
+        overflow: hidden;
+    }
+}
+
+@media (max-width:575px) {
+    .food-card .food-card_content .food-card_title-section {
+        height: 100px;
+        overflow: hidden;
+    }
+}
 /* -------------------- ------------------------ */
 
 /*MODAL DETALLE*/

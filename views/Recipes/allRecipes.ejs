@@ -18,12 +18,18 @@
                 Sin noti
             </div>
             <% } %>
+
             <% function capitalizeFirstLetter(str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
               } %>
+              <div class="jumbotron jumbotron-fluid text-center pt-5 pb-5">
+                <div class="container" style="backdrop-filter: blur(10px);">
+                  <h1 class="display-4 mb-4"><%=capitalizeFirstLetter(title)%></h1>
+                </div>
+              </div>
     <div class="container">
         <div class="col text-center">    
-            <h2 class="section-title px-5"><span class="px-lg-2"><%=capitalizeFirstLetter(title)%></span></h2>
+            <h2 class="section-title px-5"><span class="px-lg-2">Buscando tu sazón</span></h2>
         </div>
         <div class="row justify-content-end mt-3" >
             <div class="col-2">
@@ -115,6 +121,9 @@
                                                 </div>
                                               
                                             </div>
+                                            <div >
+                                                <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star text-warning"></i>  <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star-half-stroke text-warning"></i><i class="fa-regular fa-star text-warning"></i>
+                                              </div>
                                             <hr>
                                             <div class="mb-2">
                                                
