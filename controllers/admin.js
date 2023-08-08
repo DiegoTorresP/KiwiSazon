@@ -7,29 +7,6 @@ class UserController {
     constructor() {
         this.userDao = new UserDao();
     }
-/*
-    deactivateUser = async (req, res) => {
-        const { userId } = req.params;
-
-        try {
-            const user = await this.userDao.findById(userId);
-
-            if (!user) {
-                return res.status(404).json({ error: 'Usuario no encontrado' });
-            }
-            console.log(user.isActive)
-            if(user.isActive){
-                await this.userDao.desactivarUsuario(userId);
-            }else{
-                await this.userDao.activarUsuario(userId);
-            }
-            
-            res.redirect('/adminHome')
-        } catch (error) {
-            console.log(error)
-            res.status(404).render("error/error", { status: error });
-        }
-    };*/
 
     deactivateUser = async (req, res) => {
         const { userId } = req.params;
@@ -84,7 +61,9 @@ class UserController {
                 return res.status(404).render("error/error", { status: "receta no encontrada" });
             }
             await this.userDao.aprobarReceta(id);
-
+            const isApro = true
+            const sNombreReceta = receta.platilloNombre
+            userStatusSubject.next({ id, isApro, sNombreReceta });
         res.redirect('/adminRecetas')
         } catch (error) {
             console.log(error)
@@ -103,7 +82,9 @@ class UserController {
                 return res.status(404).render("error/error", { status: "receta no encontrada" });
             }
             await this.userDao.rechazarReceta(id,comentario);
-
+            const isApro = false
+            const sNombreReceta = receta.platilloNombre
+            userStatusSubject.next({ id, isApro, sNombreReceta });
             res.redirect('/adminRecetas')
         } catch (error) {
             console.log(error)
