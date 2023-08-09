@@ -56,6 +56,10 @@ const userSchema =mongoose.Schema({
         type: String,
         require: false
     },
+    notificaciones: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "notificaciones"
+    }],
     // followReceta:[
     //     {
     //         type:mongoose.ObjectId,
