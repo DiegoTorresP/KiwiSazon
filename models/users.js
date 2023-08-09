@@ -56,12 +56,12 @@ const userSchema =mongoose.Schema({
         type: String,
         require: false
     },
-    // followReceta:[
-    //     {
-    //         type:mongoose.ObjectId,
-    //         ref:"orders"
-    //     }
-    // ]
+    followReceta:[
+        {
+            type:mongoose.ObjectId,
+            ref:"recetas"
+        }
+    ],
     tokenPass : {
         type: Number
     }     
