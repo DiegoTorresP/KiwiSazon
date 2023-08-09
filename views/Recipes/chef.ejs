@@ -56,17 +56,8 @@
 }
     </style>
 </head>
-<body>
+<body >
     <%- include('../partials/nav') %>
-    <% if (banderanoti == true) { %>
-        <div class="alert alert-primary" role="alert">
-            <%= variableNoti %>
-        </div>
-        <% }else{ %>
-            <div class="alert alert-success" role="alert">
-                Sin noti
-            </div>
-            <% } %>
     <h1>Hola cheft</h1>
     <h2><%=loginUser.username%></h2>
     <div class="container">

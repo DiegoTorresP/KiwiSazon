@@ -6,7 +6,7 @@ var admin = require("firebase-admin");
 const Usuario = require("../models/users");
 const Comentario = require("../models/comentarios");
 const ComentarioDAO = require("../dao/comentario.dao");
-
+const Notificaciones = require("../models/notificaciones")
 //Funcion para guardar imagenes a firebase
 async function guardarImagenEnFirebase(imagen) {
     var bucket = admin.storage().bucket();
@@ -128,11 +128,12 @@ class RecetaController {
             model: 'users'
         }
     });
-    receta.comentarios.sort((a, b) => b.date - a.date); 
+    receta.comentarios.sort((a, b) => b.date - a.date);
+    const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
     if(req.userId){
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta});
       }else{
-        res.render("Recipes/detalleReceta", { variableNoti: global.notificacion,getFechaFormateada, banderanoti: global.banderanoti ,receta:receta});
+        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones});
       }
       
     }catch (error){
@@ -159,15 +160,22 @@ class RecetaController {
     });
       if (!receta) {
         console.log('Receta no encontrada.');
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+        const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       }
       const comentario = await this.comentarioDao.createComentario(comentarioData);
-      
+      const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
+        //receta.comentarios.push(comentario);
+        //console.log("Llega")
+        //receta.save();
+        //console.log("Llega2")
         receta.comentarios.push(comentario);
-        receta.save();
-    
-        receta.comentarios.sort((a, b) => b.date - a.date); 
-      res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+        receta.comentarios.sort((a, b) => b.date - a.date);
+
+        await Receta.updateOne({ _id: receta._id }, { $push: { comentarios: comentario } });
+
+        //receta.comentarios.sort((a, b) => b.date - a.date); 
+      res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       
     }catch (error){
       console.log(error)
@@ -192,7 +200,8 @@ class RecetaController {
             }
           });
           console.log('Comentario no encontrado.');
-          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+          const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
+          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
         }
         if(newComentario){
           const receta = await Receta.findById(comentario.receta._id).populate({
@@ -204,7 +213,8 @@ class RecetaController {
             }
           });
           receta.comentarios.sort((a, b) => b.date - a.date); 
-          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+          const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
+          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
         }
       }
       
@@ -230,7 +240,7 @@ class RecetaController {
   
       
         const comentario=  await Comentario.findByIdAndUpdate(id, { isActive: false });
-        
+        const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
         const receta = await Receta.findById(comentario.receta._id).populate({
           path: 'comentarios',
           match: { isActive: true },
@@ -239,7 +249,7 @@ class RecetaController {
               model: 'users'
           }
         });
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti ,receta:receta});
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones,receta:receta});
       
     } catch (error) {
       console.log(error);

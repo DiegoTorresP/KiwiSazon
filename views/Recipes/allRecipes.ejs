@@ -7,18 +7,8 @@
     <title>KiwiSazón</title>
     <link rel="stylesheet" href="/stylesheets/recetas.css">
 </head>
-<body>
+<body >
     <%- include('../partials/nav') %>
-    <% if (banderanoti == true) { %>
-        <div class="alert alert-primary" role="alert">
-            <%= variableNoti %>
-        </div>
-        <% }else{ %>
-            <div class="alert alert-success" role="alert">
-                Sin noti
-            </div>
-            <% } %>
-
             <% function capitalizeFirstLetter(str) {
                 return str.charAt(0).toUpperCase() + str.slice(1);
               } %>

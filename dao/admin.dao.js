@@ -1,5 +1,6 @@
 const User = require('../models/users');
 const Receta = require('../models/recetas');
+const Notificacion = require('../models/notificaciones');
 const Categoria = require('../models/categorias');
 const { Observable, Subject, async } = require('rxjs');
 const userStatusSubject = new Subject();
@@ -55,11 +56,24 @@ class UsuarioDAO {
             throw new Error('No se pudo actulizar el rol');
         }
     };
-    async notificar(userId,mensaje){
+
+    async notificarReceta(idReceta,mensaje){
         try {
-            const updateNotificacion = await User.findByIdAndUpdate(userId, { notificacion: mensaje});
-            console.log(updateNotificacion)
-            return updateNotificacion;
+            console.log(idReceta)
+            const receta = await this.consultaRecetas(idReceta)
+            console.log(receta)
+            let userId = receta.user;
+            console.log(userId)
+            const notificacion = new Notificacion ({
+                user:userId,
+                message:mensaje,
+                isRead : 0
+              });
+            console.log(notificacion)
+            const newnoti = await notificacion.save();
+            const user =await User.findById(userId);
+            user.notificaciones.push(newnoti);
+            user.save();
         } catch (error) {
             throw new Error('No se pudo actualizar la notificación');
         }
@@ -74,6 +88,15 @@ class UsuarioDAO {
         }
     };
     
+    async consultaNotificaciones(id){
+        try {
+            const notificaciones = Notificacion.findById(id);
+            return notificaciones
+        } catch (error) {
+            throw new Error("Sin notificaciones que encontrar")
+        }
+    };
+
     async aprobarReceta(id) {
         try {
           const updatedRecetas = await Receta.findByIdAndUpdate(id, { isAprovado: 1 });

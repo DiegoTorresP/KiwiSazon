@@ -3,6 +3,8 @@ var router = express.Router();
 const authenticateToken = require("../middlewares/authentucateToken");
 var view = require("../controllers/view-get");
 const RecetaController = require('../controllers/receta');
+const NotificacionesController = require('../controllers/notificaciones');
+const notificacionesController = new NotificacionesController();
 const recetaController = new RecetaController();
 const multer = require("multer");
 const path = require("path");
@@ -26,6 +28,7 @@ router.get('/users', function(req, res, next) {
 
 /* GET users listing. */
 router.get('/misRecetas', authenticateToken , view.misrecetas);
+router.get('/leerNotificaciones', authenticateToken,notificacionesController.marcarLeidas.bind(notificacionesController));
 router.get('/recetas/:title',authenticateToken ,view.recetasHome)
 router.get('/receta/:title' ,view.recetasHome)
 

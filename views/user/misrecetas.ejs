@@ -192,15 +192,7 @@
 
     <body>
         <%- include('../partials/nav') %>
-            <% if (banderanoti==true) { %>
-                <div class="alert alert-primary" role="alert">
-                    <%= variableNoti %>
-                </div>
-                <% }else{ %>
-                    <div class="alert alert-success" role="alert">
-                        Sin noti
-                    </div>
-                    <% } %>
+
                         <main>
                             <div class="row">
                                 <div class="col text-center">
@@ -581,6 +573,11 @@
                                             <div class="form-floating mb-4">
                                                <input type="text" name="recetaId" id="recetaId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly/>
                                             </div>
+                                            <% if (item.isAprovado==2) { %>
+                                              <div class="alert alert-warning" role="alert">
+                                                <%= item.comentariosRevision%>
+                                              </div>
+                                              <% } %>
                                             <div class="form-floating mb-4">
                                                 <input type="text" name="platilloNombre" id="platilloNombre" class="form-control "  placeholder=" " required value="<%= item.platilloNombre %>">
                                                 <label for="floatingInputGroup1">Nombre del Platillo</label>
