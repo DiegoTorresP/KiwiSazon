@@ -142,7 +142,8 @@ exports.recetas = (async (req, res) => {
 exports.categorias = (async (req, res) => {
   try {
     const categorias = await Categoria.find({});
-    res.render('admin/adminCategorias', { loginUser: req.userId, categorias:categorias, getFechaFormateada,variableNoti: global.notificacion, banderanoti: global.banderanoti })
+    const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
+    res.render('admin/adminCategorias', { loginUser: req.userId, categorias:categorias, notificaciones:notificaciones, getFechaFormateada })
   } catch (error) {
     console.log(error);
     res.status(404).render("error/error", { status: error })
