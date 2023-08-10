@@ -85,9 +85,9 @@ exports.misrecetas = (async (req, res) => {
     const misrecetas = await Receta.find({user:req.userId}).populate('user');
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
     const categorias = await Categoria.find({isActive:true});
-    console.log(misrecetas)
-    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones });
+    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones,errores:undefined,valores:'undefined' });
   } catch (error) {
+    console.error(error)
     res.status(404).render("error/error", { status: error });
   }
 });

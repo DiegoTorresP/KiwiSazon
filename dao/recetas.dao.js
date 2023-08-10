@@ -59,6 +59,16 @@ class RecetaDAO{
             throw new Error('No se pudo encontrar esta receta');
         }
       };
+
+      async getRecetaByNombre(nombre) {
+        try {
+          const Receta = await Receta.find({nombrePlatillo:nombre})
+          return Receta;
+        } catch (error) {
+            
+        }
+      };
+
       async agregarComentarioReceta(id) {
         try {
           const Receta = await Receta.findById(id);

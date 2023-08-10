@@ -14,33 +14,34 @@
                 </div>
                 <% }) %>
               </div>    
-        </div>               
+        </div>   
+        <script>
+          document.addEventListener('DOMContentLoaded', function() {
+            var toasts = document.querySelectorAll('.toast');
+        
+            var toastContainer = new bootstrap.Toast(document.getElementById('errorToast'));
+        
+            // Mostrar los toasts al cargar la página
+            toasts.forEach(function(toast) {
+              var bsToast = new bootstrap.Toast(toast);
+              bsToast.show();
+            });
+        
+            // Cerrar los toasts al hacer clic en el botón de cerrar
+            document.addEventListener('click', function(event) {
+              if (event.target.classList.contains('btn-close')) {
+                var toast = event.target.closest('.toast');
+                var bsToast = bootstrap.Toast.getInstance(toast);
+                bsToast.hide();
+              }
+            });
+        
+            // Ocultar los toasts después de un tiempo determinado
+            setTimeout(function() {
+              toastContainer.hide();
+            }, 5000);
+          });
+        </script>            
   <% } %>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      var toasts = document.querySelectorAll('.toast');
   
-      var toastContainer = new bootstrap.Toast(document.getElementById('errorToast'));
-  
-      // Mostrar los toasts al cargar la página
-      toasts.forEach(function(toast) {
-        var bsToast = new bootstrap.Toast(toast);
-        bsToast.show();
-      });
-  
-      // Cerrar los toasts al hacer clic en el botón de cerrar
-      document.addEventListener('click', function(event) {
-        if (event.target.classList.contains('btn-close')) {
-          var toast = event.target.closest('.toast');
-          var bsToast = bootstrap.Toast.getInstance(toast);
-          bsToast.hide();
-        }
-      });
-  
-      // Ocultar los toasts después de un tiempo determinado
-      setTimeout(function() {
-        toastContainer.hide();
-      }, 5000);
-    });
-  </script>
