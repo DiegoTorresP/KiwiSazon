@@ -42,4 +42,6 @@ router.post('/users/actualizarComentario',authenticateToken,recetaController.act
 
 router.post('/users/:id/desactivarComentario', authenticateToken, recetaController.deactivateComentario);
 
+router.post('/favorite/:id', authenticateToken, recetaController.agregarFavoritos.bind(recetaController));
+router.get('/favoritas', authenticateToken, view.recetas_favoritas);
 module.exports = router;

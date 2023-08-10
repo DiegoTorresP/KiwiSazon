@@ -128,7 +128,11 @@
                         <% }else{ %>
                             <img src="<%= item.imagen %>" />
                             <% } %>
-                                <a href="#!"><i class="far fa-heart"></i></a>
+                            <% if (loginUser) { %>
+                              <form action="/favorite/<%= item._id %>" method="post">
+                                <button style="background-color: white;" type="submit" ><i class="far fa-heart"></i></button>
+                              </form>
+                            <% } %>
                 </div>
                 <div class="food-card_content">
                     <div class="food-card_title-section">

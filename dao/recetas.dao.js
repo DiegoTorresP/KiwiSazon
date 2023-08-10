@@ -53,8 +53,8 @@ class RecetaDAO{
 
       async getRecetaByID(id) {
         try {
-          const Receta = await Receta.findById(id)
-          return Receta;
+          const receta = await Receta.findById(id)
+          return receta;
         } catch (error) {
             throw new Error('No se pudo encontrar esta receta');
         }

@@ -257,6 +257,21 @@ class RecetaController {
     }
   };
 
+  async agregarFavoritos (req, res){
+    try {
+      const {id} = req.params;
+      const receta = await this.recetaDao.getRecetaByID(id)
+      const user =await Usuario.findById(req.userId);
+
+      user.followReceta.push(receta);
+      user.save()
+      res.redirect('back');
+    } catch (error) {
+      console.log(error);
+      res.status(404).render('error/error', { status: error });
+    }
+  };
+
 }
 
 

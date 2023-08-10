@@ -149,6 +149,19 @@ exports.categorias = (async (req, res) => {
   }
 });
 
+exports.recetas_favoritas = (async (req, res) => {
+    try {
+      const {id} = req.userId;
+      const receta = await User.findById(req.userId).populate('followReceta');
+
+      const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
+      res.render('user/recetasFavoritas', { loginUser: req.userId, misrecetas: receta ,getFechaFormateada, notificaciones:notificaciones })
+    } catch (error) {
+      console.log(error);
+      res.status(404).render("error/error", { status: error })
+    }
+});
+
 // Controlador o sección de script de la vista EJS
 function getFechaFormateada(fecha) {
   const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];

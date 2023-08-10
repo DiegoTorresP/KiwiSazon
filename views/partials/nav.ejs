@@ -368,11 +368,18 @@ body.noti{
         </div>
           </a>
       </div>
-      
-      <!-- Icon -->
-      <a class="text-reset me-3 noti" href="#">
-        <i class="fas fa-heart noti"></i>
-      </a>
+
+        <div class = "notification noti">
+          <%let favoritas=0 ;if(loginUser){favoritas=loginUser.followReceta.length} %> 
+          <a class="noti" href = "/favoritas">
+          <div class = "notBtn noti" href = "#">
+            <!--Number supports double digets and automaticly hides itself when there is nothing between divs -->
+            <div class = "number noti"><%= favoritas %></div>
+            <i class="fas fa-heart noti"></i>
+ 
+          </div>
+            </a>
+        </div>
       <% } %>
       <!-- Avatar -->
       <div class="dropdown">
