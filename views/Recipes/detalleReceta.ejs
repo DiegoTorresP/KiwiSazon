@@ -8,6 +8,47 @@
     <title>KiwiSazón</title>
 </head>
 <style>
+
+    /* make the current radio visually hidden */
+input[type=radio]{ 
+  -webkit-appearance: none;
+  margin: 0;
+  box-shadow: none; /* remove shadow on invalid submit */
+}
+
+/* generated content is now supported on input. supporting older browsers? change button above to {position: absolute; opacity: 0;} and add a label, then style that, and change all selectors to reflect that change */
+input[type=radio]::after {
+  content: '\2605';
+  font-size: 40px;
+}
+
+/* by default, if no value is selected, all stars are grey */
+input[type=radio]:invalid::after {
+  color: #ddd;
+}
+
+/* if the rating has focus or is hovered, make all stars darker */
+rating:hover input[type=radio]:invalid::after,
+rating:focus-within input[type=radio]:invalid::after
+{color: #888;}
+
+/* make all the stars after the focused one back to ligh grey, until a value is selected */
+rating:hover input[type=radio]:hover ~ input[type=radio]:invalid::after,
+rating input[type=radio]:focus ~ input[type=radio]:invalid::after  {color: #ddd;}
+
+rating{
+    margin: 5px;
+}
+
+/* if a value is selected, make them all selected */
+rating input[type=radio]:valid {
+  color: orange;
+}
+/* then make the ones coming after the selected value look inactive */
+rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
+  color: #ccc;
+  content: '\2606'; /* optional. hollow star */
+}
     /* Lista Ingredientes */
     .ingredientes-container {
         display: flex;
@@ -100,6 +141,54 @@
   background-color: rgb(0, 255, 255) ;
   z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
 }
+
+.progress-star {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2MxYzFjMSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+  background-size: contain;
+  background-color: transparent;
+  
+  
+  .progress-bar {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmY2IwMTciIHN0cm9rZT0iI2ZjYjAxNyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+    background-size: contain;
+    background-color: transparent;
+  }
+}
+
+
+.rating {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+}
+
+.rating-bg {
+  width: 150px;
+  position: absolute;
+
+}
+.rating-bar {
+  float: left;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  .rating-icon {
+    color: #FFB03D;
+  }
+}
+
+.rating-icon {
+  color: #c1c1c1;
+  &.svg-inline--fa {
+    float: left;
+    width: calc(100% / 5);
+    height: 30px;
+  }
+}
 </style>
 <body>
     <%- include('../partials/nav') %>
@@ -147,23 +236,42 @@
                                     <%= receta.porciones %></p>
                                  <div>
                                     <% if (receta.calificacion) { %>
-                                        <strong>Calificación:</strong> <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star text-warning"></i>  <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star-half-stroke text-warning"></i><i class="fa-regular fa-star text-warning"></i>
+                                        <strong>Calificación General:<%=promedioValoraciones%></strong> 
+                                        <div class="progress progress-star">
+                                            <div class="progress-bar" role="progressbar" style="width:<%=promedioValoraciones%>%" 
+                                            title="ValoracionGeneral" aria-valuenow="<%=promedioValoraciones%>" 
+                                            aria-valuemin="0" aria-valuemax="5"></div>
+                                          </div>
                                     <% } %>
                                     
                                  </div>   
                                  <% if (loginUser) { %>
-                                    <form class="form row">
-                                        <div class="col-md-8 ">
-                                        Califica la receta:
-                                          <div class="ec-stars-wrapper">
-                                            <a href="#" data-value="1" title="Votar con 1 estrellas">&#9733;</a>
-                                            <a href="#" data-value="2" title="Votar con 2 estrellas">&#9733;</a>
-                                            <a href="#" data-value="3" title="Votar con 3 estrellas">&#9733;</a>
-                                            <a href="#" data-value="4" title="Votar con 4 estrellas">&#9733;</a>
-                                            <a href="#" data-value="5" title="Votar con 5 estrellas">&#9733;</a>
-                                          </div>
-                                        </div>
-                                      </form> 
+                                    <form action="/enviarCalificacion" method="post">
+                                        <input name="idReceta" type="hidden" value="<%= receta._id %>" >
+                                        <strong>Calificación Personal:</strong>
+                                        <div>
+                                        <rating>
+                                        <% if(valoracionPersonal==0){%> 
+                                          
+                                           
+                                             <input type="radio" name="rating" value="1" aria-label="1 star" required/>
+                                             <input type="radio" name="rating" value="2" aria-label="2 stars"/>
+                                             <input type="radio" name="rating" value="3" aria-label="3 stars"/>
+                                             <input type="radio" name="rating" value="4" aria-label="4 stars"/>
+                                             <input type="radio" name="rating" value="5" aria-label="5 stars"/>
+                                           
+                                        <%}else{%>
+                                            <input type="radio" name="rating" value="1" aria-label="1 star" <%= valoracionPersonal=== 1 ? 'checked' : '' %> required/>
+                                            <input type="radio" name="rating" value="2" aria-label="2 stars" <%= valoracionPersonal === 2 ? 'checked' : '' %> />
+                                            <input type="radio" name="rating" value="3" aria-label="3 stars" <%= valoracionPersonal === 3 ? 'checked' : '' %> />
+                                            <input type="radio" name="rating" value="4" aria-label="4 stars" <%= valoracionPersonal === 4 ? 'checked' : '' %> />
+                                            <input type="radio" name="rating" value="5" aria-label="5 stars" <%= valoracionPersonal === 5 ? 'checked' : '' %> />
+                                            <%}%>
+                                        </rating>
+                                        <button type="reset" class="btn btn-warning btn-sm btn-rounded" data-bs-placement="left" title="Reestablecer"><i class="fa-solid fa-trash-can-arrow-up"></i></button>
+                                        <button type="submit" class="btn btn-success btn-sm btn-rounded" data-bs-placement="left" title="Enviar"><i class="fa-solid fa-paper-plane"></i></button>
+                                    </div>
+                                      </form>
                                 <% } %>
                                     
                             </div>
@@ -233,6 +341,7 @@
                     <div class="card mb-3 mt-3">
                         <div class="card-body ">
                             <div class="d-flex align-items-center">
+                                
                                 <% if(item.user.image==null) { %>
                                     <img
                                         src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" alt="Imagen de Usuario" class="rounded-circle me-3" width="50" />
