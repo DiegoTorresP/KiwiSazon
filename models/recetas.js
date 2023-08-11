@@ -46,7 +46,7 @@ const recetaSchema =mongoose.Schema({
     calificacion:[
         {
             type:mongoose.ObjectId,
-            ref:"calificacion"
+            ref:"valoraciones"
         },
     ],
     date: { type: Date,

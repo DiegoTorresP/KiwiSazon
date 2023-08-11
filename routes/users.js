@@ -58,6 +58,7 @@ router.post('/users/comentarReceta',authenticateToken,recetaController.comentarR
 router.post('/users/actualizarComentario',authenticateToken,recetaController.actualizarComentario.bind(recetaController));
 
 router.post('/users/:id/desactivarComentario', authenticateToken, recetaController.deactivateComentario);
+router.post('/enviarCalificacion',authenticateToken,recetaController.enviarCalificacion.bind(recetaController));
 
 router.post('/favorite/:id', authenticateToken, recetaController.agregarFavoritos.bind(recetaController));
 router.get('/favoritas', authenticateToken, view.recetas_favoritas);
