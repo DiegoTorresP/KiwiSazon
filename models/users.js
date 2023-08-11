@@ -60,12 +60,12 @@ const userSchema =mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "notificaciones"
     }],
-    // followReceta:[
-    //     {
-    //         type:mongoose.ObjectId,
-    //         ref:"orders"
-    //     }
-    // ]
+    followReceta:[
+        {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "recetas",
+        }        
+    ],
     tokenPass : {
         type: Number
     }     

@@ -70,10 +70,14 @@ class RecetaController {
         console.log(e)
         recetaObj.imagen = null;
       }
-      console.log(recetaObj);
       const newReceta = await this.recetaDao.createReceta(recetaObj);
       user.recetas.push(newReceta);
       user.save();
+      const mensaje = {
+        title:'Receta Creada',
+        subtitle:'La receta esta en revisión, un administrador verificará que cumpla con lo necesario y se te notificará'
+      }
+      req.flash("success", mensaje);
       res.redirect('/misRecetas');
     } catch (error) {
       console.log(error)
@@ -316,6 +320,31 @@ class RecetaController {
         });
         res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones,receta:receta});
       
+    } catch (error) {
+      console.log(error);
+      res.status(404).render('error/error', { status: error });
+    }
+  };
+
+  async agregarFavoritos (req, res){
+    try {
+      const {id} = req.params;
+      const receta = await this.recetaDao.getRecetaByID(id)
+      const user = await Usuario.findById(req.userId).populate('followReceta');
+
+      const recetaExists = user.followReceta.some(item => item.equals(receta._id));
+
+      if (recetaExists) {
+        console.log("La receta ya existe en favoritos");
+        // req.flash("error", "La receta ya existe en favoritos")
+        // console.log(req.flash("error"))
+        return res.redirect("/home");
+      }
+
+
+      user.followReceta.push(receta);
+      user.save()
+      res.redirect('back');
     } catch (error) {
       console.log(error);
       res.status(404).render('error/error', { status: error });

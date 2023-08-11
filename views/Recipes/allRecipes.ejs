@@ -22,9 +22,9 @@
             <h2 class="section-title px-5"><span class="px-lg-2">Buscando tu sazón</span></h2>
         </div>
         <div class="row justify-content-end mt-3" >
-            <div class="col-2">
+            <div class="col-lg-3">
                 <div class="input-group rounded">
-                          <input type="search" class="form-control rounded searchbox-input"  placeholder="Search......" name="search" aria-label="Search" aria-describedby="search-addon" onkeyup="buttonUp();" required/>
+                          <input type="search" class="form-control rounded searchbox-input" id="searchbox-input" placeholder="Search......" name="search" aria-label="Search" aria-describedby="search-addon" onkeyup="buttonUp();" required/>
                           <span class="input-group-text border-0" id="search-addon">
                             <i class="fas fa-search"></i>
                           </span>
@@ -72,7 +72,10 @@
                                             <% }else{ %>
                                                 <img src="<%= item.imagen %>" />
                                                 <% } %>
-                                                    <a href="#!"><i class="far fa-heart"></i></a>
+                                                <% if (loginUser) { %>
+                                                    <a href="javascript:void(0);" class="favorite-link" data-id="<%= item._id %>"><i class="far fa-heart"></i></a>
+                      
+                                                  <% } %>
                                     </div>
                                     <div class="food-card_content">
                                         <div class="food-card_title-section">
@@ -150,6 +153,7 @@
         </div>
         
     </div>
+    <script src="/js/recetaFav.js" ></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const checkboxes = document.querySelectorAll('.categoria');
@@ -159,7 +163,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const categoriasSeleccionadas = Array.from(checkboxes)
       .filter(checkbox => checkbox.checked)
       .map(checkbox => checkbox.value);
-console.log(categoriasSeleccionadas)
     cards.forEach(card => {
         console.log(card.classList[5])
       if (categoriasSeleccionadas.length === 0 || categoriasSeleccionadas.includes(card.classList[5])) {
@@ -187,7 +190,31 @@ console.log(categoriasSeleccionadas)
   });
 });
   
-
+let buttonUp = () => {
+    const input = document.getElementById("searchbox-input").value;
+    const cards = document.querySelectorAll('.tarjeta');
+    let filter = input.toLowerCase();
+    console.log(filter)
+    for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].querySelector(".food-card_title");
+        console.log(title)
+        if (title.textContent.toLowerCase().indexOf(filter) > -1) {
+            cards[i].style.display = 'block';
+            cards[i].style.height = cards[i].scrollHeight + 'px';
+            cards[i].style.opacity = '1';
+            cards[i].style.transition = 'opacity 0.3s ease-out, height 0.3s ease-out';
+            cards[i].style.overflow = 'hidden';
+      } else {
+            setTimeout(() => {
+                cards[i].style.display = 'none';
+            }, 100);
+            cards[i].style.height = '0';
+            cards[i].style.opacity = '0';
+            cards[i].style.transition = 'opacity 0.3s ease-out, height 0.3s ease-out';
+            cards[i].style.overflow = 'hidden';
+        }
+    }
+}
 </script>   
 </body>
 

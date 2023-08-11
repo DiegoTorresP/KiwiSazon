@@ -5,8 +5,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Dashboard Admin</title>
-        <link rel="stylesheet" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+        <title>KiwiSazón</title>
     </head>
     <style>
         .section-title {
@@ -189,487 +188,493 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
     </style>
-
-    <body>
-        <%- include('../partials/nav') %>
-
-                        <main>
-                            <div class="row">
-                                <div class="col text-center">
-                                    <h2 class="section-title px-5"><span class="px-lg-2">Mis Recetas</span></h2>
-                                </div>
-                                <% if (misrecetas.length> 0) { %>
-                                    <div class="col-auto mb-2">
-                                        <div class="position-sticky bottom-0 end-0 me-4">
-                                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                                                data-bs-target="#exampleModal">
-                                                Crear Receta
-                                            </button>
-                                        </div>
+ <%- include('../partials/nav') %>
+ <body>
+        <div class="container-fluid ">
+            
+            <div class="row">
+                <div class="col text-center">
+                    <h2 class="section-title px-5"><span class="px-lg-2">Mis Recetas</span></h2>
+                </div>
+                <% if (misrecetas.length> 0) { %>
+                    <div class="col-auto mb-2">
+                        <div class="position-sticky bottom-0 end-0 me-4">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Crear Receta
+                            </button>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+                <!--Tabla o cards-->
+                <% if (misrecetas.length> 0) { %>
+                    <div class="row ">
+                        <% misrecetas.forEach(item=> { %>
+                            <div class="col-sm-4 col-md-4 col-lg-3">
+                                <div class="food-card">
+                                    <div class="food-card_img">
+                                        <% if(item.imagen==null) { %>
+                                            <img
+                                                src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" />
+                                            <% }else{ %>
+                                                <img src="<%= item.imagen %>" />
+                                                <% } %>
+                                                    <a href="#!"><i class="far fa-heart"></i></a>
                                     </div>
-                                <% } %>
-                            </div>
-                            <div class="container-fluid">
-                                <div class="">
-
-                                    <!--Tabla o cards-->
-                                    <% if (misrecetas.length> 0) { %>
-                                        <div class="row">
-                                            <% misrecetas.forEach(item=> { %>
-                                                <div class="col-sm-4 col-md-4 col-lg-3">
-                                                    <div class="food-card">
-                                                        <div class="food-card_img">
-                                                            <% if(item.imagen==null) { %>
-                                                                <img
-                                                                    src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" />
-                                                                <% }else{ %>
-                                                                    <img src="<%= item.imagen %>" />
-                                                                    <% } %>
-                                                                        <a href="#!"><i class="far fa-heart"></i></a>
-                                                        </div>
-                                                        <div class="food-card_content">
-                                                            <div class="food-card_title-section">
-                                                                <a href="#!" class="food-card_title">
-                                                                    <%= item.platilloNombre %>
-                                                                </a>
-                                                                <a href="#!" class="food-card_author">Categoria: <%= item.categoria %></a>
-                                                                <div class="food-card_author"> 
-                                                                    Tiempo: 
-                                                                    <span class="fa-regular fa-clock"></span>
-                                                                    <%= item.tiempo %> Min.
-                                                                </div>
-                                                            </div>
-                                                            <div class="food-card_bottom-section">
-                                                                <div class="space-between">
-                                                                    <div>
-                                                                        <% if (item.dificultad=='Baja') { %>
-                                                                            <span class="fa fa-fire" style="color: green;"></span>
-                                                                        <% } %>
-                                                                        <% if (item.dificultad=='Media') { %>
-                                                                            <span class="fa fa-fire" style="color: orange;"></span>
-                                                                        <% } %>
-                                                                        <% if (item.dificultad=='Alta') { %>
-                                                                            <span class="fa fa-fire" style="color: red;"></span>
-                                                                        <% } %>
-                                                                       
-                                                                        <%= item.dificultad %> &nbsp;&nbsp;-&nbsp;&nbsp; 
-                                                                        <span class="fa-solid fa-users"></span>
-                                                                        <%= item.porciones %>
-                                                                    </div>
-                                                                    <div class="pull-right">
-                                                                        <% if (item.isAprovado==0) { %>
-                                                                            <span class="badge badge-success" style="background-color: yellow; color: #727171;">
-                                                                                Receta en Revision
-                                                                            </span>
-                                                                        
-                                                                        <% } %>
-                                                                            <% if (item.isAprovado==1) { %>
-                                                                                <span class="badge badge-success" style="background-color: green;">
-                                                                                    Receta Aprovada
-                                                                                </span>
-                                                                               
-                                                                                <% } %>
-                    
-                                                                                    <% if (item.isAprovado==2) { %>
-                                                                                            <span class="badge badge-success" style="background-color: red;">
-                                                                                                Receta Rechazada
-                                                                                            </span>    
-                                                                                    
-                                                                                        <% } %>
-                                                                    </div>
-                                                                </div>
-                                                                <hr>
-                                                                <div class="mb-2">
-                                                                   
-                                                                    <div class="food-card_price">
-                                                                        <div class="d-flex flex-wrap justify-content-center" >
-                                                                            <div class="p-2">
-                                                                                <button 
-                                                                            type="button"
-                                                                            class="btn btn-info btn-lg btn-rounded " 
-                                                                            data-bs-toggle="modal"
-                                                                            data-bs-target="#DetalleModal<%= item._id %>"  title="Detalle">
-                                                                            <i class="fa-solid fa-plus"></i>
-                                                                            </button>
-                                                                            </div>
-                                                                            <div class="p-2">
-                                                                                <button 
-                                                                                type="button"
-                                                                                class="btn btn-info btn-lg btn-rounded " 
-                                                                                data-bs-toggle="modal"
-                                                                                data-bs-target="#myModalEdit<%= item._id %>" title="Actualizar">
-                                                                                <i class="fa-solid fa-pen-to-square"></i>
-                                                                            </button>
-                                                                            </div>
-                                                                        </div>
-
-                                                                        
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                </div>
-                                                <% }); %>
+                                    <div class="food-card_content">
+                                        <div class="food-card_title-section">
+                                            <a href="#!" class="food-card_title">
+                                                <%= item.platilloNombre %>
+                                            </a>
+                                            <a href="#!" class="food-card_author">Categoria: <%= item.categoria %></a>
+                                            <div class="food-card_author"> 
+                                                Tiempo: 
+                                                <span class="fa-regular fa-clock"></span>
+                                                <%= item.tiempo %> Min.
+                                            </div>
                                         </div>
-
-                                        <% } else { %>
-                                            <div class="row mt-5 d-flex justify-content-center">
-                                                <div class="col-md-6 col-sm-12">
-                                                    <img src="https://firebasestorage.googleapis.com/v0/b/kiwisazonp.appspot.com/o/imagenes%2Frecetas1.png?alt=media&token=6bf98922-3b08-4dbb-a26d-aa02be56ee7b" 
-                                                    class="img-fluid rounded-circle" style="max-width: 100%; max-height: 400px;">
+                                        <div class="food-card_bottom-section">
+                                            <div class="space-between">
+                                                <div>
+                                                    <% if (item.dificultad=='Baja') { %>
+                                                        <span class="fa fa-fire" style="color: green;"></span>
+                                                    <% } %>
+                                                    <% if (item.dificultad=='Media') { %>
+                                                        <span class="fa fa-fire" style="color: orange;"></span>
+                                                    <% } %>
+                                                    <% if (item.dificultad=='Alta') { %>
+                                                        <span class="fa fa-fire" style="color: red;"></span>
+                                                    <% } %>
+                                                   
+                                                    <%= item.dificultad %> &nbsp;&nbsp;-&nbsp;&nbsp; 
+                                                    <span class="fa-solid fa-users"></span>
+                                                    <%= item.porciones %>
                                                 </div>
-                                                    <div class="col-md-6 col-sm-12">
-                                                        <div class="text-md-start mt-md-5">
-                                                          <h2 class="mb-4 text-danger">¡Ups! Parece que aún no tienes recetas.</h2>
-                                                          <p class="lead mb-4" style="color: #0F893F;">No te preocupes, cada gran chef empieza desde cero. ¡Es tu oportunidad de crear delicias únicas!</p>
-                                                          <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                                            ¡Crear Receta Ahora!
-                                                          </button>
-                                                        </div>
-                                                    </div>
+                                                <div class="pull-right">
+                                                    <% if (item.isAprovado==0) { %>
+                                                        <span class="badge badge-success" style="background-color: yellow; color: #727171;">
+                                                            Receta en Revision
+                                                        </span>
                                                     
+                                                    <% } %>
+                                                        <% if (item.isAprovado==1) { %>
+                                                            <span class="badge badge-success" style="background-color: green;">
+                                                                Receta Aprovada
+                                                            </span>
+                                                           
+                                                            <% } %>
+
+                                                                <% if (item.isAprovado==2) { %>
+                                                                        <span class="badge badge-success" style="background-color: red;">
+                                                                            Receta Rechazada
+                                                                        </span>    
+                                                                
+                                                                    <% } %>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="mb-2">
+                                               
+                                                <div class="food-card_price">
+                                                    <div class="d-flex flex-wrap justify-content-center" >
+                                                        <div class="p-2">
+                                                            <button 
+                                                        type="button"
+                                                        class="btn btn-info btn-lg btn-rounded " 
+                                                        data-bs-toggle="modal"
+                                                        data-bs-target="#DetalleModal<%= item._id %>"  title="Detalle">
+                                                        <i class="fa-solid fa-plus"></i>
+                                                        </button>
+                                                        </div>
+                                                        <div class="p-2">
+                                                            <button 
+                                                            type="button"
+                                                            class="btn btn-info btn-lg btn-rounded " 
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#myModalEdit<%= item._id %>" title="Actualizar">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </button>
+                                                        </div>
+                                                    </div>
+
+                                                    
+                                                </div>
                                                 
-                                                
                                             </div>
-                                            <% } %>
-
-                                </div>
-
-
-                                <!-- Modal -->
-                                <div class="modal fade " id="exampleModal" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-
-                                        <form class="modal-content" action="/users/crearReceta" method="post"
-                                            enctype="multipart/form-data">
-                                            <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Receta
-                                                </h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <input type="text" name="idUser" id="idUser" class="form-control "
-                                                    style="display: none;" value="<%= loginUser._id%>" disabled />
-                                                <div class="form-floating mb-4">
-                                                    <input type="text" name="platilloNombre" id="platilloNombre"
-                                                        class="form-control " placeholder=" " required />
-                                                    <label for="floatingInputGroup1">Nombre del Platillo</label>
-                                                    <div class="invalid-feedback" id="errorUser" style="display: none;">
-                                                        El campo Nombre del Platillo es
-                                                        requerido</div>
-                                                </div>
-                                                <div class="mb-5 row">
-                                                    <div class="col-sm-3">
-                                                        <div class="image-port">
-                                                            <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg"
-                                                                height="90px" width="90px"
-                                                                class="profile-photo m-auto rounded-circle"
-                                                                id="dp-pick">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-9 mt-3">
-                                                        <input type="file" class="form-control"
-                                                            accept=".jpg, .png, .jpeg" name="image" id="files" />
-                                                    </div>
-                                                </div>
-
-                                                <div class="row mb-4">
-                                                    <div class="form-floating col-sm-6">
-                                                        <select id="categoria" name="categoria" class="form-select">
-                                                            <% categorias.forEach(function(cate) { %>
-                                                                <option value="<%= cate.nombre %>"><%= cate.nombre %></option>
-                                                            <% }); %>
-                                                        </select>
-                                                        <label for="categoria">Selecciona una Categoria</label>
-                                                    </div>
-                                                    <div class="form-floating col-sm-6">
-                                                        <select id="dificultad" name="dificultad" class="form-select">
-                                                            <option value="Alta">Alta</option>
-                                                            <option value="Media">Media</option>
-                                                            <option value="Baja">Baja</option>
-                                                        </select>
-                                                        <label for="dificultad">Selecciona una Dificultad</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control"
-                                                            placeholder="Leave a comment here" id="ingredientes"
-                                                            name="ingredientes" style="height: 100px"></textarea>
-                                                        <label for="ingredientes">Ingredientes</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control"
-                                                            placeholder="Leave a comment here" id="pasosSeguir"
-                                                            name="pasosSeguir" style="height: 100px"></textarea>
-                                                        <label for="pasosSeguir">Pasos a Seguir</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating col-sm-6">
-                                                        <input type="text" name="tiempo" id="tiempo"
-                                                            class="form-control" placeholder=" " required />
-                                                        <label class="form-label" for="tiempo">Tiempo </label>
-                                                        <div class="invalid-feedback" id="errorNombre"
-                                                            style="display: none;">El campo Tiempo es requerido
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="form-floating col-sm-6">
-                                                        <input type="number" name="porciones" id="porciones"
-                                                            class="form-control " placeholder=" " required />
-                                                        <label class="form-label" for="porciones">Porciones</label>
-                                                        <div class="invalid-feedback" id="errorApellido"
-                                                            style="display: none;">El campo Porciones es requerido
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control"
-                                                            placeholder="Leave a comment here" id="tips" name="tips"
-                                                            style="height: 100px"></textarea>
-                                                        <label for="tips">Tips</label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary"
-                                                    id="cerrarModalNuevaReceta" data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                            </div>
-                                        </form>
-
+                                            
+                                        </div>
                                     </div>
                                 </div>
 
-                               
-                                <% if (misrecetas.length> 0) { %>
-                                     <!--Modal Detalle-->
-                                    <% misrecetas.forEach(function(item) { %>
-                                        <div class="modal fade" id="DetalleModal<%= item._id %>" tabindex="-1"
-                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog modal-xl">
-                                                <div class="modal-content ">
-                                                    <% if(item.imagen==null) { %>
-                                                        <div class="modal-header" style=" background: url('https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png') center center no-repeat;
-                                                    background-size: cover;">
-                                                        <h5 class="modal-title modal-detalle text-center" id="exampleModalLabel">Detalles de receta
-                                                        </h5>
-                                                        <button type="button" class="btn-close btn-white" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                        <% }else{ %>
-                                                            <div class="modal-header" style=" background: url('<%= item.imagen %>') center center no-repeat;
-                                                    background-size: cover;">
-                                                        <h5 class="modal-title modal-detalle text-center"  id="exampleModalLabel" >Detalles de receta
-                                                        </h5>
-                                                        <button type="button" class="btn-close btn-white" data-bs-dismiss="modal"
-                                                            aria-label="Close"></button>
-                                                    </div>
-                                                            <% } %>
-                                                  
-                                                    <div class="modal-body">
-                                                        
-                                                        <% if(item.imagen==null) { %>
-                                                            <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
-                                                                class="img-fluid rounded-pill"
-                                                                alt="Townhouses and Skyscrapers" style="height: 100px; " />
-                                                            <% }else{ %>
-                                                                <img src="<%= item.imagen %>" class="img-fluid rounded-pill"
-                                                                    alt="Townhouses and Skyscrapers"
-                                                                    style="height: 100px; " />
-                                                                <% } %>
-                                                                    </p>
-                                                                    <p>Nombre de receta: <%= item.platilloNombre %>
-                                                                    </p>
-                                                                    </p>
-                                                                    <p>Ingredientes: </p>
-                                                                    <ul>
-                                                                        <% item.ingredientes.split('\n').forEach(function(ingrediente)
-                                                                            { %>
-                                                                            <li>
-                                                                                <%= ingrediente %>
-                                                                            </li>
-                                                                            <% }); %>
-                                                                    </ul>
-                                                                    <p>Pasos a segir: </p>
-                                                                    <ul>
-                                                                        <% item.pasosSeguir.split('\n').forEach(function(pasos)
-                                                                            { %>
-                                                                            <li>
-                                                                                <%= pasos %>
-                                                                            </li>
-                                                                            <% }); %>
-                                                                    </ul>
-                                                                    <p>Dificultad: <%= item.dificultad %>
-                                                                    </p>
-                                                                    <p>Tiempo: <%= item.tiempo %> Min.</p>
-                                                                    <p>Porciones: <%= item.porciones %>
-                                                                    </p>
-                                                                    <p>Tips: <%= item.tips %>
-                                                                    </p>
-                                                                    <p>Categoria: <%= item.categoria %>
-                                                                    </p>
-
-                                                                    <p> Estado:
-                                                                        <% if (item.isAprovado==0) { %>
-
-                                                                            <span style="background-color: yellow;"
-                                                                                class="badge badge-warning rounded-pill d-inline">Receta
-                                                                                en revision</span>
-
-                                                                            <% } %>
-
-                                                                                <% if (item.isAprovado==1) { %>
-                                                                                    <span style="background-color: green;"
-                                                                                        class="badge badge-success rounded-pill d-inline">Receta
-                                                                                        aprovada</span>
-
-                                                                                    <% } %>
-
-
-                                                                                        <% if (item.isAprovado==2) { %>
-                                                                                            <span
-                                                                                                style="background-color: red;"
-                                                                                                class="badge badge-danger rounded-pill d-inline">Receta
-                                                                                                Rechazada</span>
-                                                                                            <% } %>
-                                                                    </p>
-                                                                    <!-- Agrega más detalles según tus necesidades -->
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Cerrar</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <% }); %>
-                                    
-                                     <!-- Modal Edit -->
-                             <% misrecetas.forEach(function(item) { %>
-                                <div class="modal fade " id="myModalEdit<%= item._id %>" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
-                                   
-                                    <form class="modal-content" action="/users/editarReceta" method="post" enctype="multipart/form-data">
-                                        <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Receta</h1>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                        </div>
-                                         <div class="modal-body">
-                                           
-                                            <input type="text" name="idUser" id="idUser" class="form-control " style="display: none;"  value="<%= loginUser._id%>" disabled />
-                                            <div class="form-floating mb-4">
-                                               <input type="text" name="recetaId" id="recetaId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly/>
-                                            </div>
-                                            <% if (item.isAprovado==2) { %>
-                                              <div class="alert alert-warning" role="alert">
-                                                <%= item.comentariosRevision%>
-                                              </div>
-                                              <% } %>
-                                            <div class="form-floating mb-4">
-                                                <input type="text" name="platilloNombre" id="platilloNombre" class="form-control "  placeholder=" " required value="<%= item.platilloNombre %>">
-                                                <label for="floatingInputGroup1">Nombre del Platillo</label>
-                                                <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
-                                            </div>
-                                                <div class="mb-5 row">
-                                                    <div class="col-sm-3">
-                                                       <div class="image-port">
-                                                       <% if(item.imagen==null) { %>
-                                                           <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg" 
-                                                           height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
-                                                           <% }else{ %>
-                                                               <img src="<%= item.imagen %>" class="img-fluid rounded-pill"
-                                                               height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
-                                                               <% } %>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-sm-9 mt-3">
-                                                        <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
-                                                    </div>    
-                                                </div>    
-                                               
-                                                <div class="row mb-4">
-                                                    <div class="form-floating col-sm-6">
-                                                       <select id="categoria" name="categoria" class="form-select">
-                                                        <% categorias.forEach(function(cate) { %>
-                                                            <option value="<%= cate.nombre %>" <%= item.categoria === cate.nombre ? 'selected' : '' %>><%= cate.nombre %></option>
-                                                        <% }); %>
-                                                       </select>
-                                                       
-                                                        <label for="categoria">Selecciona una Categoria</label>
-                                                    </div>
-                                                    <div class="form-floating col-sm-6">
-                                                        <select id="dificultad" name="dificultad" class="form-select">
-                                                           <option value="Alta" <%= item.dificultad === 'Alta' ? 'selected' : '' %>>Alta</option>
-                                                           <option value="Media" <%= item.dificultad === 'Media' ? 'selected' : '' %>>Media</option>
-                                                           <option value="Baja" <%= item.dificultad === 'Baja' ? 'selected' : '' %>>Baja</option>
-                                                       </select>
-                                                       
-                                                        <label for="dificultad">Selecciona una Dificultad</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"><%= item.ingredientes %></textarea>
-                                                        <label for="ingredientes">Ingredientes</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"><%= item.pasosSeguir %></textarea>
-                                                        <label for="pasosSeguir">Pasos a Seguir</label>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4" >
-                                                    <div class="form-floating col-sm-6">
-                                                        <input type="text" name="tiempo"  id="tiempo" class="form-control" value=" <%= item.tiempo %>"  required/>
-                                                        <label class="form-label" for="tiempo">Tiempo </label>
-                                                        <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
-                                                    </div>
-                                    
-                                                    <div class="form-floating col-sm-6">
-                                                        <input type="number" name="porciones" id="porciones" class="form-control " value=<%= item.porciones %>  required />
-                                                        <label class="form-label" for="porciones">Porciones</label>
-                                                        <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-4">
-                                                    <div class="form-floating">
-                                                        <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"><%= item.tips %></textarea>
-                                                        <label for="tips">Tips</label>
-                                                    </div>
-                                                </div>
-                                        </div>
-                                         <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta"
-                                                    data-bs-dismiss="modal">Cerrar</button>
-                                                <button type="submit" class="btn btn-primary">Guardar</button>
-                                         </div>
-                                    </form>
-                                    
-                                </div>
                             </div>
                             <% }); %>
-                                <% }; %>
+                    </div>
 
+                    <% } else { %>
+                        <div class="row mt-5 d-flex justify-content-center">
+                            <div class="col-md-6 col-sm-12">
+                                <img src="https://firebasestorage.googleapis.com/v0/b/kiwisazonp.appspot.com/o/imagenes%2Frecetas1.png?alt=media&token=6bf98922-3b08-4dbb-a26d-aa02be56ee7b" 
+                                class="img-fluid rounded-circle" style="max-width: 100%; max-height: 400px;">
+                            </div>
+                                <div class="col-md-6 col-sm-12">
+                                    <div class="text-md-start mt-md-5">
+                                      <h2 class="mb-4 text-danger">¡Ups! Parece que aún no tienes recetas.</h2>
+                                      <p class="lead mb-4" style="color: #0F893F;">No te preocupes, cada gran chef empieza desde cero. ¡Es tu oportunidad de crear delicias únicas!</p>
+                                      <button type="button" class="btn btn-primary btn-md" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                        ¡Crear Receta Ahora!
+                                      </button>
+                                    </div>
+                                </div>
+                                
+                            
+                            
+                        </div>
+                        <% } %>
+
+            
+
+
+            <!-- Modal -->
+            <div class="modal fade " id="exampleModal" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+
+                    <form class="modal-content" action="/users/crearReceta" method="post"
+                        enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Receta
+                            </h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="text" name="idUser" id="idUser" class="form-control "
+                                style="display: none;" value="<%= loginUser._id%>" disabled />
+                            <div class="form-floating mb-4">
+                                <input type="text" name="platilloNombre" id="platilloNombre"
+                                    class="form-control " placeholder=" "  value ="<% if(typeof valores != 'undefined') { %><%= valores.platilloNombre %><%}%>" required />
+                                <label for="floatingInputGroup1">Nombre del Platillo</label>
+                                <div class="invalid-feedback" id="errorUser" style="display: none;">
+                                    El campo Nombre del Platillo es
+                                    requerido</div>
+                            </div>
+                            <div class="mb-5 row">
+                                <div class="col-sm-3">
+                                    <div class="image-port">
+                                        <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg"
+                                            height="90px" width="90px"
+                                            class="profile-photo m-auto rounded-circle"
+                                            id="dp-pick">
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 mt-3">
+                                    <input type="file" class="form-control"
+                                        accept=".jpg, .png, .jpeg" name="image" id="files" />
+                                </div>
+                            </div>
+
+                            <div class="row mb-4">
+                                <div class="form-floating col-sm-6">
+                                    <select id="categoria" name="categoria" class="form-select">
+                                        <% categorias.forEach(function(cate) { %>
+                                            <% if(typeof valores != 'undefined'){  %>
+                                                <% if( valores.categoria == cate.nombre) { %>
+                                                    <option value="<%= cate.nombre %>"  selected><%= cate.nombre %></option>
+                                                <% } else { %>
+                                                    <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
+                                                <% } %>
+                                            <% } else { %>
+                                                <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
+                                            <% } %>
+                                            
+                                        <% }); %>
+                                    </select>
+                                    <label for="categoria">Selecciona una Categoria</label>
+                                </div>
+                                <div class="form-floating col-sm-6">
+                                    <select id="dificultad" name="dificultad" class="form-select">
+                                        <option value="Alta"  <%= typeof  valores != 'undefined' ? valores.dificultad ==='Alta' ? 'selected' : '':'' %> >Alta</option>
+                                        <option value="Media" <%= typeof  valores != 'undefined' ? valores.dificultad ==='Media' ? 'selected' : '':'' %> >Media</option>
+                                        <option value="Baja"  <%= typeof  valores != 'undefined' ? valores.dificultad ==='Baja' ? 'selected' : '':'' %> >Baja</option>
+                                    </select>
+                                    <label for="dificultad">Selecciona una Dificultad</label>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control"
+                                        placeholder="Leave a comment here" id="ingredientes"
+                                        name="ingredientes" style="height: 100px"></textarea>
+                                    <label for="ingredientes">Ingredientes</label>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control"
+                                        placeholder="Leave a comment here" id="pasosSeguir"
+                                        name="pasosSeguir" style="height: 100px"><% if(typeof valores != 'undefined') { %><%= valores.pasosSeguir %><%}%></textarea>
+                                    <label for="pasosSeguir">Pasos a Seguir</label>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating col-sm-6">
+                                    <input type="text" name="tiempo" id="tiempo"
+                                        class="form-control" placeholder=" " required value="<% if(typeof valores != 'undefined') { %><%= valores.tiempo %><%}%>" />
+                                    <label class="form-label" for="tiempo">Tiempo </label>
+                                    <div class="invalid-feedback" id="errorNombre"
+                                        style="display: none;">El campo Tiempo es requerido
+                                    </div>
+                                </div>
+
+                                <div class="form-floating col-sm-6">
+                                    <input type="number" name="porciones" id="porciones"
+                                        class="form-control " placeholder=" " required value="<% if(typeof valores != 'undefined') { %><%= valores.porciones %><%}%>" />
+                                    <label class="form-label" for="porciones">Porciones</label>
+                                    <div class="invalid-feedback" id="errorApellido"
+                                        style="display: none;">El campo Porciones es requerido
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control"
+                                        placeholder="Leave a comment here" id="tips" name="tips"
+                                        style="height: 100px"><% if(typeof valores != 'undefined') { %><%= valores.tips %><%}%></textarea>
+                                    <label for="tips">Tips</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary"
+                                id="cerrarModalNuevaReceta" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+           
+            <% if (misrecetas.length> 0) { %>
+                 <!--Modal Detalle-->
+                <% misrecetas.forEach(function(item) { %>
+                    <div class="modal fade" id="DetalleModal<%= item._id %>" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-xl">
+                            <div class="modal-content ">
+                                <% if(item.imagen==null) { %>
+                                    <div class="modal-header" style=" background: url('https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png') center center no-repeat;
+                                background-size: cover;">
+                                    <h5 class="modal-title modal-detalle text-center" id="exampleModalLabel">Detalles de receta
+                                    </h5>
+                                    <button type="button" class="btn-close btn-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                    <% }else{ %>
+                                        <div class="modal-header" style=" background: url('<%= item.imagen %>') center center no-repeat;
+                                background-size: cover;">
+                                    <h5 class="modal-title modal-detalle text-center"  id="exampleModalLabel" >Detalles de receta
+                                    </h5>
+                                    <button type="button" class="btn-close btn-white" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                        <% } %>
+                              
+                                <div class="modal-body">
                                     
-                        </main>
-                        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-                        <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
-                        <script src="/js/recetas.js"></script>
+                                    <% if(item.imagen==null) { %>
+                                        <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+                                            class="img-fluid rounded-pill"
+                                            alt="Townhouses and Skyscrapers" style="height: 100px; " />
+                                        <% }else{ %>
+                                            <img src="<%= item.imagen %>" class="img-fluid rounded-pill"
+                                                alt="Townhouses and Skyscrapers"
+                                                style="height: 100px; " />
+                                            <% } %>
+                                                </p>
+                                                <p>Nombre de receta: <%= item.platilloNombre %>
+                                                </p>
+                                                </p>
+                                                <p>Ingredientes: </p>
+                                                <ul>
+                                                    <% item.ingredientes.split('\n').forEach(function(ingrediente)
+                                                        { %>
+                                                        <li>
+                                                            <%= ingrediente %>
+                                                        </li>
+                                                        <% }); %>
+                                                </ul>
+                                                <p>Pasos a segir: </p>
+                                                <ul>
+                                                    <% item.pasosSeguir.split('\n').forEach(function(pasos)
+                                                        { %>
+                                                        <li>
+                                                            <%= pasos %>
+                                                        </li>
+                                                        <% }); %>
+                                                </ul>
+                                                <p>Dificultad: <%= item.dificultad %>
+                                                </p>
+                                                <p>Tiempo: <%= item.tiempo %> Min.</p>
+                                                <p>Porciones: <%= item.porciones %>
+                                                </p>
+                                                <p>Tips: <%= item.tips %>
+                                                </p>
+                                                <p>Categoria: <%= item.categoria %>
+                                                </p>
 
-    </body>
+                                                <p> Estado:
+                                                    <% if (item.isAprovado==0) { %>
+
+                                                        <span style="background-color: yellow;"
+                                                            class="badge badge-warning rounded-pill d-inline">Receta
+                                                            en revision</span>
+
+                                                        <% } %>
+
+                                                            <% if (item.isAprovado==1) { %>
+                                                                <span style="background-color: green;"
+                                                                    class="badge badge-success rounded-pill d-inline">Receta
+                                                                    aprovada</span>
+
+                                                                <% } %>
+
+
+                                                                    <% if (item.isAprovado==2) { %>
+                                                                        <span
+                                                                            style="background-color: red;"
+                                                                            class="badge badge-danger rounded-pill d-inline">Receta
+                                                                            Rechazada</span>
+                                                                        <% } %>
+                                                </p>
+                                                <!-- Agrega más detalles según tus necesidades -->
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-bs-dismiss="modal">Cerrar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+                
+                 <!-- Modal Edit -->
+         <% misrecetas.forEach(function(item) { %>
+            <div class="modal fade " id="myModalEdit<%= item._id %>" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+               
+                <form class="modal-content" action="/users/editarReceta" method="post" enctype="multipart/form-data">
+                    <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Receta</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                    </div>
+                     <div class="modal-body">
+                       
+                        <input type="text" name="idUser" id="idUser" class="form-control " style="display: none;"  value="<%= loginUser._id%>" disabled />
+                        <div class="form-floating mb-4">
+                           <input type="text" name="recetaId" id="recetaId" class="form-control" placeholder="" style="display: none;" required value="<%= item._id%>" readonly/>
+                        </div>
+                        <% if (item.isAprovado==2) { %>
+                          <div class="alert alert-warning" role="alert">
+                            <%= item.comentariosRevision%>
+                          </div>
+                          <% } %>
+                        <div class="form-floating mb-4">
+                            <input type="text" name="platilloNombre" id="platilloNombre" class="form-control "  placeholder=" " required value="<%= item.platilloNombre %>">
+                            <label for="floatingInputGroup1">Nombre del Platillo</label>
+                            <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
+                        </div>
+                            <div class="mb-5 row">
+                                <div class="col-sm-3">
+                                   <div class="image-port">
+                                   <% if(item.imagen==null) { %>
+                                       <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg" 
+                                       height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                       <% }else{ %>
+                                           <img src="<%= item.imagen %>" class="img-fluid rounded-pill"
+                                           height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                           <% } %>
+                                    </div>
+                                </div>
+                                <div class="col-sm-9 mt-3">
+                                    <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+                                </div>    
+                            </div>    
+                           
+                            <div class="row mb-4">
+                                <div class="form-floating col-sm-6">
+                                   <select id="categoria" name="categoria" class="form-select">
+                                    <% categorias.forEach(function(cate) { %>
+                                        <option value="<%= cate.nombre %>" <%= item.categoria === cate.nombre ? 'selected' : '' %>><%= cate.nombre %></option>
+                                    <% }); %>
+                                   </select>
+                                   
+                                    <label for="categoria">Selecciona una Categoria</label>
+                                </div>
+                                <div class="form-floating col-sm-6">
+                                    <select id="dificultad" name="dificultad" class="form-select">
+                                       <option value="Alta" <%= item.dificultad === 'Alta' ? 'selected' : '' %>>Alta</option>
+                                       <option value="Media" <%= item.dificultad === 'Media' ? 'selected' : '' %>>Media</option>
+                                       <option value="Baja" <%= item.dificultad === 'Baja' ? 'selected' : '' %>>Baja</option>
+                                   </select>
+                                   
+                                    <label for="dificultad">Selecciona una Dificultad</label>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"><%= item.ingredientes %></textarea>
+                                    <label for="ingredientes">Ingredientes</label>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"><%= item.pasosSeguir %></textarea>
+                                    <label for="pasosSeguir">Pasos a Seguir</label>
+                                </div>
+                            </div>
+                            <div class="row mb-4" >
+                                <div class="form-floating col-sm-6">
+                                    <input type="text" name="tiempo"  id="tiempo" class="form-control" value=" <%= item.tiempo %>"  required/>
+                                    <label class="form-label" for="tiempo">Tiempo </label>
+                                    <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
+                                </div>
+                
+                                <div class="form-floating col-sm-6">
+                                    <input type="number" name="porciones" id="porciones" class="form-control " value=<%= item.porciones %>  required />
+                                    <label class="form-label" for="porciones">Porciones</label>
+                                    <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
+                                </div>
+                            </div>
+                            <div class="row mb-4">
+                                <div class="form-floating">
+                                    <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"><%= item.tips %></textarea>
+                                    <label for="tips">Tips</label>
+                                </div>
+                            </div>
+                    </div>
+                     <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" id="cerrarModalNuevaReceta"
+                                data-bs-dismiss="modal">Cerrar</button>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                     </div>
+                </form>
+                
+            </div>
+        </div>
+        <% }); %>
+            <% }; %>
+            
+
+            
+                     
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
+    <script src="/js/recetas.js"></script>
+ 
+</body>
 
     </html>
