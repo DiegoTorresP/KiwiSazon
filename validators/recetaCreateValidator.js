@@ -29,7 +29,9 @@ validador.agregarValidacion((req, res, next) => {
 
 validador.agregarValidacion((req, res, next) => {
     body('dificultad').notEmpty().escape().trim().isLength({ min: 3 }).withMessage('Ingresa una dificultad correcta').custom(async (value) => {
-        if(value.toUpperCase() != 'ALTA' || value!='BAJA' || value!='MEDIA'){
+        if(value.toUpperCase() == 'ALTA' || value.toUpperCase() =='BAJA' || value.toUpperCase() =='MEDIA'){
+          
+        }else{
           throw new Error('La dificultad no existe.')
         }
       })(req, res, next);
@@ -47,6 +49,9 @@ validador.agregarValidacion((req, res, next) => {
     body('tiempo').notEmpty().escape().trim().isLength({ min: 1  }).withMessage('Ingresa un tiempo correcto')(req, res, next);
 });
 
+validador.agregarValidacion((req, res, next) => {
+  body('porciones').notEmpty().isInt().withMessage('Ingresa un tiempo correcto')(req, res, next);
+});
 
 validador.agregarValidacion((req, res, next) => {
     body('tips').notEmpty().escape().trim().isLength({ min: 20 }).withMessage('Los tips deben tener al menos 20 caracteres')(req, res, next);

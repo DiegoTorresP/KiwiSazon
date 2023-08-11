@@ -190,8 +190,6 @@
     </style>
  <%- include('../partials/nav') %>
  <body>
-    
-    <%- include('../error/login') %>
         <div class="container-fluid ">
             
             <div class="row">
@@ -380,16 +378,25 @@
                                 <div class="form-floating col-sm-6">
                                     <select id="categoria" name="categoria" class="form-select">
                                         <% categorias.forEach(function(cate) { %>
-                                            <option value="<%= cate.nombre %>"  <%= valores != 'undefined' ? valores.categoria === cate.nombre ? 'selected' : '':'' %> ><%= cate.nombre %></option>
+                                            <% if(typeof valores != 'undefined'){  %>
+                                                <% if( valores.categoria == cate.nombre) { %>
+                                                    <option value="<%= cate.nombre %>"  selected><%= cate.nombre %></option>
+                                                <% } else { %>
+                                                    <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
+                                                <% } %>
+                                            <% } else { %>
+                                                <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
+                                            <% } %>
+                                            
                                         <% }); %>
                                     </select>
                                     <label for="categoria">Selecciona una Categoria</label>
                                 </div>
                                 <div class="form-floating col-sm-6">
                                     <select id="dificultad" name="dificultad" class="form-select">
-                                        <option value="Alta"  <%= valores != 'undefined' ? valores.dificultad ==='Alta' ? 'selected' : '':'' %> >Alta</option>
-                                        <option value="Media" <%= valores != 'undefined' ? valores.dificultad ==='Media' ? 'selected' : '':'' %> >Media</option>
-                                        <option value="Baja"  <%= valores != 'undefined' ? valores.dificultad ==='Baja' ? 'selected' : '':'' %> >Baja</option>
+                                        <option value="Alta"  <%= typeof  valores != 'undefined' ? valores.dificultad ==='Alta' ? 'selected' : '':'' %> >Alta</option>
+                                        <option value="Media" <%= typeof  valores != 'undefined' ? valores.dificultad ==='Media' ? 'selected' : '':'' %> >Media</option>
+                                        <option value="Baja"  <%= typeof  valores != 'undefined' ? valores.dificultad ==='Baja' ? 'selected' : '':'' %> >Baja</option>
                                     </select>
                                     <label for="dificultad">Selecciona una Dificultad</label>
                                 </div>
