@@ -352,8 +352,13 @@ class RecetaController {
 
       if (recetaExists) {
         console.log("La receta ya existe en favoritos");
-        // req.flash("error", "La receta ya existe en favoritos")
-        // console.log(req.flash("error"))
+        
+        const mensaje = {
+          title:'Esta agregada a favoritos',
+          subtitle:'La receta esta agregada a tus favotitas'
+        }
+        req.flash('error', mensaje);
+        console.log(req.flash("error"))
         return res.redirect("/home");
       }
 
