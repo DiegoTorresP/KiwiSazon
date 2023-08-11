@@ -61,7 +61,11 @@ const recetaSchema =mongoose.Schema({
             type:mongoose.ObjectId,
             ref:"comentarios"
         },
-    ]
+    ],
+    calificacionPromedio:{
+        type: Number,
+        default: 0
+    }
 });
 
 const Receta= mongoose.model("recetas",recetaSchema)

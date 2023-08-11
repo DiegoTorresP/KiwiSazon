@@ -17,7 +17,55 @@
       </div>
 
     <body class="contenido">
+<style>
+          .progress-star {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2MxYzFjMSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+  background-size: contain;
+  background-color: transparent;
+  
+  
+  .progress-bar {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmY2IwMTciIHN0cm9rZT0iI2ZjYjAxNyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+    background-size: contain;
+    background-color: transparent;
+  }
+}
 
+
+.rating {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+}
+
+.rating-bg {
+  width: 150px;
+  position: absolute;
+
+}
+.rating-bar {
+  float: left;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  .rating-icon {
+    color: #FFB03D;
+  }
+}
+
+.rating-icon {
+  color: #c1c1c1;
+  &.svg-inline--fa {
+    float: left;
+    width: calc(100% / 5);
+    height: 30px;
+  }
+}
+</style>
 
 
 
@@ -177,7 +225,12 @@
                           
                         </div>
                         <div >
-                          <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star text-warning"></i>  <i class="fa-solid fa-star text-warning"></i> <i class="fa-solid fa-star-half-stroke text-warning"></i><i class="fa-regular fa-star text-warning"></i>
+                          <div class="progress progress-star">
+                            <div class="progress-bar" role="progressbar" 
+                            style="width:<%=item.calificacionPromedio%>%" 
+                            title="ValoracionGeneral" aria-valuenow="<%=item.calificacionPromedio%>" 
+                            aria-valuemin="0" aria-valuemax="5"></div>
+                        </div>
                         </div>
                         <hr>
                         <div class="mb-2">

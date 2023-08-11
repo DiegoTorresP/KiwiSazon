@@ -1,4 +1,5 @@
 // GET - ROL USER
+const Valoraciones = require("../models/valoraciones");
 exports.home = (async (req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
@@ -41,7 +42,6 @@ exports.recetasHome = (async (req, res) => {
   try {
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
     const recetasData = await Receta.find({isAprovado:1});
-    
     const categorias = await Categoria.find({isActive:true});
     res.render('Recipes/allRecipes', { recetas:recetasData,title: req.params.title,categorias:categorias,loginUser: req.userId,getFechaFormateada,notificaciones:notificaciones});
 
