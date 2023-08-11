@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const authenticateToken = require("../middlewares/authentucateToken");
+const redirecSesion = require("../middlewares/redirecSesion");
 var view = require("../controllers/view-get");
 const RecetaController = require('../controllers/receta');
 const NotificacionesController = require('../controllers/notificaciones');
@@ -30,7 +31,7 @@ router.get('/users', function(req, res, next) {
 router.get('/misRecetas', authenticateToken , view.misrecetas);
 router.get('/leerNotificaciones', authenticateToken,notificacionesController.marcarLeidas.bind(notificacionesController));
 router.get('/recetas/:title',authenticateToken ,view.recetasHome)
-router.get('/receta/:title' ,view.recetasHome)
+router.get('/receta/:title', redirecSesion ,view.recetasHome)
 
 router.get('/recetas/:id/detalle', authenticateToken,recetaController.recetasDetalle);
 router.get('/recetas/:id/detalles',recetaController.recetasDetalle);
