@@ -63,8 +63,8 @@ const userSchema =mongoose.Schema({
     followReceta:[
         {
                 type: mongoose.Schema.Types.ObjectId,
-                ref: "recetas"
-        }
+                ref: "recetas",
+        }        
     ],
     tokenPass : {
         type: Number

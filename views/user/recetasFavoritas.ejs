@@ -264,7 +264,26 @@
                                                                 <% } %>
                                             </div>
                                         </div>
+                                        <hr>
+                                        <div class="mb-2">
+                                           
+                                            <div class="food-card_price">
+                                                <div class="d-flex flex-wrap justify-content-center" >
+                                                    <div class="p-2">
+                                                        <button 
+                                                    type="button"
+                                                    class="btn btn-info btn-lg btn-rounded " 
+                                                    data-bs-toggle="modal"
+                                                    data-bs-target="#DetalleModal<%= item._id %>"  title="Detalle">
+                                                    <i class="fas fa-info-circle"></i>
+                                                    </button>
+                                                    </div>
+                                                </div>
 
+                                                
+                                            </div>
+                                            
+                                        </div>
                                         
                                     </div>
                                 </div>
@@ -291,6 +310,108 @@
                         
                     </div>
                 <% } %>
+
+                                     <!--Modal Detalle-->
+                                    <% misrecetas.followReceta.forEach(function(item) { %>
+                                        <div class="modal fade" id="DetalleModal<%= item._id %>" tabindex="-1"
+                                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-xl">
+                                                <div class="modal-content ">
+                                                    <% if(item.imagen==null) { %>
+                                                        <div class="modal-header" style=" background: url('https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png') center center no-repeat;
+                                                    background-size: cover;">
+                                                        <h5 class="modal-title modal-detalle text-center" id="exampleModalLabel">Detalles de receta
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-white" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                        <% }else{ %>
+                                                            <div class="modal-header" style=" background: url('<%= item.imagen %>') center center no-repeat;
+                                                    background-size: cover;">
+                                                        <h5 class="modal-title modal-detalle text-center"  id="exampleModalLabel" >Detalles de receta
+                                                        </h5>
+                                                        <button type="button" class="btn-close btn-white" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                            <% } %>
+                                                  
+                                                    <div class="modal-body">
+                                                        
+                                                        <% if(item.imagen==null) { %>
+                                                            <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png"
+                                                                class="img-fluid rounded-pill"
+                                                                alt="Townhouses and Skyscrapers" style="height: 100px; " />
+                                                            <% }else{ %>
+                                                                <img src="<%= item.imagen %>" class="img-fluid rounded-pill"
+                                                                    alt="Townhouses and Skyscrapers"
+                                                                    style="height: 100px; " />
+                                                                <% } %>
+                                                                    </p>
+                                                                    <p>Nombre de receta: <%= item.platilloNombre %>
+                                                                    </p>
+                                                                    </p>
+                                                                    <p>Ingredientes: </p>
+                                                                    <ul>
+                                                                        <% item.ingredientes.split('\n').forEach(function(ingrediente)
+                                                                            { %>
+                                                                            <li>
+                                                                                <%= ingrediente %>
+                                                                            </li>
+                                                                            <% }); %>
+                                                                    </ul>
+                                                                    <p>Pasos a segir: </p>
+                                                                    <ul>
+                                                                        <% item.pasosSeguir.split('\n').forEach(function(pasos)
+                                                                            { %>
+                                                                            <li>
+                                                                                <%= pasos %>
+                                                                            </li>
+                                                                            <% }); %>
+                                                                    </ul>
+                                                                    <p>Dificultad: <%= item.dificultad %>
+                                                                    </p>
+                                                                    <p>Tiempo: <%= item.tiempo %> Min.</p>
+                                                                    <p>Porciones: <%= item.porciones %>
+                                                                    </p>
+                                                                    <p>Tips: <%= item.tips %>
+                                                                    </p>
+                                                                    <p>Categoria: <%= item.categoria %>
+                                                                    </p>
+
+                                                                    <p> Estado:
+                                                                        <% if (item.isAprovado==0) { %>
+
+                                                                            <span style="background-color: yellow;"
+                                                                                class="badge badge-warning rounded-pill d-inline">Receta
+                                                                                en revision</span>
+
+                                                                            <% } %>
+
+                                                                                <% if (item.isAprovado==1) { %>
+                                                                                    <span style="background-color: green;"
+                                                                                        class="badge badge-success rounded-pill d-inline">Receta
+                                                                                        aprovada</span>
+
+                                                                                    <% } %>
+
+
+                                                                                        <% if (item.isAprovado==2) { %>
+                                                                                            <span
+                                                                                                style="background-color: red;"
+                                                                                                class="badge badge-danger rounded-pill d-inline">Receta
+                                                                                                Rechazada</span>
+                                                                                            <% } %>
+                                                                    </p>
+                                                                    <!-- Agrega más detalles según tus necesidades -->
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Cerrar</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% }); %>
 
         </div>
     </div>

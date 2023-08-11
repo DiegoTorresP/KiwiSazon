@@ -261,7 +261,17 @@ class RecetaController {
     try {
       const {id} = req.params;
       const receta = await this.recetaDao.getRecetaByID(id)
-      const user =await Usuario.findById(req.userId);
+      const user = await Usuario.findById(req.userId).populate('followReceta');
+
+      const recetaExists = user.followReceta.some(item => item.equals(receta._id));
+
+      if (recetaExists) {
+        console.log("La receta ya existe en favoritos");
+        // req.flash("error", "La receta ya existe en favoritos")
+        // console.log(req.flash("error"))
+        return res.redirect("/home");
+      }
+
 
       user.followReceta.push(receta);
       user.save()

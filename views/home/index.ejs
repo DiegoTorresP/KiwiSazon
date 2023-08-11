@@ -7,7 +7,7 @@
     <title>KiwiSazón</title>
     <link rel="stylesheet" href="/stylesheets/home.css">
   </head>
-  <%- include('../partials/nav') %>
+  <%- include('../partials/nav') %> 
       <div class="jumbotron jumbotron-fluid text-center pt-5 pb-5">
         <div class="container" style="backdrop-filter: blur(10px);">
           <h1 class="display-4">¡Descubre deliciosas recetas!</h1>
@@ -17,6 +17,10 @@
       </div>
 
     <body class="contenido">
+
+
+
+
       <div class="col text-center">    
         <h2 class="section-title px-5"><span class="px-lg-2">¡Descubre tu Sazón!</span></h2>
     </div>
@@ -116,6 +120,8 @@
       <div class="col text-center">    
         <h2 class="section-title px-5"><span class="px-lg-2"><strong class="text-warning">&#9819</strong> Recetas más Populares <strong class="text-warning">&#9819</strong> </span></h2>
     </div>
+
+
     <div class="row  me-2 ms-2">
       <% recetas.forEach(item=> { %>
         
@@ -128,10 +134,14 @@
                         <% }else{ %>
                             <img src="<%= item.imagen %>" />
                             <% } %>
-                            <% if (loginUser) { %>
+                            <!-- <% if (loginUser) { %>
                               <form action="/favorite/<%= item._id %>" method="post">
-                                <button style="background-color: white;" type="submit" ><i class="far fa-heart"></i></button>
+                                <button type="submit" ><i class="far fa-heart"></i></button>
                               </form>
+                            <% } %> -->
+                            <% if (loginUser) { %>
+                              <a href="javascript:void(0);" class="favorite-link" data-id="<%= item._id %>"><i class="far fa-heart"></i></a>
+
                             <% } %>
                 </div>
                 <div class="food-card_content">
@@ -205,8 +215,11 @@
         <!-- Recetas -->
      </div>
 
+
     </body>
     <div class="w-100 fixed-buttom mb-0 ms-0 me-0 mt-3">
       <%- include('../partials/footer') %>
     </div>
+
+    <script src="/js/recetaFav.js" ></script>
   </html>
