@@ -3,7 +3,7 @@ exports.home = (async (req, res) => {
   try {
     const recetasData = await Receta.find({isAprovado:1});
     const notificaciones = await Notificaciones.find({user:req.userId , isRead :0})
-    const categorias = await Categoria.find({isActive:true});
+    const categorias = await Categoria.find({isActive:true}).limit(3);
 
     res.render('home/index', { title: 'Fomulario', recetas: recetasData,getFechaFormateada,categorias:categorias, notificaciones:notificaciones });
   } catch (error) {
@@ -85,9 +85,9 @@ exports.misrecetas = (async (req, res) => {
     const misrecetas = await Receta.find({user:req.userId}).populate('user');
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
     const categorias = await Categoria.find({isActive:true});
-    console.log(misrecetas)
-    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones });
+    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones,valores:'undefined' });
   } catch (error) {
+    console.error(error)
     res.status(404).render("error/error", { status: error });
   }
 });

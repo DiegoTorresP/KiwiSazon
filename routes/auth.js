@@ -50,7 +50,6 @@ router.post('/login', (req, res, next) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
     const valores = req.body;
-    //return res.status(400).json({ errores: errores.array() ,valores:valores})
     return res.render('auth/login', { errores: errores.array() ,valores:valores});
   }
   userController.login(req, res);

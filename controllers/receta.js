@@ -67,10 +67,14 @@ class RecetaController {
         console.log(e)
         recetaObj.imagen = null;
       }
-      console.log(recetaObj);
       const newReceta = await this.recetaDao.createReceta(recetaObj);
       user.recetas.push(newReceta);
       user.save();
+      const mensaje = {
+        title:'Receta Creada',
+        subtitle:'La receta esta en revisión, un administrador verificará que cumpla con lo necesario y se te notificará'
+      }
+      req.flash("success", mensaje);
       res.redirect('/misRecetas');
     } catch (error) {
       console.log(error)

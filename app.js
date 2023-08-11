@@ -45,6 +45,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, "/public")));
+
+// Configura el middleware de flash messages
+app.use(flash());
+
 app.use(
   session({
     secret: 'secreto',
@@ -57,14 +61,15 @@ app.use((req, res, next) => {
   // res.locals.status = req.flash("status");
   // res.locals.register = req.flash("register");
   // res.locals.login = req.flash("login");
-     res.locals.loginUser = req.userId;
-  // res.locals.success = req.flash("success");
-  // res.locals.error = req.flash("error")
+  res.locals.loginUser = req.userId;
+  res.locals.success = req.flash("success");
+  res.locals.error = req.flash("error")
   next();
 });
 app.use(auth);
 app.use(adminR);
 app.use(userR);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
