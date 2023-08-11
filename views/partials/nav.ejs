@@ -369,6 +369,7 @@ body.noti{
           </a>
       </div>
 
+      <% if(loginUser.rol == "user"){ %>
         <div class = "notification noti">
           <%let favoritas=0 ;if(loginUser){favoritas=loginUser.followReceta.length} %> 
           <a class="noti" href = "/favoritas">
@@ -380,6 +381,9 @@ body.noti{
           </div>
             </a>
         </div>
+        <% } %>
+
+
       <% } %>
       <!-- Avatar -->
       <div class="dropdown">
