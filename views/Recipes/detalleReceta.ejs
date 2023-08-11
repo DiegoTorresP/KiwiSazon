@@ -236,9 +236,10 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
                                     <%= receta.porciones %></p>
                                  <div>
                                     <% if (receta.calificacion) { %>
-                                        <strong>Calificación General:<%=promedioValoraciones%></strong> 
+                                        <strong>Calificación General:</strong> 
                                         <div class="progress progress-star">
-                                            <div class="progress-bar" role="progressbar" style="width:<%=promedioValoraciones%>%" 
+                                            <div class="progress-bar" role="progressbar" 
+                                            style="width:<%=promedioValoraciones%>%" 
                                             title="ValoracionGeneral" aria-valuenow="<%=promedioValoraciones%>" 
                                             aria-valuemin="0" aria-valuemax="5"></div>
                                           </div>
@@ -268,8 +269,10 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
                                             <input type="radio" name="rating" value="5" aria-label="5 stars" <%= valoracionPersonal === 5 ? 'checked' : '' %> />
                                             <%}%>
                                         </rating>
+                                        <div>
                                         <button type="reset" class="btn btn-warning btn-sm btn-rounded" data-bs-placement="left" title="Reestablecer"><i class="fa-solid fa-trash-can-arrow-up"></i></button>
                                         <button type="submit" class="btn btn-success btn-sm btn-rounded" data-bs-placement="left" title="Enviar"><i class="fa-solid fa-paper-plane"></i></button>
+                                    </div>
                                     </div>
                                       </form>
                                 <% } %>
