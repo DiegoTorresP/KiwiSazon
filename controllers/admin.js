@@ -51,10 +51,8 @@ class UserController {
       
           if (user.isActive) {
             await this.userDao.desactivarUsuario(userId);
-            userStatusSubject.next({ userId, isActive: false }); // Notifica que el usuario se ha desactivado
           } else {
             await this.userDao.activarUsuario(userId);
-            userStatusSubject.next({ userId, isActive: true }); // Notifica que el usuario se ha activado
           }
       
           res.redirect('/adminHome');

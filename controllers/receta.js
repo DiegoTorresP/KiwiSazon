@@ -137,31 +137,21 @@ class RecetaController {
     });
     receta.comentarios.sort((a, b) => b.date - a.date);
     receta.calificacion.sort((a, b)=> b.date - a.date);
-    //Calcular calificación general
-    // let sumaValoraciones = 0;
-    // for (let i = 0; i < receta.calificacion.length; i++) {
-    //   const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
-    //   for (let i = 0; i < valoracion.length; i++) {
-    //     sumaValoraciones += valoracion[i].valoracion;
-    //   }
-    // }
-    // const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
-    //console.log("General VALORACION:",promedioValoraciones)
-    //Consultar calificacion de usuario actual
     let valoracion = 0;
     for (let i = 0; i < receta.calificacion.length; i++) {
       valoracion = await Valoraciones.findOne({_id:receta.calificacion[i],user:req.userId})
       
     }
     //console.log("Personal VALORACION:",valoracion.valoracion)
-    let valoracionPer = 0;
+    const valoracionPersonal = 0;
     if (valoracion != null){
       valoracionPer = valoracion.valoracion;
     }
     const valoracionPersonal = valoracionPer;
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
-    console.log("RECETA DETALLES:",receta)
+    console.log('alerta: ', req.flash("success"))
     if(req.userId){
+      
         res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, valoracionPersonal:valoracionPersonal});
       }else{
         res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones});
@@ -195,18 +185,17 @@ class RecetaController {
         res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       }
       const comentario = await this.comentarioDao.createComentario(comentarioData);
-      const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-        //receta.comentarios.push(comentario);
-        //console.log("Llega")
-        //receta.save();
-        //console.log("Llega2")
-        receta.comentarios.push(comentario);
-        receta.comentarios.sort((a, b) => b.date - a.date);
 
-        await Receta.updateOne({ _id: receta._id }, { $push: { comentarios: comentario } });
+      receta.comentarios.push(comentario);
+      receta.comentarios.sort((a, b) => b.date - a.date);
 
-        //receta.comentarios.sort((a, b) => b.date - a.date); 
-      res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
+      await Receta.updateOne({ _id: receta._id }, { $push: { comentarios: comentario } });
+      const mensaje = {
+          title:'Comentario guardado',
+          subtitle:'El comentario se guardo correctamente'
+      }
+        req.flash('success', mensaje);
+        res.redirect('back');
       
     }catch (error){
       console.log(error)
@@ -264,6 +253,11 @@ class RecetaController {
     }
     const promedioValoraciones = ((sumaValoraciones / recetaPro.calificacion.length)*100)/5;
       await Receta.updateOne({ _id: receta._id }, { $set: {calificacionPromedio: promedioValoraciones.toFixed(2)}});
+      const mensaje = {
+        title:'Valoración guardada',
+        subtitle:'La valoración se guardo correctamente'
+    }
+      req.flash('success', mensaje);
       res.redirect('back');
             
     }catch (error){
@@ -302,8 +296,12 @@ class RecetaController {
             }
           });
           receta.comentarios.sort((a, b) => b.date - a.date); 
-          const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
+          const mensaje = {
+            title:'Comentario actualizado',
+            subtitle:'El comentario se actualizó correctamente'
+        }
+          req.flash('success', mensaje);
+          res.redirect('back');
         }
       }
       
@@ -338,7 +336,13 @@ class RecetaController {
               model: 'users'
           }
         });
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones,receta:receta});
+        const mensaje = {
+          title:'Comentario eliminado',
+          subtitle:'El comentario se elimino correctamente'
+        };
+        req.flash('success', mensaje);
+        res.redirect('back');
+        
       
     } catch (error) {
       console.log(error);
@@ -362,7 +366,7 @@ class RecetaController {
           subtitle:'La receta esta agregada a tus favotitas'
         }
         req.flash('error', mensaje);
-        console.log(req.flash("error"))
+        
         return res.redirect("/home");
       }
 

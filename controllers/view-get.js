@@ -16,8 +16,9 @@ exports.homeLogin = (async(req, res) => {
     const recetasData = await Receta.find({isAprovado:1});
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
     const categorias = await Categoria.find({isActive:true}).limit(3);
-   
-    res.render('home/index', { title: 'Fomulario',recetas: recetasData,categorias:categorias,getFechaFormateada, loginUser: req.userId, notificaciones:notificaciones });
+    const user = await User.findById(req.userId)
+    const favoritas = user.followReceta
+    res.render('home/index', { title: 'Fomulario',recetas: recetasData,user:favoritas,categorias:categorias,getFechaFormateada, loginUser: req.userId, notificaciones:notificaciones });
   
   } catch (error) {
     res.status(404).render("error/error", { status: error });
@@ -49,13 +50,6 @@ exports.recetasHome = (async (req, res) => {
     res.status(404).render("error/error", { status: error });
   }
 });
-// exports.recetasindex = ((req, res) => {
-//   try {
-//     res.render('Recipes/recetas', {  platilloNombre: req.platilloNombre, imagen: global.imagen, dificultad: global.dificultad, tiempo: global.tiempo, dificultad: global.dificultad});
-//   } catch (error) {
-//     res.status(404).render("error/error", { status: error });
-//   }
-// });
 
 exports.recetaindex = async (req, res) => {
   try {
@@ -70,22 +64,12 @@ exports.recetaindex = async (req, res) => {
   }
 };
 
-
-exports.chef = (async(req, res) => {
-  try {
-    const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-    res.render('Recipes/chef', { loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones });
-  } catch (error) {
-    res.status(404).render("error/error", { status: error });
-  }
-});
-
 exports.misrecetas = (async (req, res) => {
   try {
     const misrecetas = await Receta.find({user:req.userId}).populate('user');
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
     const categorias = await Categoria.find({isActive:true});
-    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones,valores:'undefined' });
+    res.render('user/misrecetas', { loginUser: req.userId,getFechaFormateada, misrecetas: misrecetas,categorias:categorias, getFechaFormateada,notificaciones:notificaciones });
   } catch (error) {
     console.error(error)
     res.status(404).render("error/error", { status: error });

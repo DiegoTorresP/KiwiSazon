@@ -199,7 +199,7 @@
                 <% if (misrecetas.length> 0) { %>
                     <div class="col-auto mb-2">
                         <div class="position-sticky bottom-0 end-0 me-4">
-                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            <button type="button" class="btn btn-primary" id="miBoton" data-bs-toggle="modal"
                                 data-bs-target="#exampleModal">
                                 Crear Receta
                             </button>
@@ -341,7 +341,7 @@
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
 
                     <form class="modal-content" action="/users/crearReceta" method="post"
-                        enctype="multipart/form-data">
+                        enctype="multipart/form-data" id="miFormulario">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Receta
                             </h1>
@@ -352,10 +352,10 @@
                             <input type="text" name="idUser" id="idUser" class="form-control "
                                 style="display: none;" value="<%= loginUser._id%>" disabled />
                             <div class="form-floating mb-4">
-                                <input type="text" name="platilloNombre" id="platilloNombre"
-                                    class="form-control " placeholder=" "  value ="<% if(typeof valores != 'undefined') { %><%= valores.platilloNombre %><%}%>" required />
+                                <input type="text" name="platilloNombre" id="platilloNombreCrear"
+                                    class="form-control " placeholder=" "  value="" required />
                                 <label for="floatingInputGroup1">Nombre del Platillo</label>
-                                <div class="invalid-feedback" id="errorUser" style="display: none;">
+                                <div class="invalid-feedback" id="errorNombre" style="display: none;">
                                     El campo Nombre del Platillo es
                                     requerido</div>
                             </div>
@@ -372,31 +372,23 @@
                                     <input type="file" class="form-control"
                                         accept=".jpg, .png, .jpeg" name="image" id="files" />
                                 </div>
+                                <div class="text-danger" id="errorImagen" style="display: none;">Ingresa una imagen</div>
                             </div>
 
                             <div class="row mb-4">
                                 <div class="form-floating col-sm-6">
-                                    <select id="categoria" name="categoria" class="form-select">
+                                    <select id="categoriaCrear" name="categoria" class="form-select">
                                         <% categorias.forEach(function(cate) { %>
-                                            <% if(typeof valores != 'undefined'){  %>
-                                                <% if( valores.categoria == cate.nombre) { %>
-                                                    <option value="<%= cate.nombre %>"  selected><%= cate.nombre %></option>
-                                                <% } else { %>
-                                                    <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
-                                                <% } %>
-                                            <% } else { %>
-                                                <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
-                                            <% } %>
-                                            
+                                            <option value="<%= cate.nombre %>"  ><%= cate.nombre %></option>
                                         <% }); %>
                                     </select>
                                     <label for="categoria">Selecciona una Categoria</label>
                                 </div>
                                 <div class="form-floating col-sm-6">
-                                    <select id="dificultad" name="dificultad" class="form-select">
-                                        <option value="Alta"  <%= typeof  valores != 'undefined' ? valores.dificultad ==='Alta' ? 'selected' : '':'' %> >Alta</option>
-                                        <option value="Media" <%= typeof  valores != 'undefined' ? valores.dificultad ==='Media' ? 'selected' : '':'' %> >Media</option>
-                                        <option value="Baja"  <%= typeof  valores != 'undefined' ? valores.dificultad ==='Baja' ? 'selected' : '':'' %> >Baja</option>
+                                    <select id="dificultadCrear" name="dificultad" class="form-select">
+                                        <option value="Alta"  >Alta</option>
+                                        <option value="Media"  >Media</option>
+                                        <option value="Baja"   >Baja</option>
                                     </select>
                                     <label for="dificultad">Selecciona una Dificultad</label>
                                 </div>
@@ -404,34 +396,40 @@
                             <div class="row mb-4">
                                 <div class="form-floating">
                                     <textarea class="form-control"
-                                        placeholder="Leave a comment here" id="ingredientes"
+                                        placeholder="Leave a comment here" id="ingredientesCrear"
                                         name="ingredientes" style="height: 100px"></textarea>
                                     <label for="ingredientes">Ingredientes</label>
+                                    <div class="invalid-feedback" id="errorIngredientes" style="display: none;">
+                                        El campo Ingredientes es
+                                        requerido</div>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-floating">
                                     <textarea class="form-control"
-                                        placeholder="Leave a comment here" id="pasosSeguir"
-                                        name="pasosSeguir" style="height: 100px"><% if(typeof valores != 'undefined') { %><%= valores.pasosSeguir %><%}%></textarea>
+                                        placeholder="Leave a comment here" id="pasosSeguirCrear"
+                                        name="pasosSeguir" style="height: 100px"></textarea>
                                     <label for="pasosSeguir">Pasos a Seguir</label>
+                                    <div class="invalid-feedback" id="errorPasos" style="display: none;">
+                                        El campo Nombre del Platillo es
+                                        requerido</div>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-floating col-sm-6">
-                                    <input type="text" name="tiempo" id="tiempo"
-                                        class="form-control" placeholder=" " required value="<% if(typeof valores != 'undefined') { %><%= valores.tiempo %><%}%>" />
+                                    <input type="text" name="tiempo" id="tiempoCrear"
+                                        class="form-control" placeholder=" " required  />
                                     <label class="form-label" for="tiempo">Tiempo </label>
-                                    <div class="invalid-feedback" id="errorNombre"
+                                    <div class="invalid-feedback" id="errorTiempo"
                                         style="display: none;">El campo Tiempo es requerido
                                     </div>
                                 </div>
 
                                 <div class="form-floating col-sm-6">
-                                    <input type="number" name="porciones" id="porciones"
-                                        class="form-control " placeholder=" " required value="<% if(typeof valores != 'undefined') { %><%= valores.porciones %><%}%>" />
+                                    <input type="number" name="porciones" id="porcionesCrear"
+                                        class="form-control " placeholder=" " required />
                                     <label class="form-label" for="porciones">Porciones</label>
-                                    <div class="invalid-feedback" id="errorApellido"
+                                    <div class="invalid-feedback" id="errorPorciones"
                                         style="display: none;">El campo Porciones es requerido
                                     </div>
                                 </div>
@@ -439,9 +437,12 @@
                             <div class="row mb-4">
                                 <div class="form-floating">
                                     <textarea class="form-control"
-                                        placeholder="Leave a comment here" id="tips" name="tips"
-                                        style="height: 100px"><% if(typeof valores != 'undefined') { %><%= valores.tips %><%}%></textarea>
+                                        placeholder="Leave a comment here" id="tipsCrear" name="tips"
+                                        style="height: 100px"></textarea>
                                     <label for="tips">Tips</label>
+                                    <div class="invalid-feedback" id="errorTips" style="display: none;">
+                                        El campo Tips es
+                                        requerido</div>
                                 </div>
                             </div>
                         </div>
@@ -669,8 +670,43 @@
             <% }; %>
             
 
-            
-                     
+           
+    <% if(valores && valores.length>0) { %>
+        <script>
+            const valoresHtml = '<%= valores %>';
+            const valoresReales = valoresHtml.replace(/&#34;/g, '"');
+            const valoresDecodificados = decodeURIComponent(valoresReales);
+            const valores = JSON.parse(valoresDecodificados);
+            console.log(valores.platilloNombre);
+
+            const nombre = document.getElementById('platilloNombreCrear');
+            const dificultad = document.getElementById('dificultadCrear');
+            const categoria = document.getElementById('categoriaCrear');
+            const ingredientes = document.getElementById('ingredientesCrear');
+            const pasos = document.getElementById('pasosSeguirCrear');
+            const tiempo = document.getElementById('tiempoCrear');
+            const porciones = document.getElementById('porcionesCrear');
+            const tips = document.getElementById('tipsCrear');
+
+            document.addEventListener("DOMContentLoaded", function() {
+            const miBoton = document.getElementById("miBoton");
+
+            miBoton.addEventListener("click", function() {
+                nombre.value=valores.platilloNombre
+                categoria.value = valores.categoria
+                dificultad.value = valores.dificultad
+                ingredientes.value = valores.ingredientes
+                pasos.value = valores.pasosSeguir
+                tiempo.value = valores.tiempo
+                porciones.value = valores.porciones
+                tips.value = valores.tips
+            });
+
+
+            miBoton.click(); // Simular clic en el botón
+            });
+        </script>
+    <% } %>          
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="/js/recetas.js"></script>

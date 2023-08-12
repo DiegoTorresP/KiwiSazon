@@ -63,7 +63,8 @@ app.use((req, res, next) => {
   // res.locals.login = req.flash("login");
   res.locals.loginUser = req.userId;
   res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error")
+  res.locals.error = req.flash("error");
+  res.locals.valores = req.flash("valores");
   next();
 });
 app.use(auth);
