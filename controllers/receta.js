@@ -143,7 +143,7 @@ class RecetaController {
       
     }
     //console.log("Personal VALORACION:",valoracion.valoracion)
-    const valoracionPersonal = 0;
+    let valoracionPer= 0;
     if (valoracion != null){
       valoracionPer = valoracion.valoracion;
     }
