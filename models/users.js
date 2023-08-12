@@ -55,13 +55,20 @@ const userSchema =mongoose.Schema({
     notificacion:{
         type: String,
         require: false
-    }
-    // followReceta:[
-    //     {
-    //         type:mongoose.ObjectId,
-    //         ref:"orders"
-    //     }
-    // ]      
+    },
+    notificaciones: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "notificaciones"
+    }],
+    followReceta:[
+        {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: "recetas",
+        }        
+    ],
+    tokenPass : {
+        type: Number
+    }     
 })
 
 const User= mongoose.model("users",userSchema)

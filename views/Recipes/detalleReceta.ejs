@@ -1,0 +1,409 @@
+
+<%- include('../partials/head') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KiwiSazón</title>
+</head>
+<style>
+
+    /* make the current radio visually hidden */
+input[type=radio]{ 
+  -webkit-appearance: none;
+  margin: 0;
+  box-shadow: none; /* remove shadow on invalid submit */
+}
+
+/* generated content is now supported on input. supporting older browsers? change button above to {position: absolute; opacity: 0;} and add a label, then style that, and change all selectors to reflect that change */
+input[type=radio]::after {
+  content: '\2605';
+  font-size: 40px;
+}
+
+/* by default, if no value is selected, all stars are grey */
+input[type=radio]:invalid::after {
+  color: #ddd;
+}
+
+/* if the rating has focus or is hovered, make all stars darker */
+rating:hover input[type=radio]:invalid::after,
+rating:focus-within input[type=radio]:invalid::after
+{color: #888;}
+
+/* make all the stars after the focused one back to ligh grey, until a value is selected */
+rating:hover input[type=radio]:hover ~ input[type=radio]:invalid::after,
+rating input[type=radio]:focus ~ input[type=radio]:invalid::after  {color: #ddd;}
+
+rating{
+    margin: 5px;
+}
+
+/* if a value is selected, make them all selected */
+rating input[type=radio]:valid {
+  color: orange;
+}
+/* then make the ones coming after the selected value look inactive */
+rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
+  color: #ccc;
+  content: '\2606'; /* optional. hollow star */
+}
+    /* Lista Ingredientes */
+    .ingredientes-container {
+        display: flex;
+        justify-content: space-between;
+    }
+    .column {
+        flex: 1;
+        padding: 0 10px;
+    }
+    /* Lista Ingredientes */
+    
+    /* Titulos */
+    .title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        font-style: oblique;
+        color: #24910c; /* Color del título */
+        text-transform: uppercase; /* Convertir el texto en mayúsculas */
+        letter-spacing: 1px; /* Espaciado entre letras */
+        margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+        font-size: 1.2rem;
+        color: #5a5aff; /* Color de la categoría */
+        margin-top: 0.2rem;
+    }
+    /* Titulos */
+
+/*Calificacion*/ 
+.ec-stars-wrapper {
+    /* Espacio entre los inline-block (los hijos, los `a`)  */
+    font-size: 0;
+    /* Podríamos quitarlo, 
+    pero de esta manera (siempre que no le demos padding), 
+    sólo aplicará la regla .ec-stars-wrapper:hover a cuando
+    también se esté haciendo hover a alguna estrella */
+    display: inline-block;
+  }
+
+  .ec-stars-wrapper a {
+    text-decoration: none;
+    display: inline-block;
+    /* Volver a dar tamaño al texto */
+    font-size: 32px;
+    font-size: 2rem;
+
+    color: #888;
+  }
+
+  .ec-stars-wrapper:hover a {
+    color: rgb(39, 130, 228);
+  }
+
+  /*
+   * El selector de hijo, es necesario para aumentar la especifidad
+   */
+  .ec-stars-wrapper > a:hover ~ a {
+    color: #888;
+  }
+
+  .calificacion {
+    font-size: 1.5rem;
+    vertical-align: middle;
+    margin-left: 5px;
+  }
+/*Calificacion */
+
+
+.jumbotron {
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0.5),
+      rgba(0, 0, 0, 0.5)
+     ),url('https://mdbcdn.b-cdn.net/img/Photos/Thumbnails/Slides/1.webp') ;
+    background-size: cover;
+    background-position: center;
+    color: rgb(244, 255, 252);
+    margin-bottom: 2rem;
+    position: relative; /* Agrega esta línea */
+}
+
+.jumbotron::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgb(0, 255, 255) ;
+  z-index: -1; /* Coloca el pseudo-elemento detrás del contenido */
+}
+
+.progress-star {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2MxYzFjMSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+  background-size: contain;
+  background-color: transparent;
+  
+  
+  .progress-bar {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmY2IwMTciIHN0cm9rZT0iI2ZjYjAxNyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+    background-size: contain;
+    background-color: transparent;
+  }
+}
+
+
+.rating {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+}
+
+.rating-bg {
+  width: 150px;
+  position: absolute;
+
+}
+.rating-bar {
+  float: left;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  .rating-icon {
+    color: #FFB03D;
+  }
+}
+
+.rating-icon {
+  color: #c1c1c1;
+  &.svg-inline--fa {
+    float: left;
+    width: calc(100% / 5);
+    height: 30px;
+  }
+}
+</style>
+<body>
+    <%- include('../partials/nav') %>
+
+
+    <div class="jumbotron jumbotron-fluid text-center pt-5 pb-5">
+        <div class="container" style="backdrop-filter: blur(10px);">
+          <h1 class="display-4 mb-4">Detalle Receta</h1>
+          
+        </div>
+      </div>
+    <div class="container mt-5">
+        <div class="row">
+
+                <div class="card col-12 ">
+                    <div class="card-body">
+                        <div class="row  mb-3">
+                            <div class="col-md-5">
+                                <% if(receta.imagen==null) { %>
+                                    <img src="https://toppng.com/uploads/preview/app-icon-set-login-icon-comments-avatar-icon-11553436380yill0nchdm.png" class="card-img-top" alt="<%= receta.platilloNombre %>"/>
+                                    <% }else{ %>
+                                        <img src="<%= receta.imagen %>" class="card-img-top" alt="<%= receta.platilloNombre %>"/>
+                                        <% } %>
+                            </div>
+                            <div class="col-md-6 offset-md-1">
+                                <h1 class="title"> <%= receta.platilloNombre %></h1>
+                                <h3 class="subtitle mt-3">Categoria: <a class="decoration-none" href="/receta/<%= receta.categoria %>"><%= receta.categoria %></a></h3>
+                                <div class="mb-3 mt-3">
+                                    Dificultad: &nbsp;&nbsp;
+                                    <% if (receta.dificultad=='Baja') { %>
+                                        <span class="fa fa-fire" style="color: green;"></span>
+                                    <% } %>
+                                    <% if (receta.dificultad=='Media') { %>
+                                        <span class="fa fa-fire" style="color: orange;"></span>
+                                    <% } %>
+                                    <% if (receta.dificultad=='Alta') { %>
+                                        <span class="fa fa-fire" style="color: red;"></span>
+                                    <% } %>
+                                    &nbsp;&nbsp;&nbsp;&nbsp;
+                                    <strong><%= receta.dificultad %> </strong> 
+                                    
+                                </div>
+                                <p class="card-text"><strong>Tiempo de preparación:</strong> &nbsp;&nbsp;&nbsp; <span class="fa-regular fa-clock"></span>&nbsp;&nbsp; <%= receta.tiempo %> Min.</p>
+                                <p class="card-text"><strong>Porciones :</strong> &nbsp;&nbsp;&nbsp;&nbsp;<span class="fa-solid fa-users"></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    <%= receta.porciones %></p>
+                                 <div>
+                                    <% if (receta.calificacion) { %>
+                                        <strong>Calificación General:</strong> 
+                                        <div class="progress progress-star">
+                                            <div class="progress-bar" role="progressbar" 
+                                            style="width:<%=receta.calificacionPromedio%>%" 
+                                            title="ValoracionGeneral" aria-valuenow="<%=receta.calificacionPromedio%>" 
+                                            aria-valuemin="0" aria-valuemax="5"></div>
+                                          </div>
+                                    <% } %>
+                                    
+                                 </div>   
+                                 <% if (loginUser) { %>
+                                    <form action="/enviarCalificacion" method="post">
+                                        <input name="idReceta" type="hidden" value="<%= receta._id %>" >
+                                        <strong>Calificación Personal:</strong>
+                                        <div>
+                                        <rating>
+                                        <% if(valoracionPersonal==0){%> 
+                                          
+                                           
+                                             <input type="radio" name="rating" value="1" aria-label="1 star" required/>
+                                             <input type="radio" name="rating" value="2" aria-label="2 stars"/>
+                                             <input type="radio" name="rating" value="3" aria-label="3 stars"/>
+                                             <input type="radio" name="rating" value="4" aria-label="4 stars"/>
+                                             <input type="radio" name="rating" value="5" aria-label="5 stars"/>
+                                           
+                                        <%}else{%>
+                                            <input type="radio" name="rating" value="1" aria-label="1 star" <%= valoracionPersonal=== 1 ? 'checked' : '' %> required/>
+                                            <input type="radio" name="rating" value="2" aria-label="2 stars" <%= valoracionPersonal === 2 ? 'checked' : '' %> />
+                                            <input type="radio" name="rating" value="3" aria-label="3 stars" <%= valoracionPersonal === 3 ? 'checked' : '' %> />
+                                            <input type="radio" name="rating" value="4" aria-label="4 stars" <%= valoracionPersonal === 4 ? 'checked' : '' %> />
+                                            <input type="radio" name="rating" value="5" aria-label="5 stars" <%= valoracionPersonal === 5 ? 'checked' : '' %> />
+                                            <%}%>
+                                        </rating>
+                                        <div>
+                                        <button type="reset" class="btn btn-warning btn-sm btn-rounded" data-bs-placement="left" title="Reestablecer"><i class="fa-solid fa-trash-can-arrow-up"></i></button>
+                                        <button type="submit" class="btn btn-success btn-sm btn-rounded" data-bs-placement="left" title="Enviar"><i class="fa-solid fa-paper-plane"></i></button>
+                                    </div>
+                                    </div>
+                                      </form>
+                                <% } %>
+                                    
+                            </div>
+                        </div>
+                        
+                        <h4>Ingredientes:</h4>
+                        <div class="ingredientes-container">
+                            <div class="column">
+                                <ul>
+                                    <% receta.ingredientes.split('\n').slice(0, Math.ceil(receta.ingredientes.split('\n').length / 2)).forEach(function(ingrediente) { %>
+                                    <li>
+                                        <%= ingrediente %>
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                            </div>
+                            <div class="column">
+                                <ul>
+                                    <% receta.ingredientes.split('\n').slice(Math.ceil(receta.ingredientes.split('\n').length / 2)).forEach(function(ingrediente) { %>
+                                    <li>
+                                        <%= ingrediente %>
+                                    </li>
+                                    <% }); %>
+                                </ul>
+                            </div>
+                        </div>
+                        <h4>Instructiones:</h4>
+                        <ol>
+                            <% receta.pasosSeguir.split('\n').forEach(function(pasos)
+                            { %>
+                            <li>
+                                <%= pasos %>
+                            </li>
+                            <% }); %>
+                        </ol>
+                        
+                        <h4>Tips:</h4>
+                        <p><%= receta.tips %></p>
+                    </div>
+                </div>
+          
+        </div>
+        
+        <hr class="border border-primary border-5 mt-3">
+        <p class="mt-2">Comentarios</p>
+        <hr class="bg-primary">
+        <div>
+            <% if(loginUser){ %>
+                <form action="/users/comentarReceta" method="post" >
+                    <div class="container mt-1">
+                        <h4>Escribe tu comentario: </h4>
+                        <input name="idReceta" type="hidden" value="<%= receta._id %>" >
+
+                        <div class="form-floating">
+                            <textarea class="form-control" placeholder="Leave a comment here" id="comentario" name="comentario" style="height: 100px"></textarea>
+                            <label for="floatingTextarea2">Commentarios</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary mt-1 mb-2"><i class="fa-solid fa-paper-plane"></i> &nbsp;&nbsp;Enviar comentario</button>
+                    </div>
+                </form>
+                  
+                
+            <%} %>
+            <% if(receta.comentarios){ %>
+                
+                <% receta.comentarios.forEach(item => { %>
+                    <div class="card mb-3 mt-3">
+                        <div class="card-body ">
+                            <div class="d-flex align-items-center">
+                                
+                                <% if(item.user.image==null) { %>
+                                    <img
+                                        src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" alt="Imagen de Usuario" class="rounded-circle me-3" width="50" />
+                                    <% }else{ %>
+                                        <img src="<%= item.user.image %>" alt="Imagen de Usuario" class="rounded-circle me-3" width="50"/>
+                                        <% } %>
+                                <div class="">
+                                    <h5 class="card-title"><%= item.user.username %></h5>
+                                    <p class="card-text text-muted" style="font-size: 12px; margin-top: 0;">Fecha de Publicación: <%=  getFechaFormateada(item.date)%></p>
+                                </div>
+                            </div>
+                            <% if(loginUser){ %>
+                           
+                                    <% if(loginUser._id.toString() == item.user._id.toString()){ %>
+                                            <div class=" border-top border-primary ">
+                                                <form action="/users/actualizarComentario" method="post">
+                                                <input name="idComentario" type="hidden" value="<%= item._id %>" >
+                                                <div class="row mt-1">
+                                                    <div class="col-11">
+                                                        <div class="form-floating">
+                                                            <textarea class="form-control"  id="comentario" name="comentario" style="height: 100px"><%= item.comentario %></textarea>
+                                                            <label for="floatingTextarea2">Commentarios</label>
+                                                        </div>
+                                                    
+                                                    </div>
+                                                    <div class="col-1">
+                                                        <button type="submit" class="btn btn-primary  mt-1"><i class="fa-solid fa-paper-plane"></i></button>
+                                                    </form>
+                                                        <form method="POST"
+                                                         action="/users/<%= item._id %>/desactivarComentario" class="p-2">
+                                                         <button type="submit" class="btn btn-danger  mt-1"><i class="fa-solid fa-trash-can"></i></button>
+                                                                                    
+                                                         </form>
+                                                       
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+                                        
+                                    <%} else {%>
+                                        <div class=" border-top border-primary ">
+                                            <p class="card-text mt-3"><%= item.comentario %></p>
+                                        </div>
+                                    <%} %>
+                            <%} else {%>
+                                <div class=" border-top border-primary ">
+                                    <p class="card-text mt-3"><%= item.comentario %></p>
+                                </div>
+                                <%} %>
+                            
+                        </div>
+                    </div>
+                <% }); %>
+            <%} %>
+            
+        </div>
+       
+    </div>
+    <div class="footer"><%- include('../partials/footer') %></div>
+</body>
+</html>
+    

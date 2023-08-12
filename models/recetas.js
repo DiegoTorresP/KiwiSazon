@@ -46,7 +46,7 @@ const recetaSchema =mongoose.Schema({
     calificacion:[
         {
             type:mongoose.ObjectId,
-            ref:"calificacion"
+            ref:"valoraciones"
         },
     ],
     date: { type: Date,
@@ -55,6 +55,16 @@ const recetaSchema =mongoose.Schema({
         },
     comentariosRevision:{
         type: String
+    },
+    comentarios:[
+        {
+            type:mongoose.ObjectId,
+            ref:"comentarios"
+        },
+    ],
+    calificacionPromedio:{
+        type: Number,
+        default: 0
     }
 });
 

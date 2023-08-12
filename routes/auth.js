@@ -6,6 +6,7 @@ const path = require("path");
 
 var UController = require("../controllers/view-get");
 const authenticateToken = require("../middlewares/authentucateToken")
+const redirecSesion = require("../middlewares/redirecSesion")
 const UserController = require('../controllers/auth');
 const userController = new UserController();
 
@@ -24,9 +25,9 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 /* GET*/
-router.get('/'  ,UController.home);
+router.get('/', redirecSesion ,UController.home);
 
-router.get('/registro', UController.registro);
+router.get('/registro', redirecSesion, UController.registro);
 
 router.post('/registro', upload.single("image"), (req, res, next) => {
   //console.log(JSON.stringify(req.body));
@@ -41,7 +42,7 @@ if (!errores.isEmpty()) {
 userController.registroUser(req, res);
 });
 
-router.get('/login',UController.loginGet);
+router.get('/login', redirecSesion,UController.loginGet);
 
 router.post('/login', (req, res, next) => {
     validacionesLogin.validar(req, res, next);
@@ -49,13 +50,10 @@ router.post('/login', (req, res, next) => {
   const errores = validationResult(req);
   if (!errores.isEmpty()) {
     const valores = req.body;
-    //return res.status(400).json({ errores: errores.array() ,valores:valores})
     return res.render('auth/login', { errores: errores.array() ,valores:valores});
   }
   userController.login(req, res);
 });
-
-router.get('/recetas', authenticateToken ,UController.recetasHome)
 
 router.get('/chef', authenticateToken ,UController.chef)
 
@@ -63,9 +61,11 @@ router.get('/home', authenticateToken ,UController.homeLogin)
 
 router.get('/logout', userController.cerrar.bind(userController));
 
+router.post('/olvide-contracena', userController.accederUpdatePass.bind(userController));
 
+router.get('/restableser-password', authenticateToken, UController.updatePass);
 
-
+router.post('/reset-password', authenticateToken, userController.updatePass.bind(userController));
 
 
 module.exports = router;
