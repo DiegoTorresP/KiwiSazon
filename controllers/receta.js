@@ -138,15 +138,15 @@ class RecetaController {
     receta.comentarios.sort((a, b) => b.date - a.date);
     receta.calificacion.sort((a, b)=> b.date - a.date);
     //Calcular calificación general
-    // let sumaValoraciones = 0;
-    // for (let i = 0; i < receta.calificacion.length; i++) {
-    //   const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
-    //   for (let i = 0; i < valoracion.length; i++) {
-    //     sumaValoraciones += valoracion[i].valoracion;
-    //   }
-    // }
-    // const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
-    //console.log("General VALORACION:",promedioValoraciones)
+    let sumaValoraciones = 0;
+    for (let i = 0; i < receta.calificacion.length; i++) {
+      const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
+      for (let i = 0; i < valoracion.length; i++) {
+        sumaValoraciones += valoracion[i].valoracion;
+      }
+    }
+    const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
+    console.log("General VALORACION:",promedioValoraciones)
     //Consultar calificacion de usuario actual
     let valoracion = 0;
     for (let i = 0; i < receta.calificacion.length; i++) {
@@ -158,9 +158,9 @@ class RecetaController {
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
     console.log("RECETA DETALLES:",receta)
     if(req.userId){
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, valoracionPersonal:valoracionPersonal});
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, promedioValoraciones:promedioValoraciones.toFixed(2), valoracionPersonal:valoracionPersonal});
       }else{
-        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones});
+        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones,promedioValoraciones:promedioValoraciones.toFixed(2)});
       }
       
     }catch (error){
@@ -235,33 +235,17 @@ class RecetaController {
         res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       }
       const valoracion = await this.valoracionDao.createValoracion(valoracionData);
+      console.log("Se guardo la valoracion:",valoracion)
       const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
       receta.calificacion.push(valoracion);
       receta.calificacion.sort((a, b) => b.date - a.date);
 
       await Receta.updateOne({ _id: receta._id }, { $push: { calificacion: valoracion } });
-    //Calcular calificación general
-    const recetaPro = await Receta.findById(req.body.idReceta).populate({
-      path: 'comentarios',
-      match: { isActive: true },
-      populate: {
-          path: 'user',
-          model: 'users'
-      }
-  });
-    let sumaValoraciones = 0;
-    console.log("Length:", recetaPro.calificacion.length)
-    for (let i = 0; i < recetaPro.calificacion.length; i++) {
-      const valoracion = await Valoraciones.find({_id:recetaPro.calificacion[i]})
-      for (let i = 0; i < valoracion.length; i++) {
-        sumaValoraciones += valoracion[i].valoracion;
-        console.log("SUMA:",sumaValoraciones)
-      }
-    }
-    const promedioValoraciones = ((sumaValoraciones / recetaPro.calificacion.length)*100)/5;
-      await Receta.updateOne({ _id: receta._id }, { $set: {calificacionPromedio: promedioValoraciones.toFixed(2)}});
+      console.log("Receta con valoracion:", receta)
+        //receta.comentarios.sort((a, b) => b.date - a.date); 
       res.redirect('back');
-            
+      //res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
+      
     }catch (error){
       console.log(error)
       res.status(404).render("error/error", { status: error });
