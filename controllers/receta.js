@@ -153,8 +153,11 @@ class RecetaController {
       valoracion = await Valoraciones.findOne({_id:receta.calificacion[i],user:req.userId})
       
     }
-    console.log("Personal VALORACION:",valoracion.valoracion)
-    const valoracionPersonal = valoracion.valoracion;
+    //console.log("Personal VALORACION:",valoracion.valoracion)
+    const valoracionPersonal = 0;
+    if (valoracion != null){
+      valoracionPersonal = valoracion.valoracion;
+    }
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
     console.log("RECETA DETALLES:",receta)
     if(req.userId){
