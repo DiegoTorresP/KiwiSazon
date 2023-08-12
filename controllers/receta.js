@@ -154,10 +154,11 @@ class RecetaController {
       
     }
     //console.log("Personal VALORACION:",valoracion.valoracion)
-    const valoracionPersonal = 0;
+    let valoracionPer = 0;
     if (valoracion != null){
-      valoracionPersonal = valoracion.valoracion;
+      valoracionPer = valoracion.valoracion;
     }
+    const valoracionPersonal = valoracionPer;
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
     console.log("RECETA DETALLES:",receta)
     if(req.userId){
