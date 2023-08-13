@@ -5,20 +5,21 @@ exports.home = (async (req, res) => {
     const recetasData = await Receta.find({isAprovado:1});
     const notificaciones = await Notificaciones.find({user:req.userId , isRead :0})
     const categorias = await Categoria.find({isActive:true}).limit(3);
-
-    res.render('home/index', { title: 'Fomulario', recetas: recetasData,getFechaFormateada,categorias:categorias, notificaciones:notificaciones });
+    const carrusel = await Receta.find({isAprovado:1}).sort({'calificacionPromedio':-1}).limit(3);
+    res.render('home/index', { title: 'Fomulario', recetas: recetasData,getFechaFormateada,categorias:categorias, notificaciones:notificaciones,carrusel:carrusel });
   } catch (error) {
     res.status(404).render("error/error", { status: error });
   }
 });
 exports.homeLogin = (async(req, res) => {
   try {
-    const recetasData = await Receta.find({isAprovado:1});
+    const recetasData = await Receta.find({isAprovado:1}).sort({'calificacionPromedio':-1});
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
     const categorias = await Categoria.find({isActive:true}).limit(3);
     const user = await User.findById(req.userId)
     const favoritas = user.followReceta
-    res.render('home/index', { title: 'Fomulario',recetas: recetasData,user:favoritas,categorias:categorias,getFechaFormateada, loginUser: req.userId, notificaciones:notificaciones });
+    const carrusel = await Receta.find({isAprovado:1}).sort({'calificacionPromedio':-1}).limit(3);
+    res.render('home/index', { title: 'Fomulario',recetas: recetasData,user:favoritas,categorias:categorias,getFechaFormateada, loginUser: req.userId, notificaciones:notificaciones,carrusel:carrusel });
   
   } catch (error) {
     res.status(404).render("error/error", { status: error });

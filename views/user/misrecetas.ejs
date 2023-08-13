@@ -411,7 +411,7 @@
                                         name="pasosSeguir" style="height: 100px"></textarea>
                                     <label for="pasosSeguir">Pasos a Seguir</label>
                                     <div class="invalid-feedback" id="errorPasos" style="display: none;">
-                                        El campo Nombre del Platillo es
+                                        El campo Pasos a Seguir es
                                         requerido</div>
                                 </div>
                             </div>
@@ -566,7 +566,7 @@
             aria-hidden="true">
             <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
                
-                <form class="modal-content" action="/users/editarReceta" method="post" enctype="multipart/form-data">
+                <form class="modal-content" action="/users/editarReceta" method="post" onsubmit="submitForm(event, this)" enctype="multipart/form-data">
                     <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Receta</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal"
@@ -586,22 +586,23 @@
                         <div class="form-floating mb-4">
                             <input type="text" name="platilloNombre" id="platilloNombre" class="form-control "  placeholder=" " required value="<%= item.platilloNombre %>">
                             <label for="floatingInputGroup1">Nombre del Platillo</label>
-                            <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre del Platillo es requerido</div>
+                            <div class="invalid-feedback" id="errorNombreE" style="display: none;"> El campo Nombre del Platillo es requerido</div>
                         </div>
                             <div class="mb-5 row">
                                 <div class="col-sm-3">
                                    <div class="image-port">
                                    <% if(item.imagen==null) { %>
                                        <img src="https://i.pinimg.com/originals/e8/52/5b/e8525b82d33f55a831e4eaceb023a612.jpg" 
-                                       height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                       height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pickE">
                                        <% }else{ %>
                                            <img src="<%= item.imagen %>" class="img-fluid rounded-pill"
-                                           height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pick">
+                                           height="90px" width="90px" class="profile-photo m-auto rounded-circle" id="dp-pickE">
                                            <% } %>
                                     </div>
                                 </div>
                                 <div class="col-sm-9 mt-3">
-                                    <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="files"/>
+                                    <input type="file" class="form-control" accept=".jpg, .png, .jpeg" name="image" id="filesE" />
+                                    
                                 </div>    
                             </div>    
                            
@@ -629,31 +630,44 @@
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Leave a comment here" id="ingredientes" name="ingredientes" style="height: 100px"><%= item.ingredientes %></textarea>
                                     <label for="ingredientes">Ingredientes</label>
+                                    <div class="invalid-feedback" id="errorIngredientesE" style="display: none;">
+                                        El campo Ingredientes es
+                                        requerido</div>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Leave a comment here" id="pasosSeguir" name="pasosSeguir" style="height: 100px"><%= item.pasosSeguir %></textarea>
                                     <label for="pasosSeguir">Pasos a Seguir</label>
+                                    <div class="invalid-feedback" id="errorPasosE" style="display: none;">
+                                        El campo Pasos a Seguir es
+                                        requerido</div>
                                 </div>
                             </div>
                             <div class="row mb-4" >
                                 <div class="form-floating col-sm-6">
                                     <input type="text" name="tiempo"  id="tiempo" class="form-control" value=" <%= item.tiempo %>"  required/>
                                     <label class="form-label" for="tiempo">Tiempo </label>
-                                    <div class="invalid-feedback" id="errorNombre" style="display: none;">El campo Tiempo es requerido</div>
+                                     <div class="invalid-feedback" id="errorTiempoE"
+                                        style="display: none;">El campo Tiempo es requerido
+                                    </div>
                                 </div>
                 
                                 <div class="form-floating col-sm-6">
                                     <input type="number" name="porciones" id="porciones" class="form-control " value=<%= item.porciones %>  required />
                                     <label class="form-label" for="porciones">Porciones</label>
-                                    <div class="invalid-feedback" id="errorApellido" style="display: none;">El campo Porciones es requerido</div>
+                                    <div class="invalid-feedback" id="errorPorcionesE"
+                                        style="display: none;">El campo Porciones es requerido
+                                    </div>
                                 </div>
                             </div>
                             <div class="row mb-4">
                                 <div class="form-floating">
                                     <textarea class="form-control" placeholder="Leave a comment here" id="tips" name="tips" style="height: 100px"><%= item.tips %></textarea>
                                     <label for="tips">Tips</label>
+                                    <div class="invalid-feedback" id="errorTipsE" style="display: none;">
+                                        El campo Tips es
+                                        requerido</div>
                                 </div>
                             </div>
                     </div>

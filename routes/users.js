@@ -13,6 +13,7 @@ const multer = require("multer");
 const path = require("path");
 
 const validacionCrearReceta = require('../validators/recetaCreateValidator');
+const validacionUpdateReceta = require('../validators/recetaUpdateValidator');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -49,7 +50,18 @@ router.post('/users/crearReceta', authenticateToken, upload.single("image"), (re
   recetaController.crearReceta(req, res);
 });
 
-router.post('/users/editarReceta',authenticateToken , upload.single("image"), recetaController.editarReceta.bind(recetaController));
+router.post('/users/editarReceta',authenticateToken , upload.single("image"),(req, res, next) => {
+  validacionUpdateReceta.validar(req, res, next);
+},async (req, res) => {
+  const errores = validationResult(req) ; const valores = JSON.stringify(req.body);
+  if (!errores.isEmpty()) {
+    req.flash("error", errores.array()); return res.redirect('/misRecetas');
+  }
+  recetaController.editarReceta(req,res);
+});
+
+//router.post('/users/editarReceta',authenticateToken , upload.single("image"), recetaController.editarReceta.bind(recetaController));
+
 router.post('/users/comentarReceta',authenticateToken,recetaController.comentarReceta.bind(recetaController));
 router.post('/users/actualizarComentario',authenticateToken,recetaController.actualizarComentario.bind(recetaController));
 

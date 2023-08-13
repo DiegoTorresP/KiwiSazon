@@ -86,42 +86,44 @@ class RecetaController {
   };
 
   async editarReceta(req, res) {
+   try {
+    const recetaObjEdit = {
+      id : req.body.recetaId,
+      user:req.userId,
+      platilloNombre:req.body.platilloNombre.toUpperCase(),
+      ingredientes:req.body.ingredientes,
+      pasosSeguir:req.body.pasosSeguir,
+      dificultad: req.body.dificultad,
+      tiempo:req.body.tiempo,
+      porciones: req.body.porciones,
+      tips: req.body.tips,
+      categoria:req.body.categoria.toUpperCase(),
+      isAprovado:0
+    };
+
     try {
-      const recetaObjEdit = {
-        id : req.body.recetaId,
-        user:req.userId,
-        platilloNombre:req.body.platilloNombre.toUpperCase(),
-        ingredientes:req.body.ingredientes,
-        pasosSeguir:req.body.pasosSeguir,
-        dificultad: req.body.dificultad,
-        tiempo:req.body.tiempo,
-        porciones: req.body.porciones,
-        tips: req.body.tips,
-        categoria:req.body.categoria.toUpperCase(),
-        isAprovado:0
-      };
-      console.log(recetaObjEdit)
-      try {
-              
-        //Mandamos a llamar la funcion para guardar la imagen en firebase
-        // y le pasamos como parametros la imgen del request body
-        const url = await guardarImagenEnFirebase(req.file);
-        recetaObjEdit.imagen = url[0]
-        
-      } catch (e) {
-        console.log(e)
-        recetaObjEdit.imagen = null;
-      }
-      console.log("EDIT RECETA:\n"+recetaObjEdit)
-      const editReceta = await this.recetaDao.editReceta(recetaObjEdit);
-      console.log("EDIT RECETA 2:\n"+editReceta)
-      //user.recetas.push(newReceta);
-      //user.save();
-      res.redirect('/misRecetas');
-    } catch (error) {
-      console.log(error)
-      res.status(404).render("error/error", { status: error });
+            
+      //Mandamos a llamar la funcion para guardar la imagen en firebase
+      // y le pasamos como parametros la imgen del request body
+      const url = await guardarImagenEnFirebase(req.file);
+      recetaObjEdit.imagen = url[0]
+      
+    } catch (e) {
+      //console.log(e)
+      recetaObjEdit.imagen = null;
     }
+    const editReceta = await this.recetaDao.editReceta(recetaObjEdit);
+    const mensaje = {
+      title:'Receta Actualizada',
+      subtitle:'La receta se actualizo y esta en revisión, un administrador verificará que cumpla con lo necesario y se te notificará'
+    }
+    req.flash("success", mensaje);
+    res.redirect('/misRecetas');
+  } catch (error) {
+    //console.log(error)
+    res.status(404).render("error/error", { status: error });
+  }
+    
   };
 
   async recetasDetalle (req ,res){
