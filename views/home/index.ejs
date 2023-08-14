@@ -88,32 +88,62 @@
 
           <!-- Inner -->
           <div class="carousel-inner">
-            <!-- Single item -->
-            <div class="carousel-item active">
-              <img src="/img/rapehorno.jpg"  class="d-block w-100 img" alt="Sunset Over the City" />
+
+            <% carrusel.forEach((item, index) => { %>
+              <!-- Single item -->
+            <div class="carousel-item <%= index === 0 ? 'active' : '' %>" >
+              <% if (item.imagen == null) { %>
+                <img src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" class="d-block w-100 img" alt="Sunset Over the City" />
+              <% } else { %>
+                <img src="<%= item.imagen %>" class="d-block w-100 img" alt="Sunset Over the City" />
+              <% } %>
               <div class="carousel-caption d-none d-md-block">
-                <h5>Ostiones a la porte</h5>
-                <p></p>
+                <h5><a class="text-light" <% if (loginUser) { %>
+                  href="/recetas/<%= item._id %>/detalle"
+                 <% }else{ %>
+                    href="/recetas/<%= item._id %>/detalles"
+                  <% } %>><%=item.platilloNombre%></a></h5>
+                <a class="text-light"  <% if (loginUser) { %>
+                  href="/recetas/<%= item.categoria %>"
+                 <% }else{ %>
+                    href="/receta/<%= item.categoria %>"
+                  <% } %>
+                  >Categoria: <%=item.categoria%></a>
+                  <div class="food-card_author"> 
+                    Tiempo: 
+                    <span class="fa-regular fa-clock"></span>
+                    <%= item.tiempo %> Min.
+                </div>
+                <div class="space-between">
+                  <div>
+                      <% if (item.dificultad=='Baja') { %>
+                          <span class="fa fa-fire" style="color: green;"></span>
+                      <% } %>
+                      <% if (item.dificultad=='Media') { %>
+                          <span class="fa fa-fire" style="color: orange;"></span>
+                      <% } %>
+                      <% if (item.dificultad=='Alta') { %>
+                          <span class="fa fa-fire" style="color: red;"></span>
+                      <% } %>
+                     
+                      <%= item.dificultad %> &nbsp;&nbsp;-&nbsp;&nbsp; 
+                      <span class="fa-solid fa-users"></span>
+                      <%= item.porciones %>
+                  </div>
+                  
+                
+              </div>
+              <div class="d-grid gap-2 col-6 mx-auto">
+                <a class="btn btn-info" <% if (loginUser) { %>
+                  href="/recetas/<%= item._id %>/detalle"
+                 <% }else{ %>
+                    href="/recetas/<%= item._id %>/detalles"
+                  <% } %>>Ver más</a>
+              </div>
+              
               </div>
             </div>
-
-            <!-- Single item -->
-            <div class="carousel-item">
-              <img src="/img/berenjenas.jpg" class="d-block w-100 img" alt="Canyon at Nigh" />
-              <div class="carousel-caption d-none d-md-block">
-                <h5>Berengenas con queso</h5>
-                <p></p>
-
-              </div>
-            </div>
-             <!-- Single item -->
-             <div class="carousel-item">
-              <img src="/img/muffinssaludables.jpg"  class="d-block w-100 img" alt="Canyon at Nigh" />
-              <div class="carousel-caption d-none d-md-block">
-                <h5>Muffins</h5>
-                <p></p>
-
-              </div>
+            <% }); %>
             </div>
             <!-- Inner -->
 
@@ -189,7 +219,12 @@
                               </form>
                             <% } %> -->
                             <% if (loginUser) { %>
-                              <a href="javascript:void(0);" class="favorite-link" data-id="<%= item._id %>"><i class="far fa-heart"></i></a>
+                              <% if (user.includes(item._id.toString())) { %>
+                                <a href="#" class="favorite-link-2"><i class="fa-solid fa-heart text-danger"></i></a>
+                            <% } else { %>
+                                <a href="javascript:void(0);" class="favorite-link" data-id="<%= item._id %>"><i class="far fa-heart"></i></a>
+                            <% } %>
+                              
 
                             <% } %>
                 </div>
@@ -198,7 +233,11 @@
                         <a href="#!" class="food-card_title">
                             <%= item.platilloNombre %>
                         </a>
-                        <a href="#!" class="food-card_author">Categoria: <%= item.categoria %></a>
+                        <a  <% if (loginUser) { %>
+                          href="/recetas/<%= item.categoria %>"
+                         <% }else{ %>
+                            href="/receta/<%= item.categoria %>"
+                          <% } %> class="food-card_author" >Categoria: <%= item.categoria %></a>
                         <div class="food-card_author"> 
                             Tiempo: 
                             <span class="fa-regular fa-clock"></span>
@@ -274,6 +313,6 @@
     <div class="w-100 fixed-buttom mb-0 ms-0 me-0 mt-3">
       <%- include('../partials/footer') %>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/recetaFav.js" ></script>
   </html>
