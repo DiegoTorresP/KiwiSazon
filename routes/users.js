@@ -13,6 +13,7 @@ const multer = require("multer");
 const path = require("path");
 
 const validacionCrearReceta = require('../validators/recetaCreateValidator');
+const validacionUpdateReceta = require('../validators/recetaUpdateValidator');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -40,20 +41,27 @@ router.get('/recetas/:id/detalle', authenticateToken,recetaController.recetasDet
 router.get('/recetas/:id/detalles',recetaController.recetasDetalle);
 
 router.post('/users/crearReceta', authenticateToken, upload.single("image"), (req, res, next) => {
-  //console.log(JSON.stringify(req.body));
   validacionCrearReceta.validar(req, res, next);
 },async (req, res) => {
-  const errores = validationResult(req) ; const valores = req.body;
+  const errores = validationResult(req) ; const valores = JSON.stringify(req.body);
   if (!errores.isEmpty()) {
-    //return res.status(400).json({ errores: errores.array() ,valores:valores})
-    req.flash("error", errores.array()); return res.redirect('/misRecetas');
+    req.flash("valores",valores);req.flash("error", errores.array()); return res.redirect('/misRecetas');
   }
-  //return res.status(400).json({ errores: errores.array() ,valores:valores})
   recetaController.crearReceta(req, res);
 });
 
-///router.post('/users/crearReceta',authenticateToken , upload.single("image"), recetaController.crearReceta.bind(recetaController));
-router.post('/users/editarReceta',authenticateToken , upload.single("image"), recetaController.editarReceta.bind(recetaController));
+router.post('/users/editarReceta',authenticateToken , upload.single("image"),(req, res, next) => {
+  validacionUpdateReceta.validar(req, res, next);
+},async (req, res) => {
+  const errores = validationResult(req) ; const valores = JSON.stringify(req.body);
+  if (!errores.isEmpty()) {
+    req.flash("error", errores.array()); return res.redirect('/misRecetas');
+  }
+  recetaController.editarReceta(req,res);
+});
+
+//router.post('/users/editarReceta',authenticateToken , upload.single("image"), recetaController.editarReceta.bind(recetaController));
+
 router.post('/users/comentarReceta',authenticateToken,recetaController.comentarReceta.bind(recetaController));
 router.post('/users/actualizarComentario',authenticateToken,recetaController.actualizarComentario.bind(recetaController));
 

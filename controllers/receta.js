@@ -86,42 +86,44 @@ class RecetaController {
   };
 
   async editarReceta(req, res) {
+   try {
+    const recetaObjEdit = {
+      id : req.body.recetaId,
+      user:req.userId,
+      platilloNombre:req.body.platilloNombre.toUpperCase(),
+      ingredientes:req.body.ingredientes,
+      pasosSeguir:req.body.pasosSeguir,
+      dificultad: req.body.dificultad,
+      tiempo:req.body.tiempo,
+      porciones: req.body.porciones,
+      tips: req.body.tips,
+      categoria:req.body.categoria.toUpperCase(),
+      isAprovado:0
+    };
+
     try {
-      const recetaObjEdit = {
-        id : req.body.recetaId,
-        user:req.userId,
-        platilloNombre:req.body.platilloNombre.toUpperCase(),
-        ingredientes:req.body.ingredientes,
-        pasosSeguir:req.body.pasosSeguir,
-        dificultad: req.body.dificultad,
-        tiempo:req.body.tiempo,
-        porciones: req.body.porciones,
-        tips: req.body.tips,
-        categoria:req.body.categoria.toUpperCase(),
-        isAprovado:0
-      };
-      console.log(recetaObjEdit)
-      try {
-              
-        //Mandamos a llamar la funcion para guardar la imagen en firebase
-        // y le pasamos como parametros la imgen del request body
-        const url = await guardarImagenEnFirebase(req.file);
-        recetaObjEdit.imagen = url[0]
-        
-      } catch (e) {
-        console.log(e)
-        recetaObjEdit.imagen = null;
-      }
-      console.log("EDIT RECETA:\n"+recetaObjEdit)
-      const editReceta = await this.recetaDao.editReceta(recetaObjEdit);
-      console.log("EDIT RECETA 2:\n"+editReceta)
-      //user.recetas.push(newReceta);
-      //user.save();
-      res.redirect('/misRecetas');
-    } catch (error) {
-      console.log(error)
-      res.status(404).render("error/error", { status: error });
+            
+      //Mandamos a llamar la funcion para guardar la imagen en firebase
+      // y le pasamos como parametros la imgen del request body
+      const url = await guardarImagenEnFirebase(req.file);
+      recetaObjEdit.imagen = url[0]
+      
+    } catch (e) {
+      //console.log(e)
+      recetaObjEdit.imagen = null;
     }
+    const editReceta = await this.recetaDao.editReceta(recetaObjEdit);
+    const mensaje = {
+      title:'Receta Actualizada',
+      subtitle:'La receta se actualizo y esta en revisión, un administrador verificará que cumpla con lo necesario y se te notificará'
+    }
+    req.flash("success", mensaje);
+    res.redirect('/misRecetas');
+  } catch (error) {
+    //console.log(error)
+    res.status(404).render("error/error", { status: error });
+  }
+    
   };
 
   async recetasDetalle (req ,res){
@@ -138,15 +140,15 @@ class RecetaController {
     receta.comentarios.sort((a, b) => b.date - a.date);
     receta.calificacion.sort((a, b)=> b.date - a.date);
     //Calcular calificación general
-    let sumaValoraciones = 0;
-    for (let i = 0; i < receta.calificacion.length; i++) {
-      const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
-      for (let i = 0; i < valoracion.length; i++) {
-        sumaValoraciones += valoracion[i].valoracion;
-      }
-    }
-    const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
-    console.log("General VALORACION:",promedioValoraciones)
+    // let sumaValoraciones = 0;
+    // for (let i = 0; i < receta.calificacion.length; i++) {
+    //   const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
+    //   for (let i = 0; i < valoracion.length; i++) {
+    //     sumaValoraciones += valoracion[i].valoracion;
+    //   }
+    // }
+    // const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
+    //console.log("General VALORACION:",promedioValoraciones)
     //Consultar calificacion de usuario actual
     let valoracion = 0;
     for (let i = 0; i < receta.calificacion.length; i++) {
@@ -154,15 +156,15 @@ class RecetaController {
       
     }
     //console.log("Personal VALORACION:",valoracion.valoracion)
-    let valoracionPer = 0;
+    let valoracionPer= 0;
     if (valoracion != null){
       valoracionPer = valoracion.valoracion;
     }
     const valoracionPersonal = valoracionPer;
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
-    console.log("RECETA DETALLES:",receta)
+    console.log('alerta: ', req.flash("success"))
     if(req.userId){
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, promedioValoraciones:promedioValoraciones.toFixed(2), valoracionPersonal:valoracionPersonal});
+        res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, valoracionPersonal:valoracionPersonal});
       }else{
         res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones,promedioValoraciones:promedioValoraciones.toFixed(2)});
       }
@@ -195,18 +197,17 @@ class RecetaController {
         res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       }
       const comentario = await this.comentarioDao.createComentario(comentarioData);
-      const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-        //receta.comentarios.push(comentario);
-        //console.log("Llega")
-        //receta.save();
-        //console.log("Llega2")
-        receta.comentarios.push(comentario);
-        receta.comentarios.sort((a, b) => b.date - a.date);
 
-        await Receta.updateOne({ _id: receta._id }, { $push: { comentarios: comentario } });
+      receta.comentarios.push(comentario);
+      receta.comentarios.sort((a, b) => b.date - a.date);
 
-        //receta.comentarios.sort((a, b) => b.date - a.date); 
-      res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
+      await Receta.updateOne({ _id: receta._id }, { $push: { comentarios: comentario } });
+      const mensaje = {
+          title:'Comentario guardado',
+          subtitle:'El comentario se guardo correctamente'
+      }
+        req.flash('success', mensaje);
+        res.redirect('back');
       
     }catch (error){
       console.log(error)
@@ -245,8 +246,26 @@ class RecetaController {
       receta.calificacion.sort((a, b) => b.date - a.date);
 
       await Receta.updateOne({ _id: receta._id }, { $push: { calificacion: valoracion } });
-      console.log("Receta con valoracion:", receta)
-        //receta.comentarios.sort((a, b) => b.date - a.date); 
+    //Calcular calificación general
+    const recetaPro = await Receta.findById(req.body.idReceta).populate({
+      path: 'comentarios',
+      match: { isActive: true },
+      populate: {
+          path: 'user',
+          model: 'users'
+      }
+  });
+    let sumaValoraciones = 0;
+    console.log("Length:", recetaPro.calificacion.length)
+    for (let i = 0; i < recetaPro.calificacion.length; i++) {
+      const valoracion = await Valoraciones.find({_id:recetaPro.calificacion[i]})
+      for (let i = 0; i < valoracion.length; i++) {
+        sumaValoraciones += valoracion[i].valoracion;
+        console.log("SUMA:",sumaValoraciones)
+      }
+    }
+    const promedioValoraciones = ((sumaValoraciones / recetaPro.calificacion.length)*100)/5;
+      await Receta.updateOne({ _id: receta._id }, { $set: {calificacionPromedio: promedioValoraciones.toFixed(2)}});
       res.redirect('back');
       //res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       
@@ -286,8 +305,12 @@ class RecetaController {
             }
           });
           receta.comentarios.sort((a, b) => b.date - a.date); 
-          const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
-          res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
+          const mensaje = {
+            title:'Comentario actualizado',
+            subtitle:'El comentario se actualizó correctamente'
+        }
+          req.flash('success', mensaje);
+          res.redirect('back');
         }
       }
       
@@ -322,7 +345,13 @@ class RecetaController {
               model: 'users'
           }
         });
-        res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones,receta:receta});
+        const mensaje = {
+          title:'Comentario eliminado',
+          subtitle:'El comentario se elimino correctamente'
+        };
+        req.flash('success', mensaje);
+        res.redirect('back');
+        
       
     } catch (error) {
       console.log(error);
@@ -346,7 +375,7 @@ class RecetaController {
           subtitle:'La receta esta agregada a tus favotitas'
         }
         req.flash('error', mensaje);
-        console.log(req.flash("error"))
+        
         return res.redirect("/home");
       }
 

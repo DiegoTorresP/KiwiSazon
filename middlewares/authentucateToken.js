@@ -4,7 +4,8 @@ const { async } = require("rxjs");
 
 const authenticateToken = async (req, res, next) => {
     const token = req.cookies.token;
-  
+   
+   
     if (!token) {
       return res.redirect('/login');
     }
