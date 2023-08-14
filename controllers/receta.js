@@ -9,6 +9,7 @@ const ComentarioDAO = require("../dao/comentario.dao");
 const ValoracionesDAO = require("../dao/valoraciones.dao")
 const Notificaciones = require("../models/notificaciones");
 const Valoraciones = require("../models/valoraciones");
+const { async } = require("rxjs");
 //Funcion para guardar imagenes a firebase
 async function guardarImagenEnFirebase(imagen) {
     var bucket = admin.storage().bucket();
@@ -139,6 +140,17 @@ class RecetaController {
     });
     receta.comentarios.sort((a, b) => b.date - a.date);
     receta.calificacion.sort((a, b)=> b.date - a.date);
+    //Calcular calificación general
+    // let sumaValoraciones = 0;
+    // for (let i = 0; i < receta.calificacion.length; i++) {
+    //   const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
+    //   for (let i = 0; i < valoracion.length; i++) {
+    //     sumaValoraciones += valoracion[i].valoracion;
+    //   }
+    // }
+    // const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
+    //console.log("General VALORACION:",promedioValoraciones)
+    //Consultar calificacion de usuario actual
     let valoracion = 0;
     for (let i = 0; i < receta.calificacion.length; i++) {
       valoracion = await Valoraciones.findOne({_id:receta.calificacion[i],user:req.userId})
@@ -153,10 +165,9 @@ class RecetaController {
     const notificaciones = await Notificaciones.find({user:req.userId, isRead :0}) 
     console.log('alerta: ', req.flash("success"))
     if(req.userId){
-      
         res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, valoracionPersonal:valoracionPersonal});
       }else{
-        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones});
+        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones,promedioValoraciones:promedioValoraciones.toFixed(2)});
       }
       
     }catch (error){
@@ -230,6 +241,7 @@ class RecetaController {
         res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
       }
       const valoracion = await this.valoracionDao.createValoracion(valoracionData);
+      console.log("Se guardo la valoracion:",valoracion)
       const notificaciones = await Notificaciones.find({user:req.userId, isRead :0})
       receta.calificacion.push(valoracion);
       receta.calificacion.sort((a, b) => b.date - a.date);
@@ -255,13 +267,9 @@ class RecetaController {
     }
     const promedioValoraciones = ((sumaValoraciones / recetaPro.calificacion.length)*100)/5;
       await Receta.updateOne({ _id: receta._id }, { $set: {calificacionPromedio: promedioValoraciones.toFixed(2)}});
-      const mensaje = {
-        title:'Valoración guardada',
-        subtitle:'La valoración se guardo correctamente'
-    }
-      req.flash('success', mensaje);
       res.redirect('back');
-            
+      //res.render("Recipes/detalleReceta", {loginUser: req.userId,  getFechaFormateada,notificaciones:notificaciones ,receta:receta});
+      
     }catch (error){
       console.log(error)
       res.status(404).render("error/error", { status: error });
@@ -381,9 +389,44 @@ class RecetaController {
       res.status(404).render('error/error', { status: error });
     }
   };
+  
+  async eliminarFavorito (req, res){
+    try {
+      const idReceta = req.params.idReceta;
+      // Encuentra la receta por su ID
 
+      const user = await Usuario.findById(req.userId)
+        // Verifica si el ID de la receta se encuentra en el arreglo followReceta del usuario
+        const index = user.followReceta.indexOf(idReceta);
+
+        if (index !== -1) {
+            // Elimina el ID de la receta del arreglo followReceta
+            user.followReceta.splice(index, 1);
+
+            // Guarda el usuario actualizado en la base de datos
+            await user.save();
+
+            const mensaje = {
+                title: 'Receta eliminada de mis favoritos',
+                subtitle: 'La receta se eliminó correctamente'
+            };
+            req.flash('success', mensaje);
+            res.redirect('back');
+        } else {
+            // Si el ID de la receta no se encontró en el arreglo followReceta
+            const mensaje = {
+                title: 'Error al eliminar receta de favoritos',
+                subtitle: 'La receta no se encontró en tus favoritos'
+            };
+            req.flash('error', mensaje);
+            res.redirect('back');
+        }
+    } catch (error) {
+      console.log(error);
+      res.status(404).render('error/error', { status: error });
+    }
+  };
 }
-
 
 
 

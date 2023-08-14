@@ -273,10 +273,11 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
                                         <button type="reset" class="btn btn-warning btn-sm btn-rounded" data-bs-placement="left" title="Reestablecer"><i class="fa-solid fa-trash-can-arrow-up"></i></button>
                                         <button type="submit" class="btn btn-success btn-sm btn-rounded" data-bs-placement="left" title="Enviar"><i class="fa-solid fa-paper-plane"></i></button>
                                     </div>
-                                    </div>
-                                      </form>
-                                <% } %>
-                                    
+                                </div>
+                            </form>
+                            <% } %>
+                            
+                            <button id="copiarBtn" style="margin-top: 0.5rem;" class="btn btn-info  btn-sm btn-rounded" data-bs-placement="left" title="Compartir"><i class="fas fa-share"></i> </button>
                             </div>
                         </div>
                         
@@ -405,5 +406,19 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
     </div>
     <div class="footer"><%- include('../partials/footer') %></div>
 </body>
+<script>
+    document.getElementById('copiarBtn').addEventListener('click', function() {
+        var currentUrl = window.location.href;
+
+        var tempInput = document.createElement('input');
+        document.body.appendChild(tempInput);
+        tempInput.value = currentUrl;
+        tempInput.select();
+        document.execCommand('copy');
+        document.body.removeChild(tempInput);
+
+    });
+</script>
+
 </html>
     

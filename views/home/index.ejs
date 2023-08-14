@@ -315,4 +315,21 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/js/recetaFav.js" ></script>
+
+    <script>
+      const shareButton = document.getElementById('shareButton');
+  
+      shareButton.addEventListener('click', () => {
+        const currentUrl = window.location.href;
+  
+        // Copiar la URL al portapapeles
+        navigator.clipboard.writeText(currentUrl)
+          .then(() => {
+            alert('URL copiada al portapapeles: ' + currentUrl);
+          })
+          .catch(err => {
+            console.error('Error al copiar la URL: ', err);
+          });
+      });
+    </script>
   </html>
