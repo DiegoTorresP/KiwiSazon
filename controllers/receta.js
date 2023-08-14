@@ -140,16 +140,7 @@ class RecetaController {
     });
     receta.comentarios.sort((a, b) => b.date - a.date);
     receta.calificacion.sort((a, b)=> b.date - a.date);
-    //Calcular calificación general
-    // let sumaValoraciones = 0;
-    // for (let i = 0; i < receta.calificacion.length; i++) {
-    //   const valoracion = await Valoraciones.find({_id:receta.calificacion[i]})
-    //   for (let i = 0; i < valoracion.length; i++) {
-    //     sumaValoraciones += valoracion[i].valoracion;
-    //   }
-    // }
-    // const promedioValoraciones = ((sumaValoraciones / receta.calificacion.length)*100)/5;
-    //console.log("General VALORACION:",promedioValoraciones)
+
     //Consultar calificacion de usuario actual
     let valoracion = 0;
     for (let i = 0; i < receta.calificacion.length; i++) {
@@ -167,7 +158,7 @@ class RecetaController {
     if(req.userId){
         res.render("Recipes/detalleReceta", {loginUser: req.userId,getFechaFormateada, notificaciones:notificaciones,receta:receta, valoracionPersonal:valoracionPersonal});
       }else{
-        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones,promedioValoraciones:promedioValoraciones.toFixed(2)});
+        res.render("Recipes/detalleReceta", { getFechaFormateada ,receta:receta,notificaciones:notificaciones,valoracionPersonal:0});
       }
       
     }catch (error){
