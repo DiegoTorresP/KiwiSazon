@@ -9,6 +9,7 @@ const ComentarioDAO = require("../dao/comentario.dao");
 const ValoracionesDAO = require("../dao/valoraciones.dao")
 const Notificaciones = require("../models/notificaciones");
 const Valoraciones = require("../models/valoraciones");
+const { async } = require("rxjs");
 //Funcion para guardar imagenes a firebase
 async function guardarImagenEnFirebase(imagen) {
     var bucket = admin.storage().bucket();
@@ -388,9 +389,44 @@ class RecetaController {
       res.status(404).render('error/error', { status: error });
     }
   };
+  
+  async eliminarFavorito (req, res){
+    try {
+      const idReceta = req.params.idReceta;
+      // Encuentra la receta por su ID
 
+      const user = await Usuario.findById(req.userId)
+        // Verifica si el ID de la receta se encuentra en el arreglo followReceta del usuario
+        const index = user.followReceta.indexOf(idReceta);
+
+        if (index !== -1) {
+            // Elimina el ID de la receta del arreglo followReceta
+            user.followReceta.splice(index, 1);
+
+            // Guarda el usuario actualizado en la base de datos
+            await user.save();
+
+            const mensaje = {
+                title: 'Receta eliminada de mis favoritos',
+                subtitle: 'La receta se eliminó correctamente'
+            };
+            req.flash('success', mensaje);
+            res.redirect('back');
+        } else {
+            // Si el ID de la receta no se encontró en el arreglo followReceta
+            const mensaje = {
+                title: 'Error al eliminar receta de favoritos',
+                subtitle: 'La receta no se encontró en tus favoritos'
+            };
+            req.flash('error', mensaje);
+            res.redirect('back');
+        }
+    } catch (error) {
+      console.log(error);
+      res.status(404).render('error/error', { status: error });
+    }
+  };
 }
-
 
 
 

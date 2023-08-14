@@ -268,20 +268,27 @@
                                         <div class="mb-2">
                                            
                                             <div class="food-card_price">
-                                                <div class="d-flex flex-wrap justify-content-center" >
-                                                    <div class="p-2">
+                                                <div class="d-flex justify-content-between align-items-center">
+                                                    <div>
                                                         <button 
-                                                    type="button"
-                                                    class="btn btn-secondary btn-lg btn-rounded " 
-                                                    data-bs-toggle="modal"
-                                                    data-bs-target="#DetalleModal<%= item._id %>"  title="Detalle">
-                                                    <i class="fas fa-info-circle"></i>
-                                                    </button>
+                                                            type="button"
+                                                            class="btn btn-secondary btn-lg btn-rounded" 
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#DetalleModal<%= item._id %>" title="Detalle">
+                                                            <i class="fas fa-info-circle"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div>
+                                                        <form action="/eliminar-receta/<%= item._id %>" method="post">
+                                                            <button class="btn btn-secondary btn-lg btn-rounded" type="submit">
+                                                                <i class="fas fa-trash"></i>
+                                                            </button>
+                                                        </form>
                                                     </div>
                                                 </div>
-
-                                                
                                             </div>
+                                            
+                                            
                                             
                                         </div>
                                         
@@ -405,6 +412,7 @@
                                                                     <!-- Agrega más detalles según tus necesidades -->
                                                     </div>
                                                     <div class="modal-footer">
+                                                        
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Cerrar</button>
                                                     </div>

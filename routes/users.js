@@ -70,4 +70,7 @@ router.post('/enviarCalificacion',authenticateToken,recetaController.enviarCalif
 
 router.post('/favorite/:id', authenticateToken, recetaController.agregarFavoritos.bind(recetaController));
 router.get('/favoritas', authenticateToken, view.recetas_favoritas);
+
+router.post('/eliminar-receta/:idReceta', authenticateToken, recetaController.eliminarFavorito.bind(recetaController));
+
 module.exports = router;
