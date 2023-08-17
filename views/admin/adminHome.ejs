@@ -69,10 +69,17 @@
               <div class="d-flex flex-wrap">
                 <form method="POST" action="/admin/<%= user._id %>/deactivate" class="p-2">
                   <button type="submit" <% if
-                                                                                    (!user.isActive) { %>class="btn
-                                                                                    btn-success btn-sm btn-rounded " title="activar" <%
+                                                                                    (!user.isActive) { %> class="btn
+                                                                                    btn-success btn-sm btn-rounded" title="activar" <%
                                                                                         }else{ %> class="btn btn-danger
-                                                                                        btn-sm btn-rounded" title="Desactivar" <% } %>><i class="fa-solid fa-user-xmark"></i></button>
+                                                                                        btn-sm btn-rounded" title="Desactivar" <% } %>>
+                                                                                        
+                                                                                        <% if (!user.isActive) { %>
+                                                                                        <i class="fa-solid fa-toggle-off"></i>
+                                                                                        <% }else{ %>
+                                                                                          <i class="fa-solid fa-toggle-on"></i>
+                                                                                        <% } %>
+                                                                                      </button>
                 </form>
                 <form method="POST" action="/admin/<%= user._id %>/rol" class="p-2">
                   <button type="submit" class="btn btn-warning btn-sm btn-rounded " title="Cambiar Rol" <% if (user.rol=="admin" ) {

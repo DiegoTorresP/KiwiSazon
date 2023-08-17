@@ -723,7 +723,35 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="/js/recetas.js"></script>
- 
+<% misrecetas.forEach(function(item) { %>
+<script>
+    // Función para recargar la página
+    function recargarPagina() {
+        location.reload();
+    }
+
+    // Asignar el evento 'hidden.bs.modal' a la modal
+    $('#myModalEdit<%= item._id %>').on('hidden.bs.modal', function () {
+        Swal.fire({
+                    title: '¿Deseas descartar los cambios realizados?',
+                    text: 'Si cierras la modal, se perderán los cambios no guardados.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, cerrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        
+            recargarPagina();
+                    } else {
+                        
+            recargarPagina();
+                    }
+                });
+    });
+</script>
+<% })%>
+        
 </body>
 
     </html>
