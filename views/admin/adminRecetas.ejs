@@ -255,32 +255,36 @@
 
     });
   </script>
-<% receta.forEach(function(item) { %>
-  <script>
-      // Función para recargar la página
-      function recargarPagina() {
-          location.reload();
-      }
-  
-      // Asignar el evento 'hidden.bs.modal' a la modal
-      $('#ModalDenegar<%= item._id %>').on('hidden.bs.modal', function () {
-          Swal.fire({
-              title: '¿Deseas descartar los cambios realizados?',
-              text: 'Si cierras la modal, se perderán los cambios no guardados.',
-              icon: 'warning',
-              showCancelButton: true,
-              confirmButtonText: 'Sí, cerrar',
-              cancelButtonText: 'Cancelar'
-          }).then((result) => {
-              if (result.isConfirmed) {
-                  recargarPagina();
-              } else {
-                  recargarPagina();
-              }
-          });
-      });
-  </script>
-  <% })%>
+
+  <% receta.forEach(function(item) { %>
+    <script>
+        var shouldClose<%= item._id %> = false; // Variable para controlar si se debe cerrar el modal
+
+        // Asignar el evento 'hide.bs.modal' a la modal
+        $('#ModalDenegar<%= item._id %>').on('hide.bs.modal', function (event) {
+            if (shouldClose<%= item._id %>) {
+                // El modal se cerrará solo si shouldClose<%= item._id %> es true
+                shouldClose<%= item._id %> = false; // Reiniciar la variable
+            } else {
+                event.preventDefault(); // Evitar el cierre del modal
+                Swal.fire({
+                    title: '¿Deseas descartar los cambios realizados?',
+                    text: 'Si cierras la modal, se perderán los cambios no guardados.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, cerrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        shouldClose<%= item._id %> = true; // Permitir el cierre del modal
+                        $('#ModalDenegar<%= item._id %>').modal('hide'); // Cerrar el modal
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+<% })%>
 
 
 </body>
