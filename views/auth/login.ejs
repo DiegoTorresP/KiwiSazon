@@ -31,14 +31,14 @@
                 <!-- Email input -->
                 <div class="form-floating mb-4">
                   <input type="text"  name="username" id="username" class="form-control" placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.username %><%}%>" />
-                  <label class="form-label" for="form3Example3">Username</label>
-                  <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
+                  <label class="form-label" for="form3Example3">Usuario</label>
+                  <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Usuario es requerido</div>
                 </div>
     
                 <!-- Password input -->
                 <div class="form-floating mb-4">
                   <input type="password"  name="password" id="password" class="form-control"placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.password %><%}%>" />
-                  <label class="form-label" for="form3Example4">Constraseña</label>
+                  <label class="form-label" for="form3Example4">Contraseña</label>
                   <div class="invalid-feedback" id="errorContra" style="display: none;">El campo Contraseña es requerido</div>
                 </div>
     
@@ -105,18 +105,18 @@
                             <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            <h6>Ingresa tu correo electronico</h6>
+                            <h6>Ingresa tu Correo Electrónico</h6>
                             <form action="/olvide-contracena" method="post" id="miFormulario">
                               <div class="form-floating mb-4">
                                 <input type="email" name="email" id="email" class="form-control " required/>
-                                <label class="form-label" for="form3Example1cg">Correo Electronico</label>
-                                <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electronico es requerido</div>
+                                <label class="form-label" for="form3Example1cg">Correo Electrónico</label>
+                                <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electrónico es requerido</div>
                               </div>
                               <button type="submit" class="btn btn-secondary btn-rounded">Validar</button>
                             </form>
                           </div>
                           <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Cerrar</button>
                           </div>
                         </div>
                       </div>
