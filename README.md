@@ -39,4 +39,16 @@ Crear una aplicación web donde los amantes de la cocina puedan compartir y desc
 # Evidencia de Despliegue 💻
 - https://drive.google.com/file/d/1hnmR504BOJk5-fuS114JLBN78Tq5MypV/view?usp=sharing
 
+# Arquitectura de despliegue 💻
+- Ubuntu Server 20.04 LTS (HVM) SSD Volumen Type
+- Utiliza un tipo de servidor T2.micro
+- Firewall(grupo de seguridad ) Asignando a un grupo en dónde se asignan únicamente los puertos abiertos a utilizar
+- Almacenamiento 1 volumen de 8GiB
+
+# Resultado
+- https://kiwisazon.onrender.com/
+- http://3.214.58.214:3001/ 
+
+
+
 
