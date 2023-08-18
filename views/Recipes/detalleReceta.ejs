@@ -215,7 +215,7 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
                             </div>
                             <div class="col-md-6 offset-md-1">
                                 <h1 class="title"> <%= receta.platilloNombre %></h1>
-                                <h3 class="subtitle mt-3">Categoria: <a class="decoration-none" href="/receta/<%= receta.categoria %>"><%= receta.categoria %></a></h3>
+                                <h3 class="subtitle mt-3">Categoría: <a class="decoration-none" href="/receta/<%= receta.categoria %>"><%= receta.categoria %></a></h3>
                                 <div class="mb-3 mt-3">
                                     Dificultad: &nbsp;&nbsp;
                                     <% if (receta.dificultad=='Baja') { %>
@@ -331,7 +331,7 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
 
                         <div class="form-floating">
                             <textarea class="form-control" placeholder="Leave a comment here" id="comentario" name="comentario" style="height: 100px"></textarea>
-                            <label for="floatingTextarea2">Commentarios</label>
+                            <label for="floatingTextarea2">Comentarios</label>
                         </div>
                         <button type="submit" class="btn btn-primary mt-1 mb-2"><i class="fa-solid fa-paper-plane"></i> &nbsp;&nbsp;Enviar comentario</button>
                     </div>
@@ -367,7 +367,7 @@ rating input[type=radio]:checked ~ input[type=radio]:not(:checked)::after{
                                                     <div class="col-11">
                                                         <div class="form-floating">
                                                             <textarea class="form-control"  id="comentario" name="comentario" style="height: 100px" required><%= item.comentario %></textarea>
-                                                            <label for="floatingTextarea2">Commentarios</label>
+                                                            <label for="floatingTextarea2">Comentarios</label>
                                                         </div>
                                                     
                                                     </div>

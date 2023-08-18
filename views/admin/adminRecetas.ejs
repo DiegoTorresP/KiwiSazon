@@ -129,7 +129,7 @@
               <p>Fecha de creación: <%= getFechaFormateada(item.date) %></p>
               <p>Nombre usuario: <%= item.user.username %>
               </p>
-              <p>Ingrefientes: </p>
+              <p>Ingredientes: </p>
               <ul>
                 <% item.ingredientes.split('\n').forEach(function(ingrediente)
                                                                         { %>
@@ -138,7 +138,7 @@
                 </li>
                 <% }); %>
               </ul>
-              <p>Pasos a segir: </p>
+              <p>Pasos a seguir: </p>
               <ul>
                 <% item.pasosSeguir.split('\n').forEach(function(pasos)
                                                                         { %>
@@ -154,20 +154,20 @@
               </p>
               <p>Tips: <%= item.tips %>
               </p>
-              <p>Categoria: <%= item.categoria %>
+              <p>Categoría: <%= item.categoria %>
               </p>
 
               <p> Estado:
                 <% if (item.isAprovado==0) { %>
 
                 <span style="background-color: yellow;" class="badge badge-warning rounded-pill d-inline">Receta
-                  en revision</span>
+                  en revisión</span>
 
                 <% } %>
 
                 <% if (item.isAprovado==1) { %>
                 <span style="background-color: green;" class="badge badge-success rounded-pill d-inline">Receta
-                  aprovada</span>
+                  aprobada</span>
 
                 <% } %>
 

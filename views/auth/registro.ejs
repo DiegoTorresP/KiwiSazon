@@ -44,8 +44,8 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                 </div>
                 <div class="form-floating mb-4">
                   <input type="text" name="username" id="username" class="form-control "  placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.username %><%}%>"/>
-                  <label for="floatingInputGroup1">Username</label>
-                  <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
+                  <label for="floatingInputGroup1">Usuario</label>
+                  <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Usuario es requerido</div>
                 </div>
 
                 <div class="row mb-4" >
@@ -64,14 +64,14 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
 
                 <div class="form-floating mb-4">
                   <input type="email" name="email" id="email" class="form-control " placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.email %><%}%>" />
-                  <label class="form-label" for="form3Example1cg">Correo Electronico</label>
-                  <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electronico es requerido</div>
+                  <label class="form-label" for="form3Example1cg">Correo Electrónico</label>
+                  <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electrónico es requerido</div>
                 </div>
 
                 <div class="form-floating mb-4">
                   <input type="tel" name="telefono" id="telefono" class="form-control " placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.telefono %><%}%>" />
-                  <label class="form-label" for="form1Example1">Telefono</label>
-                  <div class="invalid-feedback" id="errorTelefono" style="display: none;">El campo Telefono es requerido</div>
+                  <label class="form-label" for="form1Example1">Teléfono</label>
+                  <div class="invalid-feedback" id="errorTelefono" style="display: none;">El campo Teléfono es requerido</div>
                 </div>
                 
                 <div class="form-floating mb-4 ">
@@ -85,11 +85,11 @@ background: linear-gradient(to right, rgba(132, 250, 176, 1), rgba(143, 211, 244
                       <div class="g-recaptcha" data-sitekey="6LciE7YmAAAAACxNBXx4PfQ0NJ73V6VwLPyU4p-9" data-callback="verifyCaptcha"></div>
                       
                   </div>
-                  <div class="text-danger" id="errorRecap" style="display: none;">El recaptcha es requerido</div>
+                  <div class="text-danger" id="errorRecap" style="display: none;">El reCAPTCHA es requerido</div>
                 </div>
 
                 <div class=" mt-4 d-grid gap-2">
-                  <button type="submit"class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
+                  <button type="submit"class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Registrarse</button>
                 </div>
 
               </form>

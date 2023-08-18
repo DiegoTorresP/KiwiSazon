@@ -12,21 +12,21 @@
     <body>
         <%- include('../partials/nav') %>
                         <main>
-                            <h2 style="text-align: center;">Categorias</h2>
+                            <h2 style="text-align: center;">Categorías</h2>
 
                             <div class="container-fluid">
                                 <div class="col-auto mb-2 offset-md-10">
                                     <div class="position-sticky bottom-0 end-0 me-4">
                                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#exampleModal">
-                                            <i class="fas fa-plus"></i> &nbsp;Crear Categoria 
+                                            <i class="fas fa-plus"></i> &nbsp;Crear Categoría 
                                         </button>
                                     </div>
                                 </div>
                                 <table class="table align-middle mb-0 bg-white" id="tabla">
                                     <thead class="bg-light">
                                         <tr>
-                                            <th>Nombre de la Categoria</th>
+                                            <th>Nombre de la Categoría</th>
                                             <th>Activa</th>
                                             <th>Fecha</th>
                                             <th>Acciones</th>
@@ -120,7 +120,7 @@
                                      <form class="modal-content" action="/admin/crearCategoria" method="post"
                                          enctype="multipart/form-data">
                                          <div class="modal-header">
-                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Categoria
+                                             <h1 class="modal-title fs-5" id="exampleModalLabel">Nueva Categoría
                                              </h1>
                                              <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                  aria-label="Close"></button>
@@ -143,9 +143,9 @@
                                              <div class="form-floating mb-4">
                                                  <input type="text" name="nombre" id="nombre"
                                                      class="form-control " placeholder=" " required />
-                                                 <label for="floatingInputGroup1">Nombre de la Categoria</label>
+                                                 <label for="floatingInputGroup1">Nombre de la Categoría</label>
                                                  <div class="invalid-feedback" id="errorNombre" style="display: none;">
-                                                     El campo Nombre de la Categoria es
+                                                     El campo Nombre de la Categoría es
                                                      requerido</div>
                                              </div>
                                              
@@ -157,8 +157,7 @@
                                                          name="descripcion" style="height: 100px"></textarea>
                                                      <label for="descripcion">Descripción</label>
                                                      <div class="invalid-feedback" id="errorDesc" style="display: none;">
-                                                        El campo Descripción  es
-                                                        requerido</div>
+                                                        El campo Descripción  es requerido</div>
                                                  </div>
                                              </div>
                                              
@@ -224,7 +223,7 @@
                                    
                                     <form class="modal-content" action="/admin/editarCategoria" method="post" enctype="multipart/form-data">
                                         <div class="modal-header">
-                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Categoria</h1>
+                                                <h1 class="modal-title fs-5" id="exampleModalLabel">Editar Categoría</h1>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                     aria-label="Close"></button>
                                         </div>
@@ -251,8 +250,8 @@
                                                 </div>    
                                                 <div class="form-floating mb-4">
                                                     <input type="text" name="nombre" id="nombre" class="form-control "  placeholder=" " required value="<%= item.nombre %>">
-                                                    <label for="floatingInputGroup1">Nombre de la Categoria</label>
-                                                    <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre de la categoria es requerido</div>
+                                                    <label for="floatingInputGroup1">Nombre de la Categoría</label>
+                                                    <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Nombre de la Categoría es requerido</div>
                                                 </div>
                                                 <div class="row mb-4">
                                                     <div class="form-floating">
