@@ -343,6 +343,32 @@
     </script>
 <% })%>
 
+<script>
+        let shouldClose = false; 
+        $('#exampleModal').on('hide.bs.modal', function (event) {
+            if (shouldClose) {
+                // El modal se cerrará solo si shouldClose es true
+                shouldClose = false; // Reiniciar la variable
+            } else {
+                event.preventDefault(); // Evitar el cierre del modal
+                Swal.fire({
+                    title: '¿Deseas descartar los cambios realizados?',
+                    text: 'Si cierras la modal, se perderán los cambios no guardados.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, cerrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        shouldClose = true; // Permitir el cierre del modal
+                        $('#exampleModal').modal('hide'); // Cerrar el modal
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+    
     </body>
 
     </html>
