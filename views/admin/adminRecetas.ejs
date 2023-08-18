@@ -19,7 +19,7 @@
           <tr>
             <th>Nombre de la receta</th>
             <th>Nombre del usuario</th>
-            <th>Activa</th>
+            <th>Estado</th>
             <th>Fecha</th>
             <th>Acciones</th>
           </tr>
@@ -79,7 +79,7 @@
                   <button type="submit" data-bs-placement="left" title="Aceptar" <% if (item.isAprovado==1 ) {
                                                                                         %>disabled<% } %> <% if (item.isAprovado==0) { %> class="btn btn-warning btn-sm btn-rounded" <%}%>
                                                                                         <% if (item.isAprovado==1) {   %> class="btn btn-success btn-sm btn-rounded" <% } %>>
-                    <i class="fa-solid fa-check"></i></button>
+                                                                                        <i class="fa-solid fa-toggle-on"></i></button>
                 </form>
                 <% } %>
                 <% if (item.isAprovado==1) { %>
@@ -87,7 +87,7 @@
                 <% }else{ %>
                 <div class="p-2">
                   <button type="submit" class="btn btn-danger btn-sm btn-rounded" data-bs-toggle="modal" data-bs-target="#ModalDenegar<%= item._id %>" data-bs-placement="left" title="Rechazar" <% if (item.isAprovado==2 ) {
-                                                                                                    %>disabled<% } %>><i class="fa-solid fa-circle-xmark"></i></button>
+                                                                                                    %>disabled<% } %>><i class="fa-solid fa-toggle-off"></i></button>
                 </div>
 
 
@@ -207,7 +207,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" id="cerrarModal" data-bs-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary" id="cerrarModal" data-bs-dismiss="modal" onclick="location.reload">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar</button>
           </div>
         </form>
@@ -216,6 +216,9 @@
     </div>
     <% }); %>
   </main>
+
+
+
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
   <script>
@@ -252,6 +255,38 @@
 
     });
   </script>
+
+  <% receta.forEach(function(item) { %>
+    <script>
+        var shouldClose<%= item._id %> = false; // Variable para controlar si se debe cerrar el modal
+
+        // Asignar el evento 'hide.bs.modal' a la modal
+        $('#ModalDenegar<%= item._id %>').on('hide.bs.modal', function (event) {
+            if (shouldClose<%= item._id %>) {
+                // El modal se cerrará solo si shouldClose<%= item._id %> es true
+                shouldClose<%= item._id %> = false; // Reiniciar la variable
+            } else {
+                event.preventDefault(); // Evitar el cierre del modal
+                Swal.fire({
+                    title: '¿Deseas descartar los cambios realizados?',
+                    text: 'Si cierras la modal, se perderán los cambios no guardados.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, cerrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        shouldClose<%= item._id %> = true; // Permitir el cierre del modal
+                        $('#ModalDenegar<%= item._id %>').modal('hide'); // Cerrar el modal
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+<% })%>
+
+
 </body>
 
 </html>

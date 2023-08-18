@@ -723,7 +723,63 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.min.js"></script>
     <script src="/js/recetas.js"></script>
- 
+
+<% misrecetas.forEach(function(item) { %>
+    <script>
+        var shouldClose<%= item._id %> = false; // Variable para controlar si se debe cerrar el modal
+
+        // Asignar el evento 'hide.bs.modal' a la modal
+        $('#myModalEdit<%= item._id %>').on('hide.bs.modal', function (event) {
+            if (shouldClose<%= item._id %>) {
+                // El modal se cerrará solo si shouldClose<%= item._id %> es true
+                shouldClose<%= item._id %> = false; // Reiniciar la variable
+            } else {
+                event.preventDefault(); // Evitar el cierre del modal
+                Swal.fire({
+                    title: '¿Deseas descartar los cambios realizados?',
+                    text: 'Si cierras la modal, se perderán los cambios no guardados.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, cerrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        shouldClose<%= item._id %> = true; // Permitir el cierre del modal
+                        $('#myModalEdit<%= item._id %>').modal('hide'); // Cerrar el modal
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+<% })%>
+
+<script>
+        let shouldClose = false; 
+        $('#exampleModal').on('hide.bs.modal', function (event) {
+            if (shouldClose) {
+                // El modal se cerrará solo si shouldClose es true
+                shouldClose = false; // Reiniciar la variable
+            } else {
+                event.preventDefault(); // Evitar el cierre del modal
+                Swal.fire({
+                    title: '¿Deseas descartar los cambios realizados?',
+                    text: 'Si cierras la modal, se perderán los cambios no guardados.',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Sí, cerrar',
+                    cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        shouldClose = true; // Permitir el cierre del modal
+                        $('#exampleModal').modal('hide'); // Cerrar el modal
+                        location.reload();
+                    }
+                });
+            }
+        });
+    </script>
+
 </body>
 
     </html>
