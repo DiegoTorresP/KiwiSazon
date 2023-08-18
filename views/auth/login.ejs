@@ -3,7 +3,8 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 <%- include('../partials/nav') %>
-<body>
+<%- include('../error/login') %>
+<body style="background-color: #fefaeb;">
     <section class="text-center text-lg-start">
       <style>
         .cascading-right {
@@ -16,36 +17,41 @@
           }
         }
       </style>
-    <div class="container py-4">
+    <div class="container py-4 mt-1">
       <div class="row g-0 align-items-center">
-        <div class="col-lg-6 mb-3 mb-lg-0">
+        <div class="col-lg-6 mb-3 mb-lg-0" style="z-index: 1;">
           <div class="card cascading-right" style="
               background: hsla(0, 0%, 100%, 0.55);
               backdrop-filter: blur(30px);
               ">
             <div class="card-body p-4 shadow-5 text-center">
               <h2 class="fw-bold mb-5">Inicia Sesión</h2>
-              <form action="/login" method="post" >
+              <form action="/login" method="post" id="miFormulario">
                 <!-- 2 column grid layout with text inputs for the first and last names -->
                 <!-- Email input -->
                 <div class="form-floating mb-4">
-                  <input type="text" id="form3Example3" name="username" id="username" class="form-control" placeholder="" required/>
+                  <input type="text"  name="username" id="username" class="form-control" placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.username %><%}%>" />
                   <label class="form-label" for="form3Example3">Username</label>
                   <div class="invalid-feedback" id="errorUser" style="display: none;">El campo Username es requerido</div>
                 </div>
     
                 <!-- Password input -->
                 <div class="form-floating mb-4">
-                  <input type="password" id="form3Example4" name="password" id="password" class="form-control"placeholder="" required/>
+                  <input type="password"  name="password" id="password" class="form-control"placeholder="" value="<% if(typeof valores != 'undefined') { %><%= valores.password %><%}%>" />
                   <label class="form-label" for="form3Example4">Constraseña</label>
                   <div class="invalid-feedback" id="errorContra" style="display: none;">El campo Contraseña es requerido</div>
                 </div>
     
                 <!-- Submit button -->
-                <button type="submit" class="btn btn-primary btn-block mb-4" onclick="return submitUserForm();">
+                <button type="submit" class="btn btn-primary btn-block mb-4" >
                   Ingresar
                 </button>
-    
+
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary btn-block mb-4" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">
+                  Olvide mi contraseña?
+                </button>
+
                 <!-- Register buttons -->
                 <div class="text-center">
                   <p>O ingresa con: </p>
@@ -70,18 +76,57 @@
           </div>
         </div>
     
-        <div class="col-lg-6 mb-5 mb-lg-0">
-          <img src="https://www.chroniquedisney.fr/imgPerso/secondsroles/2007-gusteau-01.jpg" 
-          class="w-100 rounded-4 shadow-4"
-            alt="" />
+        <div class="col-lg-6 mb-5 mb-lg-0" style="z-index: -1;">
+          <div id="carouselExampleControls" class="carousel slide" data-mdb-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <img style="max-height: 350px;" src="https://firebasestorage.googleapis.com/v0/b/kiwisazonp.appspot.com/o/imagenes%2Frecetas2.png?alt=media&token=312eb2fe-d550-44e4-a78a-f9bb43154612" class="w-100 rounded-4 shadow-4" alt="Wild Landscape"/>
+              </div>
+              <div class="carousel-item">
+                <img style="max-height: 350px;" src="https://firebasestorage.googleapis.com/v0/b/kiwisazonp.appspot.com/o/imagenes%2Frecetas1.png?alt=media&token=6bf98922-3b08-4dbb-a26d-aa02be56ee7b" class="w-100 rounded-4 shadow-4" alt="Camera"/>
+              </div>
+              
+            </div>
+           
+          </div>
+          
         </div>
       </div>
     </div>
     <!-- Jumbotron -->
     </section>
+
+    <div class="modal fade" id="staticBackdrop" data-mdb-backdrop="static" data-mdb-keyboard="false" tabindex="-1"
+                      aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="staticBackdropLabel">Olvide mi contraseña?</h5>
+                            <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <h6>Ingresa tu correo electronico</h6>
+                            <form action="/olvide-contracena" method="post" id="miFormulario">
+                              <div class="form-floating mb-4">
+                                <input type="email" name="email" id="email" class="form-control " required/>
+                                <label class="form-label" for="form3Example1cg">Correo Electronico</label>
+                                <div class="invalid-feedback" id="errorEmail" style="display: none;">El campo Correo Electronico es requerido</div>
+                              </div>
+                              <button type="submit" class="btn btn-secondary btn-rounded">Validar</button>
+                            </form>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
 </body>
-<%- include('../partials/footer') %>
-<script src="/js/login.js"></script>
+<div class="w-100 fixed-buttom mb-0 ms-0 me-0 mt-3">
+  <%- include('../partials/footer') %>
+</div>
+
+<script src="/js/login.js" ></script>
 
 
 

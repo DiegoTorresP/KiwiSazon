@@ -4,20 +4,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recetas</title>
+    <title>KiwiSazón</title>
+    <link rel="stylesheet" href="/stylesheets/recetas.css">
 </head>
-<body>
+<body >
+    <style>
+        .progress-star {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmZmZmZmYiIHN0cm9rZT0iI2MxYzFjMSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+  background-size: contain;
+  background-color: transparent;
+  
+  
+  .progress-bar {
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHg9IjBweCIgeT0iMHB4IiB3aWR0aD0iMjBweCIgaGVpZ2h0PSIyMHB4IiB2aWV3Qm94PSIwIDAgMjAgMjAiPjxwb2x5Z29uIHBvaW50cz0iMTAgMi4wNiAxMi4xIDguMTEgMTguNSA4LjI0IDEzLjQgMTIuMSAxNS4yNSAxOC4yMyAxMCAxNC41NyA0Ljc1IDE4LjIzIDYuNiAxMi4xIDEuNSA4LjI0IDcuOSA4LjExIDEwIDIuMDYiIGZpbGw9IiNmY2IwMTciIHN0cm9rZT0iI2ZjYjAxNyIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIi8+PC9zdmc+);
+    background-size: contain;
+    background-color: transparent;
+  }
+}
+
+
+.rating {
+  width: 150px;
+  height: 30px; 
+  position: relative;
+}
+
+.rating-bg {
+  width: 150px;
+  position: absolute;
+
+}
+.rating-bar {
+  float: left;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  .rating-icon {
+    color: #FFB03D;
+  }
+}
+
+.rating-icon {
+  color: #c1c1c1;
+  &.svg-inline--fa {
+    float: left;
+    width: calc(100% / 5);
+    height: 30px;
+  }
+}
+    </style>
     <%- include('../partials/nav') %>
-    <% if (banderanoti == true) { %>
-        <div class="alert alert-primary" role="alert">
-            <%= variableNoti %>
+            <% function capitalizeFirstLetter(str) {
+                return str.charAt(0).toUpperCase() + str.slice(1);
+              } %>
+              <div class="jumbotron jumbotron-fluid text-center pt-5 pb-5">
+                <div class="container" style="backdrop-filter: blur(10px);">
+                  <h1 class="display-4 mb-4"><%=capitalizeFirstLetter(title)%></h1>
+                </div>
+              </div>
+    <div class="container">
+        <div class="col text-center">    
+            <h2 class="section-title px-5"><span class="px-lg-2">Buscando tu sazón</span></h2>
         </div>
-        <% }else{ %>
-            <div class="alert alert-success" role="alert">
-                Sin noti
+        <div class="row justify-content-end mt-3" >
+            <div class="col-lg-3">
+                <div class="input-group rounded">
+                          <input type="search" class="form-control rounded searchbox-input" id="searchbox-input" placeholder="Search......" name="search" aria-label="Search" aria-describedby="search-addon" onkeyup="buttonUp();" required/>
+                          <span class="input-group-text border-0" id="search-addon">
+                            <i class="fas fa-search"></i>
+                          </span>
+                        </div>
+        
             </div>
-            <% } %>
-    <h1>LOGIN</h1>
-    <h2><%=loginUser.username%></h2>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <h3>Categorias</h3>
+                <div class="filters">
+                    <form>
+                        <% categorias.forEach(cate => { %>
+
+                            <% if (cate.nombre == title) { %>
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input categoria" type="checkbox" name="categoria" value="<%= cate.nombre.replace(/\s+/g, '_') %>" checked  id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        <%= cate.nombre %>
+                                    </label>
+                                </div>
+                              <% } else { %>
+                                <div class="form-check mt-4">
+                                    <input class="form-check-input categoria" type="checkbox" name="categoria" value="<%= cate.nombre.replace(/\s+/g, '_') %>" id="flexCheckDefault">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        <%= cate.nombre %>
+                                    </label>
+                                </div>
+                              <% } %>
+                            
+                        <% }); %>
+                    </form>
+                </div>
+            </div>
+            <div class="col-md-10">
+                <% if(recetas){ %>
+                    <div class="row">
+                        <% recetas.forEach(item=> { %>
+                            <div class="col-sm-4 col-md-4 col-lg-3  mt-4 tarjeta <%= item.categoria.replace(/\s+/g, '_') %>">
+                                <div class="food-card ">
+                                    <div class="food-card_img">
+                                        <% if(item.imagen==null) { %>
+                                            <img
+                                                src="https://cdn-icons-png.flaticon.com/512/2905/2905306.png" />
+                                            <% }else{ %>
+                                                <img src="<%= item.imagen %>" />
+                                                <% } %>
+                                                <% if (loginUser) { %>
+                                                    <a href="javascript:void(0);" class="favorite-link" data-id="<%= item._id %>"><i class="far fa-heart"></i></a>
+                      
+                                                  <% } %>
+                                    </div>
+                                    <div class="food-card_content">
+                                        <div class="food-card_title-section">
+                                            <a href="#!" class="food-card_title">
+                                                <%= item.platilloNombre %>
+                                            </a>
+                                            
+                                            <a href="#!" class="food-card_author">Categoria: <%= item.categoria %></a>
+                                            <div class="food-card_author"> 
+                                                Tiempo: 
+                                                <span class="fa-regular fa-clock"></span>
+                                                <%= item.tiempo %> Min.
+                                            </div>
+                                        </div>
+                                        <div class="food-card_bottom-section">
+                                            <div class="space-between">
+                                                <div>
+                                                    <% if (item.dificultad=='Baja') { %>
+                                                        <span class="fa fa-fire" style="color: green;"></span>
+                                                    <% } %>
+                                                    <% if (item.dificultad=='Media') { %>
+                                                        <span class="fa fa-fire" style="color: orange;"></span>
+                                                    <% } %>
+                                                    <% if (item.dificultad=='Alta') { %>
+                                                        <span class="fa fa-fire" style="color: red;"></span>
+                                                    <% } %>
+                                                   
+                                                    <%= item.dificultad %> &nbsp;&nbsp;-&nbsp;&nbsp; 
+                                                    <span class="fa-solid fa-users"></span>
+                                                    <%= item.porciones %>
+                                                </div>
+                                              
+                                            </div>
+                                            <div >
+                                                <div class="progress progress-star">
+                                                    <div class="progress-bar" role="progressbar" 
+                                                    style="width:<%=item.calificacionPromedio%>%" 
+                                                    title="ValoracionGeneral" aria-valuenow="<%=item.calificacionPromedio%>" 
+                                                    aria-valuemin="0" aria-valuemax="5"></div>
+                                                </div>
+ 
+                                            </div>
+                                            <hr>
+                                            <div class="mb-2">
+                                               
+                                                <div class="food-card_price">
+                                                    <div class="d-flex flex-wrap justify-content-center" >
+                                                      <a 
+                                                       <% if (loginUser) { %>
+                                                        href="/recetas/<%= item._id %>/detalle"
+                                                       <% }else{ %>
+                                                          href="/recetas/<%= item._id %>/detalles"
+                                                        <% } %>
+                                                            
+                                                        type="button"
+                                                        class="btn btn-info btn-lg btn-rounded " 
+                                                          title="Detalle"> Ver Mas
+                                                        <i class="fa-solid fa-plus"></i>
+                                                    </a>
+                    
+                                                        
+                                                        
+                                                    </div>
+                    
+                                                    
+                                                </div>
+                                                
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                                </div>
+                    
+                            </div>
+                            <% }); %>
+                    </div>
+                    
+                <%} %>
+                
+            </div>
+        </div>
+        
+    </div>
+    <script src="/js/recetaFav.js" ></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const checkboxes = document.querySelectorAll('.categoria');
+  const cards = document.querySelectorAll('.tarjeta');
+
+  function filtrarTarjetas() {
+    const categoriasSeleccionadas = Array.from(checkboxes)
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.value);
+    cards.forEach(card => {
+        console.log(card.classList[5])
+      if (categoriasSeleccionadas.length === 0 || categoriasSeleccionadas.includes(card.classList[5])) {
+        card.style.display = 'block';
+        card.style.height = card.scrollHeight + 'px';
+        card.style.opacity = '1';
+        card.style.transition = 'opacity 0.3s ease-out, height 0.3s ease-out';
+        card.style.overflow = 'hidden';
+      } else {
+        setTimeout(() => {
+          card.style.display = 'none';
+        }, 100);
+        card.style.height = '0';
+        card.style.opacity = '0';
+        card.style.transition = 'opacity 0.3s ease-out, height 0.3s ease-out';
+        card.style.overflow = 'hidden';
+      }
+    });
+  }
+
+  filtrarTarjetas(); // Filtrar tarjetas al cargar la página
+
+  checkboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', filtrarTarjetas);
+  });
+});
+  
+let buttonUp = () => {
+    const input = document.getElementById("searchbox-input").value;
+    const cards = document.querySelectorAll('.tarjeta');
+    let filter = input.toLowerCase();
+    console.log(filter)
+    for (let i = 0; i < cards.length; i++) {
+        let title = cards[i].querySelector(".food-card_title");
+        console.log(title)
+        if (title.textContent.toLowerCase().indexOf(filter) > -1) {
+            cards[i].style.display = 'block';
+            cards[i].style.height = cards[i].scrollHeight + 'px';
+            cards[i].style.opacity = '1';
+            cards[i].style.transition = 'opacity 0.3s ease-out, height 0.3s ease-out';
+            cards[i].style.overflow = 'hidden';
+      } else {
+            setTimeout(() => {
+                cards[i].style.display = 'none';
+            }, 100);
+            cards[i].style.height = '0';
+            cards[i].style.opacity = '0';
+            cards[i].style.transition = 'opacity 0.3s ease-out, height 0.3s ease-out';
+            cards[i].style.overflow = 'hidden';
+        }
+    }
+}
+</script>   
 </body>
+
+<%- include('../partials/footer') %>  
 </html>

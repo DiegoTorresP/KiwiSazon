@@ -1,9 +1,11 @@
 const verifyToken = require("./verificaToken");
-const User = require("../models/users")
+const User = require("../models/users");
+const { async } = require("rxjs");
 
 const authenticateToken = async (req, res, next) => {
     const token = req.cookies.token;
-  
+   
+   
     if (!token) {
       return res.redirect('/login');
     }
@@ -17,5 +19,5 @@ const authenticateToken = async (req, res, next) => {
     req.userId = user;
     next();
   };
-
+  
   module.exports = authenticateToken;

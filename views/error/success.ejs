@@ -1,0 +1,13 @@
+<%if (success && success.length>0) {%>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: '<%= success.title %>',
+                text: '<%= success.subtitle %>',
+                showConfirmButton: false,
+                timer: 5000
+            })
+    </script>
+ <% } %>
